@@ -1,5 +1,5 @@
 # Cyrano Card App
-## Temporary/Initial Unity Repo
+## Official Unity repo
 
 [THIS PROJECT CURRENTLY USES UNITY Unity 2018.2.10f1 IF YOU DON'T HAVE THAT VERSION PLEASE INSTALL IT HERE](https://unity3d.com/get-unity/download/archive)
 
