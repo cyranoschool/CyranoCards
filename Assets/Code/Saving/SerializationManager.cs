@@ -11,7 +11,10 @@ public static class SerializationManager
     public static SurrogateSelector Selector = new SurrogateSelector();
     static SerializationManager()
     {
-        Selector.AddSurrogate(typeof(Color32), new StreamingContext(StreamingContextStates.All), new Color32SerializationSurrogate());
+        Selector.AddSurrogate(typeof(Color32), new StreamingContext(StreamingContextStates.All), new Color32Surrogate());
+        Selector.AddSurrogate(typeof(Vector3), new StreamingContext(StreamingContextStates.All), new Vector3Surrogate());
+        Selector.AddSurrogate(typeof(Vector2), new StreamingContext(StreamingContextStates.All), new Vector2Surrogate());
+        Selector.AddSurrogate(typeof(Quaternion), new StreamingContext(StreamingContextStates.All), new QuaternionSurrogate());
     }
 
 
@@ -152,12 +155,17 @@ public static class SerializationManager
         }
     }
 
-    /// <summary>
-    /// Create a folder at the specified path
-    /// </summary>
-    /// <param name="folderPath">full path to the folder</param>
-    /// <returns>bool indicating if the function succeeded</returns>
-    public static bool CreateFolder(string folderPath)
+    public static T LoadObject<T>(string path)
+    {
+        return (T)LoadObject(path);
+    }
+
+        /// <summary>
+        /// Create a folder at the specified path
+        /// </summary>
+        /// <param name="folderPath">full path to the folder</param>
+        /// <returns>bool indicating if the function succeeded</returns>
+        public static bool CreateFolder(string folderPath)
     {
         if (Directory.Exists(folderPath))
         {

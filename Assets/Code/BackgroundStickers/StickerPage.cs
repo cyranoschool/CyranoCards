@@ -5,6 +5,7 @@ using System;
 public class StickerPage : MonoBehaviour
 {
     public List<GameObject> StickerPrefabs;
+    public bool BinaryFile = false; //Save and load file in binary
 
     Dictionary<string, GameObject> StickerKeys = new Dictionary<string, GameObject>();
 	StickerPageData pageData = new StickerPageData();
@@ -24,7 +25,8 @@ public class StickerPage : MonoBehaviour
 
     public void Start()
     {
-        
+        //TestSave();
+        //LoadPage("test");
     }
 
     /// <summary>
@@ -53,10 +55,21 @@ public class StickerPage : MonoBehaviour
 
     public void LoadPage(string stickerPageName)
 	{
-		//Currently JsonLoading
-		string location = SerializationManager.CreatePath(SAVE_PATH + stickerPageName + ".json");
-		StickerPageData data = SerializationManager.LoadJsonObject<StickerPageData>(location);
-		LoadPage(data);
+		string path = SerializationManager.CreatePath(SAVE_PATH + stickerPageName);
+        StickerPageData data;
+        if (BinaryFile)
+        {
+            //BinaryFormmater implementation
+            path += ".bytes";
+            data = (StickerPageData)SerializationManager.LoadObject(path);
+        }
+        else
+        {
+            path += ".json";
+            //Json implementation
+            data = SerializationManager.LoadJsonObject<StickerPageData>(path);
+        }
+        LoadPage(data);
 	}
 	
 	public void LoadPage(StickerPageData data)
@@ -104,10 +117,20 @@ public class StickerPage : MonoBehaviour
 	public void SavePage(string fileName, bool prettyPrint = false)
 	{
 		UpdatePageData();
-		//Currently using JsonSaving
-		string location = SerializationManager.CreatePath(SAVE_PATH + fileName + ".json");
-		SerializationManager.SaveJsonObject(location, pageData, prettyPrint);
-	}
+
+		string path = SerializationManager.CreatePath(SAVE_PATH + fileName + ".json");
+        if(BinaryFile)
+        {
+            path += ".bytes";
+            SerializationManager.SaveObject(path, pageData);
+        }
+        else
+        {
+            path += ".json";
+            SerializationManager.SaveJsonObject(path, pageData, prettyPrint);
+        }
+        
+    }
 
     /// <summary>
     /// Creates new instance of sticker

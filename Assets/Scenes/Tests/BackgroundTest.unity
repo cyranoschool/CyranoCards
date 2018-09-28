@@ -1377,11 +1377,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4000010707642222, guid: 3edbbafcfbee54e5795020baa8d80f54, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 0.5
+      value: 0.965
       objectReference: {fileID: 0}
     - target: {fileID: 4000010707642222, guid: 3edbbafcfbee54e5795020baa8d80f54, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -0.5
+      value: -0.673
       objectReference: {fileID: 0}
     - target: {fileID: 4000010707642222, guid: 3edbbafcfbee54e5795020baa8d80f54, type: 2}
       propertyPath: m_LocalPosition.z
@@ -4048,6 +4048,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbe7391b930cccb4e8ae48a4a5dd9e39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  StickerPrefabs:
+  - {fileID: 1000011110981606, guid: 88b51943e8e27429d81c02dd9837415d, type: 2}
+  - {fileID: 1000011942015346, guid: 3edbbafcfbee54e5795020baa8d80f54, type: 2}
+  - {fileID: 1000013210085306, guid: 9aa68ac528bc84dbbb18b888393b7c31, type: 2}
+  BinaryFile: 0
 --- !u!1001 &955776075
 Prefab:
   m_ObjectHideFlags: 0
