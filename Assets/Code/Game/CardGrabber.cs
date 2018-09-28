@@ -19,6 +19,16 @@ public class CardGrabber : MonoBehaviour {
 		
 	}
 
+    void LateUpdate()
+    {
+        //Move cardholder so it is always slightly in front of the parent
+        //This needs to be done due to the object flipping
+        Vector3 cardDepth = CardHolder.transform.position;
+        cardDepth.z = CardHolder.parent.position.z - .05f;
+        CardHolder.position = cardDepth;
+
+    }
+
     void OnTriggerStay2D(Collider2D c)
     {
         if(!TryPickupCard(c))
