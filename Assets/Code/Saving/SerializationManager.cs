@@ -280,6 +280,7 @@ public static class SerializationManager
         }
 
         string dataAsJson = File.ReadAllText(path);
+        Debug.LogFormat("Loading file: {0}", path);
         return JsonUtility.FromJson<T>(dataAsJson);
     }
 }
