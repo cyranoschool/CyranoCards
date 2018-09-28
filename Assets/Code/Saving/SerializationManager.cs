@@ -75,20 +75,9 @@ public static class SerializationManager
     {
 
         BinaryFormatter formatter = new BinaryFormatter();
-        string folderPath = Path.GetDirectoryName(path);
-        try
-        {
-            if (!Directory.Exists(folderPath))
-            {
-                Directory.CreateDirectory(folderPath);
-            }
 
-        }
-        catch (IOException ex)
-        {
-            Debug.LogException(ex);
-            return false;
-        }
+        CreateDirectory(path);
+
         using (FileStream stream = new FileStream(path, FileMode.Create))
         {
             formatter.SurrogateSelector = Selector;
@@ -245,10 +234,40 @@ public static class SerializationManager
         return true;
     }
 
-    public static void SaveJsonObject(string path, object graph)
+    public static void CreateDirectory(string path)
     {
-        string json = JsonUtility.ToJson(graph);
-        File.WriteAllText(path, json);
+        string folderPath = Path.GetDirectoryName(path);
+        try
+        {
+            if (!Directory.Exists(folderPath))
+            {
+                Directory.CreateDirectory(folderPath);
+                Debug.LogFormat("Created directory at: {0}", path);
+            }
+
+        }
+        catch (IOException ex)
+        {
+            Debug.LogException(ex);
+        }
+    }
+
+    public static bool SaveJsonObject(string path, object graph, bool prettyPrint = false)
+    {
+        CreateDirectory(path);
+        string json = JsonUtility.ToJson(graph, prettyPrint);
+
+        try
+        {
+            File.WriteAllText(path, json);
+        }
+        catch (IOException ex)
+        {
+            Debug.LogException(ex);
+            return false;
+        }
+        Debug.LogFormat("Saved at: {0}", path);
+        return true;
     }
 
     public static T LoadJsonObject<T>(string path)
