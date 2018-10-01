@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PickupCard : MonoBehaviour {
+public class CardHolder : MonoBehaviour {
+
+    //public Card
 
 	// Use this for initialization
 	void Start () {

@@ -9,6 +9,8 @@ public static class SerializationManager
 
     public static List<ISerializationSurrogate> Surrogates = new List<ISerializationSurrogate>();
     public static SurrogateSelector Selector = new SurrogateSelector();
+    public enum SavePathType { Persistent, Local, Streaming, TempCache}
+
     static SerializationManager()
     {
         Selector.AddSurrogate(typeof(Color32), new StreamingContext(StreamingContextStates.All), new Color32Surrogate());
@@ -23,10 +25,28 @@ public static class SerializationManager
     /// </summary>
     /// <param name="filename">Name of the file to generate a path to</param>
     /// <returns>Full path to the file</returns>
-    public static string CreatePath(string filename)
+    public static string CreatePath(string filename, SavePathType savePathType = SavePathType.Persistent)
     {
-        return Path.Combine(Application.persistentDataPath, "SaveData/" + filename);
+        string path = "";
+        switch (savePathType)
+        {
+            case SavePathType.Persistent:
+                path = Application.persistentDataPath;
+                break;
+            case SavePathType.Local:
+                path = Application.dataPath;
+                break;
+            case SavePathType.Streaming:
+                path = Application.streamingAssetsPath;
+                break;
+            case SavePathType.TempCache:
+                path = Application.temporaryCachePath;
+                break;
+        }
+        return Path.Combine(path, "SaveData/" + filename);
     }
+
+
 
     /// <summary>
     /// Create byte data for an object, allowing it to be saved for later usage
