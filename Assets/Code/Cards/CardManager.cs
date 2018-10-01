@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public class CardManager : MonoBehaviour
+public class CardManager
 {
 
-    public static CardManager Instance;
+    public readonly static CardManager Instance = new CardManager();
+
     public enum Direction { From, To }
 
     Dictionary<string, List<CardData>> cardsFromAll = new Dictionary<string, List<CardData>>();
@@ -16,17 +17,6 @@ public class CardManager : MonoBehaviour
     int totalCards = 0;
     int totalFromCollisions = 0;
     int totalToCollisions = 0;
-
-    private void Awake()
-    {
-        Instance = this;
-    }
-
-    // Use this for initialization
-    void Start()
-    {
-        
-    }
 
     public void LoadFolder(string folderName)
     {
@@ -121,13 +111,6 @@ public class CardManager : MonoBehaviour
     {
         List<CardData> value;
         return Instance.cardsToAll.TryGetValue(text, out value) ? value : new List<CardData>(0);
-    }
-
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 
 }
