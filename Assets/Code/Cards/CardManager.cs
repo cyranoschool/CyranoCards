@@ -18,7 +18,12 @@ public class CardManager
     int totalFromCollisions = 0;
     int totalToCollisions = 0;
 
-    public void LoadFolder(string folderName)
+    public static void LoadFolder(string folderName)
+    {
+        Instance.loadFolder(folderName);
+    }
+
+    void loadFolder(string folderName)
     {
         string folderPath = Path.Combine(Application.streamingAssetsPath, "SaveData/" + folderName + "/");
         var info = new DirectoryInfo(folderPath);
@@ -87,6 +92,12 @@ public class CardManager
     void UnloadCard(string path)
     {
         throw new NotImplementedException();
+    }
+
+    public static void UnloadAll()
+    {
+        Instance.cardsFromAll.Clear();
+        Instance.cardsToAll.Clear();
     }
 
     public static List<CardData> GetCards(string text, Direction direction)
