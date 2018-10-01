@@ -9,45 +9,45 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1864204901336840}
+  m_RootGameObject: {fileID: 1848883974812892}
   m_IsPrefabAsset: 1
---- !u!1 &1864204901336840
+--- !u!1 &1848883974812892
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4997748338149938}
-  - component: {fileID: 212480812778625878}
-  - component: {fileID: 61726455567900118}
-  - component: {fileID: 114109406098881420}
+  - component: {fileID: 4290140039015538}
+  - component: {fileID: 212795175706360322}
+  - component: {fileID: 61089621903145364}
+  - component: {fileID: 114528461601944416}
   m_Layer: 0
-  m_Name: PickupCard
+  m_Name: CardPickup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4997748338149938
+--- !u!4 &4290140039015538
 Transform:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1864204901336840}
+  m_GameObject: {fileID: 1848883974812892}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.22, y: -0.76, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalScale: {x: 2.1, y: 3.3, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &61726455567900118
+--- !u!61 &61089621903145364
 BoxCollider2D:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1864204901336840}
+  m_GameObject: {fileID: 1848883974812892}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
@@ -67,23 +67,27 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.16, y: 0.16}
   m_EdgeRadius: 0
---- !u!114 &114109406098881420
+--- !u!114 &114528461601944416
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1864204901336840}
+  m_GameObject: {fileID: 1848883974812892}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fbb634dc39139fe4c85834435dcfd819, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!212 &212480812778625878
+  HomeLocation: {fileID: 0}
+  StartLocation: {fileID: 0}
+  StartMovingHome: 1
+  Speed: 5
+--- !u!212 &212795175706360322
 SpriteRenderer:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1864204901336840}
+  m_GameObject: {fileID: 1848883974812892}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0

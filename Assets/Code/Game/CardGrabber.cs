@@ -41,7 +41,7 @@ public class CardGrabber : MonoBehaviour {
     {
         if (holding == null && Input.GetButtonDown("Jump"))
         {
-            PickupCard card = c.GetComponent<PickupCard>();
+            CardPickup card = c.GetComponent<CardPickup>();
             if (card == null)
             {
                 return false;
@@ -51,6 +51,7 @@ public class CardGrabber : MonoBehaviour {
             c.transform.SetParent(CardHolder);
             c.transform.localPosition = Vector3.zero;
             holding = c.transform;
+            //Collider can stay on if it is used for dropping
             c.GetComponent<BoxCollider2D>().enabled = false;
             return true;
         }
@@ -60,8 +61,41 @@ public class CardGrabber : MonoBehaviour {
         }
     }
 
-    void TryDropCard(Collider2D c)
+    bool TryDropCard(Collider2D c)
     {
+        if(holding && Input.GetButtonDown("Jump"))
+        {
+            CardDropoff dropOff = c.GetComponent<CardDropoff>();
+            if (dropOff == null)
+            {
+                return false;
+            }
+            //Check if correct card 
+            //Unclear if card can be dropped if it's still wrong
+            //To prevent backtracking it could fly back to where it came from
+            CardPickup cardPickup = holding.GetComponent<CardPickup>();
+            if (!dropOff.IsSolution(cardPickup))
+            {
+                //Send back to where it came from
+                //Play some kind of negative sound
+                cardPickup.MoveHome();
 
+                //Action was completed, no input should have more than one action happen
+                return true;
+            }
+
+            holding.SetParent(null);
+            //Remove CardPickup monobehaviour
+            //Or set flag to prevent pickup again of card (dropoff may be one way)
+            //Trigger is already disabled
+            dropOff.GiveCard(holding);
+            holding = null;
+
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }
