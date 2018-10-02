@@ -8593,7 +8593,7 @@ MonoBehaviour:
   CardDropOff: {fileID: 1981471051778920, guid: 349cf69673f42f84989ef14c49ea18cc,
     type: 2}
   CardPickup: {fileID: 1848883974812892, guid: c2c49429d4117ab4eb61a2cddc3cc089, type: 2}
-  LineString: a b c b a c b c
+  LineString: 1 2 3 2 1 3 2 3
   LanguageFolder: TestABC_Test123
   reloadCards: 1
 --- !u!4 &1873782681

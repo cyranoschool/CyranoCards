@@ -29,7 +29,9 @@ public class LineManager : MonoBehaviour
         {
             CardManager.LoadFolder(LanguageFolder);
         }
-        wordIndices = BuildWords();
+        //a b c b a c b c
+        //1 2 3 2 1 3 2 3
+        wordIndices = BuildWords(CardManager.Direction.To);
         PrintWordIndices();
     }
 
@@ -60,7 +62,7 @@ public class LineManager : MonoBehaviour
     /// Looks for cards in LanguageFolder that match the "from" words from the LineString
     /// </summary>
     /// <returns>Returns a list of length n being the number of words in LineString with elements being cards that can be put in these locations</returns>
-    List<List<CardIndexer>> BuildWords()
+    List<List<CardIndexer>> BuildWords(CardManager.Direction direction = CardManager.Direction.From)
     {
         string[] words = LineString.Split();
 
@@ -93,7 +95,7 @@ public class LineManager : MonoBehaviour
                 sb.Clear();
 
                 //Get all cards that match that key and create CardIndexers for them
-                var set = CardManager.GetCardsFrom(key);
+                var set = CardManager.GetCards(key, direction);
                 var cardIndexerSet = set.Select(x => new CardIndexer(x, i, wordSize));
                 cardSet.UnionWith(cardIndexerSet);
             }
