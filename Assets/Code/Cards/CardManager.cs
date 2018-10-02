@@ -66,7 +66,8 @@ public class CardManager
             allCards = cardsToAll;
             key = card.To;
         }
-
+        //All keys are lowercase to prevent confusion
+        key = key.ToLower();
         List<CardData> list;
         if (!allCards.TryGetValue(key, out list))
         {
@@ -116,12 +117,12 @@ public class CardManager
     public static List<CardData> GetCardsFrom(string text)
     {
         List<CardData> value;
-        return Instance.cardsFromAll.TryGetValue(text, out value) ? value : new List<CardData>(0);
+        return Instance.cardsFromAll.TryGetValue(text.ToLower(), out value) ? value : new List<CardData>(0);
     }
     public static List<CardData> GetCardsTo(string text)
     {
         List<CardData> value;
-        return Instance.cardsToAll.TryGetValue(text, out value) ? value : new List<CardData>(0);
+        return Instance.cardsToAll.TryGetValue(text.ToLower(), out value) ? value : new List<CardData>(0);
     }
 
 }

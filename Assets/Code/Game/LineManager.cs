@@ -16,6 +16,7 @@ public class LineManager : MonoBehaviour
     [Header("Config")]
     public string LineString;
     public string LanguageFolder;
+    public CardManager.Direction direction = CardManager.Direction.To;
     public bool reloadCards = false;
 
     List<List<CardIndexer>> wordIndices;
@@ -29,8 +30,9 @@ public class LineManager : MonoBehaviour
         {
             CardManager.LoadFolder(LanguageFolder);
         }
-        
-        wordIndices = BuildWords(CardManager.Direction.To);
+        //To: I ate three blind mice last night
+        //From: yo comé trés ratoncitos ciegos anocho
+        wordIndices = BuildWords(direction);
 
         ////a b c b a c b c
         //1 2 3 2 1 3 2 3
@@ -123,7 +125,7 @@ public class LineManager : MonoBehaviour
             var words = wordIndices[i];
             for (int j = 0; j < words.Count; j++)
             {
-                sb.Append($"{words[j].Card.From}-->{words[j].Card.To}{separator}".PadRight(20));
+                sb.Append($"{words[j].Card.From}-->{words[j].Card.To}{separator}".PadLeft(50));
             }
             sb.AppendLine();
         }
@@ -133,7 +135,12 @@ public class LineManager : MonoBehaviour
         var phrase = GetBestPhrase();
         sb.Clear();
 
-        phrase.ForEach(card => sb.Append($"{card?.Card.From ?? "No Card"}-->{card?.Card.To ?? "No Card"}".PadRight(20)));
+        //Innefficient, multiple loops, but it is just test output on a very small amount of elements
+        phrase.ForEach(card => sb.Append($"{card?.Card.From ?? "No Card"} "));
+        sb.Append("-->");
+        phrase.ForEach(card => sb.Append($"{card?.Card.To ?? "No Card"} "));
+        sb.AppendLine();
+        phrase.ForEach(card => sb.Append($"{card?.Card.From ?? "No Card"}-->{card?.Card.To ?? "No Card"}".PadRight(50)));
         Debug.Log(sb.ToString());
     }
 
