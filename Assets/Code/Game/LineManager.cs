@@ -29,10 +29,82 @@ public class LineManager : MonoBehaviour
         {
             CardManager.LoadFolder(LanguageFolder);
         }
-        //a b c b a c b c
-        //1 2 3 2 1 3 2 3
+        
         wordIndices = BuildWords(CardManager.Direction.To);
+
+        ////a b c b a c b c
+        //1 2 3 2 1 3 2 3
         PrintWordIndices();
+
+        
+    }
+
+    /// <summary>
+    /// Gets list of cards that
+    /// A) Has the largest phrases left to right
+    /// B) If there are multiple largest phrases sort by (favorited -> owner -> dateCreated)
+    /// </summary>
+    /// <returns></returns>
+    List<CardIndexer> GetBestPhrase()
+    {
+        List<CardIndexer> cardPhrase = new List<CardIndexer>();
+        var swipablePhrases = GetSwipablePhrases();
+        
+        for (int i = 0; i < swipablePhrases.Count; i++)
+        {
+            List<CardIndexer> cardList = swipablePhrases[i];
+            //Sort by favorite, owned, whatever
+            //Player saved card data not yet available
+            //var sortedCards = cardList.OrderBy(x => x.Card.Favorited).ThenBy(x => x.Card.owner == myself).ThenBy( x => x.Card.owner).ThenBy( x => x.Card.creationDate);
+            //cardPhrase.Add(sortedCards.First());
+
+            CardIndexer card = cardList.Count > 0 ? cardList[0] : null;
+
+            cardPhrase.Add(card);
+        }
+        
+        return cardPhrase;
+    }
+
+    /// <summary>
+    /// Gets list of cards that
+    /// A) Has the largest phrases left to right
+    /// B) Cards of the same size are grouped together (can be swiped through)
+    /// </summary>
+    /// <returns></returns>
+    List<List<CardIndexer>> GetSwipablePhrases()
+    {
+        List<List<CardIndexer>> cardPhrase = new List<List<CardIndexer>>();
+        for (int i = 0; i < wordIndices.Count; )
+        {
+            List<CardIndexer> cardPile = new List<CardIndexer>();
+            cardPhrase.Add(cardPile);
+
+            List<CardIndexer> words = wordIndices[i];
+            if(words.Count == 0)
+            {
+                i++;
+                continue;
+            }
+            //Sort descending by longest element
+            words.Sort((x,y) => y.Length.CompareTo(x.Length));
+            //Since list is sorted the largest length is the first element
+            int length = words[0].Length;
+            for (int j = 0; j < words.Count; j++)
+            {
+                CardIndexer cI = words[j];
+                if(cI.Length == length)
+                {
+                    cardPile.Add(cI);
+                }
+                else
+                {
+                    break;
+                }
+            }
+            i += length;
+        }
+        return cardPhrase;
     }
 
     void PrintWordIndices()
@@ -56,7 +128,16 @@ public class LineManager : MonoBehaviour
             sb.AppendLine();
         }
         Debug.Log(sb.ToString());
+
+        //Print Best Phrase
+        var phrase = GetBestPhrase();
+        sb.Clear();
+
+        phrase.ForEach(card => sb.Append($"{card?.Card.From ?? "No Card"}-->{card?.Card.To ?? "No Card"}".PadRight(20)));
+        Debug.Log(sb.ToString());
     }
+
+
 
     /// <summary>
     /// Looks for cards in LanguageFolder that match the "from" words from the LineString
@@ -69,6 +150,8 @@ public class LineManager : MonoBehaviour
         //Each wordGroup is made up of cards with wordcount words.Length - i + 1
         //Each element keeps track where it starts with CardIndexer
         HashSet<CardIndexer> cardSet = new HashSet<CardIndexer>();
+        //Can use a List<List<CardIndexer> to get GetSwipablePhrase and GetBestPhrase which can greatly improve search time
+        //This works provided the conditions for GetSwipablePhrase doesn't ever change (breaking change)
 
         //Search for largest words first and add them to list then get smaller words
         StringBuilder sb = new StringBuilder();
@@ -101,25 +184,25 @@ public class LineManager : MonoBehaviour
             }
         }
 
-        //Add children of cards as well
-        //Requires a Hashset so there are no duplicate CardData
-        //This is because a child may not be the same word as the lower level word
-        //
-        //The relationship between card children is still undecided
-
         //Populate output [index][n CardData that fits]
         List<List<CardIndexer>> slots = new List<List<CardIndexer>>(words.Length);
-        for(int i = 0; i < words.Length; i++)
+        for (int i = 0; i < words.Length; i++)
         {
             slots.Add(new List<CardIndexer>());
         }
-        foreach(CardIndexer cardI in cardSet)
+        foreach (CardIndexer cardI in cardSet)
         {
             slots[cardI.Index].Add(cardI);
         }
+        
         return slots;
     }
 
+
+    /// <summary>
+    /// Stores a card and it's relationship in a line
+    /// Also will contain comparisons for sorting cards (e.g. favorites more important than non-favorites)
+    /// </summary>
     class CardIndexer : IEqualityComparer<CardIndexer>
     {
         public CardData Card;
