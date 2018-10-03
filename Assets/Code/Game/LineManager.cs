@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using TMPro;
 
 public class LineManager : MonoBehaviour
 {
@@ -11,8 +10,10 @@ public class LineManager : MonoBehaviour
     [Header("Init Prefabs")]
     public GameObject CardDropOff;
     public GameObject CardPickup;
+    public GameObject TextBlock;
     public Transform PickupParent;
     public Transform DropoffParent;
+    public Transform BlockUI;
     //[Header("Init")]
 
     [Header("Config")]
@@ -38,7 +39,7 @@ public class LineManager : MonoBehaviour
 
         ////a b c b a c b c
         //1 2 3 2 1 3 2 3
-        //PrintWordIndices();
+        PrintWordIndices();
 
         CreateCardGameElements(GetBestPhrase());
 
@@ -66,13 +67,18 @@ public class LineManager : MonoBehaviour
             //TEMPORARY setting position
             float letterSpacing = .2f;
             //From or to length
-            float offset = letterSpacing * (direction == CardManager.Direction.To ? card.To : card.From).Length;
+            string textCard = direction == CardManager.Direction.To ? card.To : card.From;
+            string textBlock = direction == CardManager.Direction.To ? card.From : card.To;
+            float offset = letterSpacing * textBlock.Length;
             Vector3 off3 = new Vector3(lastOffset, 0, 0);
             lastOffset += offset + dropoffSpacing;
             dropoff.transform.position = DropoffParent.position + off3;
 
-            dropoff.SetCard(cardIndexer, direction);
-            
+            GameObject uiText = GameObject.Instantiate(TextBlock, BlockUI);
+            uiText.GetComponentInChildren<TextMeshProUGUI>().text = textBlock;
+
+            dropoff.SetCard(cardIndexer, direction, uiText);
+
         }
     }
 

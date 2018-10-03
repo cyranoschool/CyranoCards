@@ -10,6 +10,8 @@ public class CardDropoff : MonoBehaviour {
     public LineManager.CardIndexer GetCardIndexer() { return cardIndexer; }
     CardManager.Direction direction;
     public CardManager.Direction GetDirection() { return direction; }
+    GameObject uiBlock;
+    public GameObject GetUIBlock() { return uiBlock; }
 
     // Use this for initialization
     void Start () {
@@ -20,6 +22,23 @@ public class CardDropoff : MonoBehaviour {
 	void Update () {
 		
 	}
+
+    private void LateUpdate()
+    {
+        if(uiBlock != null)
+        {
+            //Works as long as in screen and not world space
+            Vector3 newPos = Camera.allCameras[0].ScreenToWorldPoint(uiBlock.transform.position);
+            newPos.z = transform.parent.position.z;
+            transform.position = newPos;
+
+            //Currently working on getting the proper width of the collider
+            //var bounds = RectTransformUtility.sc(uiBlock.transform);
+            //GetComponent<BoxCollider2D>().size = (Vector2)bounds.size;
+            //uiBlock.GetComponent<RectTransform>().
+            //RectTransformUtility
+        }
+    }
 
     public bool IsSolution(CardPickup pickupCard)
     {
@@ -44,10 +63,11 @@ public class CardDropoff : MonoBehaviour {
         holding.localPosition = Vector3.zero;
     }
 
-    public void SetCard(LineManager.CardIndexer cardIndexer, CardManager.Direction direction)
+    public void SetCard(LineManager.CardIndexer cardIndexer, CardManager.Direction direction, GameObject uiBlock)
     {
         this.cardIndexer = cardIndexer;
         this.direction = direction;
+        this.uiBlock = uiBlock;
 
         CardData card = cardIndexer.Card;
         name = card.From + "-->" + card.To;
