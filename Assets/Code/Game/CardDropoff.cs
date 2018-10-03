@@ -5,8 +5,14 @@ using UnityEngine;
 
 public class CardDropoff : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
+
+    LineManager.CardIndexer cardIndexer;
+    public LineManager.CardIndexer GetCardIndexer() { return cardIndexer; }
+    CardManager.Direction direction;
+    public CardManager.Direction GetDirection() { return direction; }
+
+    // Use this for initialization
+    void Start () {
 		
 	}
 	
@@ -17,7 +23,16 @@ public class CardDropoff : MonoBehaviour {
 
     public bool IsSolution(CardPickup pickupCard)
     {
-        return true;
+        CardData card = cardIndexer.Card;
+        CardData otherCard = pickupCard.GetCardIndexer().Card;
+        if(direction == CardManager.Direction.To)
+        {
+            return card.To.Equals(otherCard.To);
+        }
+        else
+        {
+            return card.From.Equals(otherCard.From);
+        }
     }
 
     public void GiveCard(Transform holding)
@@ -27,5 +42,14 @@ public class CardDropoff : MonoBehaviour {
         //Shoot out some sort of particles
         holding.SetParent(transform);
         holding.localPosition = Vector3.zero;
+    }
+
+    public void SetCard(LineManager.CardIndexer cardIndexer, CardManager.Direction direction)
+    {
+        this.cardIndexer = cardIndexer;
+        this.direction = direction;
+
+        CardData card = cardIndexer.Card;
+        name = card.From + "-->" + card.To;
     }
 }

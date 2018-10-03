@@ -11,6 +11,8 @@ public class LineManager : MonoBehaviour
     [Header("Init Prefabs")]
     public GameObject CardDropOff;
     public GameObject CardPickup;
+    public Transform PickupParent;
+    public Transform DropoffParent;
     //[Header("Init")]
 
     [Header("Config")]
@@ -36,11 +38,51 @@ public class LineManager : MonoBehaviour
 
         ////a b c b a c b c
         //1 2 3 2 1 3 2 3
-        PrintWordIndices();
+        //PrintWordIndices();
+
+        CreateCardGameElements(GetBestPhrase());
 
         
     }
 
+    void CreateCardGameElements(List<CardIndexer> phrase)
+    {
+
+        //TEMPORARY setting of positions
+        float dropoffSpacing = .5f;
+        float lastOffset = 0;
+
+        for (int i = 0; i < phrase.Count; i++)
+        {
+            CardIndexer cardIndexer = phrase[i];
+            CardData card = cardIndexer.Card;
+            CardPickup cardP = GameObject.Instantiate(CardPickup,PickupParent).GetComponent<CardPickup>();
+            cardP.transform.position = PickupParent.position;
+            //Pick card based on directionality
+            cardP.SetCard(cardIndexer, direction);
+
+            CardDropoff dropoff = GameObject.Instantiate(CardDropOff, DropoffParent).GetComponent<CardDropoff>();
+            
+            //TEMPORARY setting position
+            float letterSpacing = .2f;
+            //From or to length
+            float offset = letterSpacing * (direction == CardManager.Direction.To ? card.To : card.From).Length;
+            Vector3 off3 = new Vector3(lastOffset, 0, 0);
+            lastOffset += offset + dropoffSpacing;
+            dropoff.transform.position = DropoffParent.position + off3;
+
+            dropoff.SetCard(cardIndexer, direction);
+            
+        }
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+
+    #region Line Processing
     /// <summary>
     /// Gets list of cards that
     /// A) Has the largest phrases left to right
@@ -90,6 +132,7 @@ public class LineManager : MonoBehaviour
             }
             //Sort descending by longest element
             words.Sort((x,y) => y.Length.CompareTo(x.Length));
+
             //Since list is sorted the largest length is the first element
             int length = words[0].Length;
             for (int j = 0; j < words.Count; j++)
@@ -210,7 +253,7 @@ public class LineManager : MonoBehaviour
     /// Stores a card and it's relationship in a line
     /// Also will contain comparisons for sorting cards (e.g. favorites more important than non-favorites)
     /// </summary>
-    class CardIndexer : IEqualityComparer<CardIndexer>
+    public class CardIndexer : IEqualityComparer<CardIndexer>
     {
         public CardData Card;
         public int Index;
@@ -237,10 +280,5 @@ public class LineManager : MonoBehaviour
 
 
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
+    #endregion
 }

@@ -81,14 +81,15 @@ public class CardGrabber : MonoBehaviour {
                 cardPickup.MoveHome();
 
                 //Action was completed, no input should have more than one action happen
-                return true;
             }
-
-            holding.SetParent(null);
-            //Remove CardPickup monobehaviour
-            //Or set flag to prevent pickup again of card (dropoff may be one way)
-            //Trigger is already disabled
-            dropOff.GiveCard(holding);
+            else
+            {
+                //Remove CardPickup monobehaviour
+                //Or set flag to prevent pickup again of card (dropoff may be one way)
+                //Trigger is already disabled
+                dropOff.GiveCard(holding);
+            }
+            
             holding = null;
 
             return true;
