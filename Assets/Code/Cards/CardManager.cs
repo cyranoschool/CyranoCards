@@ -101,7 +101,7 @@ public class CardManager
         }
         if(cardsToAll.TryGetValue(to, out potentialCards))
         {
-            potentialCards.Remove(CardData);
+            potentialCards.Remove(cardData);
         }
     }
 
