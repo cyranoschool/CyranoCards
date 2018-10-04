@@ -3,6 +3,8 @@
 
 [THIS PROJECT CURRENTLY USES UNITY Unity 2018.2.10f1 IF YOU DON'T HAVE THAT VERSION PLEASE INSTALL IT HERE](https://unity3d.com/get-unity/download/archive)
 
+If you are using Visual Studio 2017 please update to a version >= 15.7.6. Pevious versions don't interface well with Unity's package manager and will show errors where there are none.
+
 Please only build projects in folder named 'Build' or 'Builds' in base directory, as those folders are ignored in the .gitignore.
 
 [We Will Be using an emoji format for our commits to make it easier to read and sort through](https://github.com/dannyfritz/commit-message-emoji)
