@@ -90,9 +90,19 @@ public class CardManager
         totalCards++;
     }
 
-    void UnloadCard(string path)
+    void UnloadCard(CardData cardData)
     {
-        throw new NotImplementedException();
+        string from = cardData.From.ToLower();
+        string to = cardData.To.ToLower();
+        List<CardData> potentialCards;
+        if(cardsFromAll.TryGetValue(from, out potentialCards))
+        {
+            potentialCards.Remove(cardData);
+        }
+        if(cardsToAll.TryGetValue(to, out potentialCards))
+        {
+            potentialCards.Remove(CardData);
+        }
     }
 
     public static void UnloadAll()
@@ -123,6 +133,33 @@ public class CardManager
     {
         List<CardData> value;
         return Instance.cardsToAll.TryGetValue(text.ToLower(), out value) ? value : new List<CardData>(0);
+    }
+
+    public static bool SaveCard(CardData cardData, string path)
+    {
+        return SerializationManager.SaveJsonObject(path, cardData);
+    }
+
+    /// <summary>
+    /// Return a duplicated card object
+    /// </summary>
+    /// <param name="cardData">Card Data to duplicate</param>
+    /// <param name="placeInDictionary">Put this card into the current dictionary after creation</param>
+    /// <returns></returns>
+    public static CardData DuplicateCard(CardData cardData, bool placeInDictionary = true)
+    {
+        //Save into temporary folder and reload it
+        string path = SerializationManager.CreatePath("ClonedCard.json", SerializationManager.SavePathType.TempCache);
+        SerializationManager.SaveJsonObject(path, cardData);
+        CardData clone = SerializationManager.LoadJsonObject<CardData>(path);
+
+        if(placeInDictionary)
+        {
+            Instance.SetupCard(clone,"", Direction.From);
+            Instance.SetupCard(clone, "", Direction.To);
+
+        }
+        return clone;
     }
 
 }
