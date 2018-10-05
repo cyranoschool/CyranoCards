@@ -69,7 +69,10 @@ public class LargeCard : MonoBehaviour
 
     public void UpdateCard()
     {
-
+        if(cardData == null)
+        {
+            return;
+        }
         //Clear old data out
         //Not necessary in this implementation
 
