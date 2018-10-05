@@ -105,6 +105,7 @@ public class LargeCard : MonoBehaviour
 
     IEnumerator Spin(float speed, float duration, Vector3 originalScale)
     {
+        SoundManager.GetSound("flick").Play();
         spinning = true;
         for (float t = 0; t <= duration; t += Time.deltaTime)
         {

@@ -182,6 +182,7 @@ public class CardGrabber : MonoBehaviour
             {
                 //Send back to where it came from
                 //Play some kind of negative sound
+                SoundManager.GetSound("ring_down").Play();
                 cardPickup.GetComponent<BoxCollider2D>().enabled = true;
                 cardPickup.MoveHome();
 
@@ -194,7 +195,9 @@ public class CardGrabber : MonoBehaviour
                 //Trigger is already disabled
                 dropOff.GiveCard(holding);
 
-                
+                //Play positive sound
+                SoundManager.GetSound("ring_up").Play();
+
                 //Change color of text
                 textColor  = CompletionColor;
                 var textMesh = dropOff.UITextMesh;
