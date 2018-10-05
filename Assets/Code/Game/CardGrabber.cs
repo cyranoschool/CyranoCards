@@ -2,22 +2,42 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CardGrabber : MonoBehaviour {
+public class CardGrabber : MonoBehaviour
+{
 
     [Header("Init")]
     public Transform CardHolder;
 
-    private Transform holding;
+    [Header("Config")]
+    public Color32 SelectionColor = Color.yellow;
+    public Color32 CompletionColor = new Color(0, 1f, 1f);
+    public Color32 CompletionSelectionColor = new Color(0, .85f, .85f);
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    Transform holding;
+    CardDropoff wordCollider;
+    Color32 textColor;
+    bool didActionThisFrame = false;
+    bool buttonPressed = false;
+    bool buttonFixedPressed = false;
+    // Use this for initialization
+    void Start()
+    {
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        //Button input has to be cached because it is checked in the fixed update which may or may not happen
+        buttonPressed = buttonPressed | Input.GetButtonDown("Jump");
+    }
+
+    private void FixedUpdate()
+    {
+        //Button press received
+        buttonFixedPressed = buttonPressed;
+        buttonPressed = false;
+    }
 
     void LateUpdate()
     {
@@ -27,19 +47,87 @@ public class CardGrabber : MonoBehaviour {
         cardDepth.z = CardHolder.parent.position.z - .05f;
         CardHolder.position = cardDepth;
 
+        didActionThisFrame = false;
+    }
+
+    //Locks in first card dropoff collider player touches so only one trigger can be actively checked at once
+    void OnTriggerEnter2D(Collider2D c)
+    {
+        OnTriggerStay2D(c);
+    }
+
+    //Release lock on a dropoff trigger
+    void OnTriggerExit2D(Collider2D c)
+    {
+        TryReleaseTrigger(c);
     }
 
     void OnTriggerStay2D(Collider2D c)
     {
-        if(!TryPickupCard(c))
+        TryLockInTrigger(c);
+        //Don't keep trying to drop a card if you picked it up on this frame
+        if (didActionThisFrame)
+        {
+            return;
+        }
+        if (!TryPickupCard(c))
         {
             TryDropCard(c);
         }
     }
 
+    void TryLockInTrigger(Collider2D c)
+    {
+        CardDropoff dropOff = c.GetComponent<CardDropoff>();
+        //Is this not a CardDropoff or does it already have a card that it took?
+        if (dropOff == null)
+        {
+            return;
+        }
+        //Release old dropoff for new one if it is closer, otherwise ignore it
+        else if (wordCollider != null)
+        {
+            if (Vector3.SqrMagnitude(transform.position - c.transform.position) < Vector3.SqrMagnitude(transform.position - wordCollider.transform.position))
+            {
+                TryReleaseTrigger(wordCollider.GetComponent<Collider2D>());
+            }
+            else
+            {
+                return;
+            }
+        }
+
+        wordCollider = dropOff;
+        //Change color of text if it is selectable
+        var textMesh = dropOff.UITextMesh;
+        textColor = textMesh.color;
+
+        if(dropOff.CanTakeCard())
+        {
+            textMesh.color = SelectionColor;
+        }
+        else
+        {
+            textMesh.color = CompletionSelectionColor;
+        }
+    }
+
+    void TryReleaseTrigger(Collider2D c)
+    {
+        CardDropoff dropOff = c.GetComponent<CardDropoff>();
+        if (wordCollider == null || dropOff == null || wordCollider != dropOff)
+        {
+            return;
+        }
+        wordCollider = null;
+        //Reset color of text
+        var textMesh = dropOff.UITextMesh;
+        textMesh.color = textColor;
+    }
+
     bool TryPickupCard(Collider2D c)
     {
-        if (holding == null && Input.GetButtonDown("Jump"))
+        if (holding == null && buttonFixedPressed)
         {
             CardPickup card = c.GetComponent<CardPickup>();
             if (card == null)
@@ -53,6 +141,7 @@ public class CardGrabber : MonoBehaviour {
             holding = c.transform;
             //Collider can stay on if it is used for dropping
             c.GetComponent<BoxCollider2D>().enabled = false;
+            didActionThisFrame = true;
             return true;
         }
         else
@@ -63,13 +152,18 @@ public class CardGrabber : MonoBehaviour {
 
     bool TryDropCard(Collider2D c)
     {
-        if(holding && Input.GetButtonDown("Jump"))
+        //Only test for the first collider that player is touching
+        CardDropoff dropOff = c.GetComponent<CardDropoff>();
+        //Also ignore totally if dropoff already has all of its cards (but don't send card away)
+        if (dropOff == null || dropOff != wordCollider || !dropOff.CanTakeCard())
         {
-            CardDropoff dropOff = c.GetComponent<CardDropoff>();
-            if (dropOff == null)
-            {
-                return false;
-            }
+            return false;
+        }
+
+
+        if (holding && buttonFixedPressed)
+        {
+
             //Check if correct card 
             //Unclear if card can be dropped if it's still wrong
             //To prevent backtracking it could fly back to where it came from
@@ -88,10 +182,16 @@ public class CardGrabber : MonoBehaviour {
                 //Or set flag to prevent pickup again of card (dropoff may be one way)
                 //Trigger is already disabled
                 dropOff.GiveCard(holding);
-            }
-            
-            holding = null;
 
+                
+                //Change color of text
+                textColor  = CompletionColor;
+                var textMesh = dropOff.UITextMesh;
+                textMesh.color = CompletionSelectionColor;
+            }
+
+            holding = null;
+            didActionThisFrame = true;
             return true;
         }
         else

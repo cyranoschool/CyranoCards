@@ -151,7 +151,7 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!61 &61562972081539640
 BoxCollider2D:
@@ -231,6 +231,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CardHolder: {fileID: 4046616687432360}
+  SelectionColor:
+    serializedVersion: 2
+    rgba: 4278512639
+  CompletionColor:
+    serializedVersion: 2
+    rgba: 4294967040
+  CompletionSelectionColor:
+    serializedVersion: 2
+    rgba: 3218659328
 --- !u!212 &212505437998373414
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -69,6 +69,31 @@ public class LineManager : MonoBehaviour
             //From or to length
             string textCard = direction == CardManager.Direction.To ? card.To : card.From;
             string textBlock = direction == CardManager.Direction.To ? card.From : card.To;
+
+            //Temp String formatting for capital first letter and period at end
+            if(i == 0)
+            {
+                if (!string.IsNullOrEmpty(textCard))
+                {
+                    textCard = textCard.First().ToString().ToUpper() + textCard.Substring(1);
+                }
+                if(!string.IsNullOrEmpty(textBlock))
+                {
+                    textBlock = textBlock.First().ToString().ToUpper() + textBlock.Substring(1);
+                }
+            }
+            else if(i == phrase.Count - 1)
+            {
+                if (!string.IsNullOrEmpty(textCard))
+                {
+                    textCard += ".";
+                }
+                if (!string.IsNullOrEmpty(textBlock))
+                {
+                    textBlock += ".";
+                }
+            }
+
             float offset = letterSpacing * textBlock.Length;
             Vector3 off3 = new Vector3(lastOffset, 0, 0);
             lastOffset += offset + dropoffSpacing;
@@ -184,7 +209,7 @@ public class LineManager : MonoBehaviour
         var phrase = GetBestPhrase();
         sb.Clear();
 
-        //Innefficient, multiple loops, but it is just test output on a very small amount of elements
+        //Innefficient, multiple loops, but it is just string output for testing on a very small amount of elements
         phrase.ForEach(card => sb.Append($"{card?.Card.From ?? "No Card"} "));
         sb.Append("-->");
         phrase.ForEach(card => sb.Append($"{card?.Card.To ?? "No Card"} "));
