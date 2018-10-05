@@ -49,10 +49,6 @@ public class LineManager : MonoBehaviour
     void CreateCardGameElements(List<CardIndexer> phrase)
     {
 
-        //TEMPORARY setting of positions
-        float dropoffSpacing = .5f;
-        float lastOffset = 0;
-
         for (int i = 0; i < phrase.Count; i++)
         {
             CardIndexer cardIndexer = phrase[i];

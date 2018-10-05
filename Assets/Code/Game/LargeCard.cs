@@ -6,29 +6,39 @@ using TMPro;
 using UnityEngine.UI;
 using System.Linq;
 
-public class LargeCard : MonoBehaviour {
+public class LargeCard : MonoBehaviour
+{
 
     [Header("Init")]
     public TextMeshProUGUI cardText;
     public Image image;
 
 
+    [Header("Config")]
+    public float SpinSpeed = 4f;
+    public float SpinDuration = .25f;
+    public bool CanSpin = true;
+
     private CardData cardData;
     public CardData GetCardData() { return cardData; }
 
+    private CardManager.Direction direction = CardManager.Direction.From;
+    public CardManager.Direction GetDirection() { return direction; }
 
-    public CardManager.Direction direction = CardManager.Direction.From;
 
+    bool spinning = false;
 
     // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    void Start()
+    {
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
 
 
     public void SetCard(CardData card, bool forceUpdate = true)
@@ -51,7 +61,7 @@ public class LargeCard : MonoBehaviour {
     public void FlipDirection(bool forceUpdate = true)
     {
         direction = direction == CardManager.Direction.From ? CardManager.Direction.To : CardManager.Direction.From;
-        if(forceUpdate)
+        if (forceUpdate)
         {
             UpdateCard();
         }
@@ -78,4 +88,29 @@ public class LargeCard : MonoBehaviour {
         //
 
     }
+
+    public void TappedCard()
+    {
+        //Don't spin it twice, wait for spinning to finish
+        if(!CanSpin || spinning)
+        {
+            return;
+        }
+        FlipDirection();
+        StartCoroutine(Spin(SpinSpeed, SpinDuration, transform.localScale));
+    }
+
+    IEnumerator Spin(float speed, float duration, Vector3 originalScale)
+    {
+        spinning = true;
+        for (float t = 0; t <= duration; t += Time.deltaTime)
+        {
+            float xScale = Mathf.Sin(t * speed) * originalScale.x;
+            transform.localScale = new Vector3(xScale, originalScale.y, originalScale.z);
+            yield return null;
+        }
+        spinning = false;
+        transform.localScale = originalScale;
+    }
+
 }
