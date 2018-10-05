@@ -1,12 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class CardGrabber : MonoBehaviour
 {
 
     [Header("Init")]
     public Transform CardHolder;
+    public LargeCard largeCard;
+    public LineManager lineManager;
 
     [Header("Config")]
     public Color32 SelectionColor = Color.yellow;
@@ -30,6 +33,8 @@ public class CardGrabber : MonoBehaviour
     {
         //Button input has to be cached because it is checked in the fixed update which may or may not happen
         buttonPressed = buttonPressed | Input.GetButtonDown("Jump");
+
+        largeCard.gameObject.SetActive(holding);
     }
 
     private void FixedUpdate()
@@ -142,6 +147,11 @@ public class CardGrabber : MonoBehaviour
             //Collider can stay on if it is used for dropping
             c.GetComponent<BoxCollider2D>().enabled = false;
             didActionThisFrame = true;
+
+            //Set large card to match this one
+            largeCard.SetCard(card.GetCardIndexer().Card, false);
+            largeCard.SetDirection(lineManager.direction);
+
             return true;
         }
         else
@@ -172,6 +182,7 @@ public class CardGrabber : MonoBehaviour
             {
                 //Send back to where it came from
                 //Play some kind of negative sound
+                cardPickup.GetComponent<BoxCollider2D>().enabled = true;
                 cardPickup.MoveHome();
 
                 //Action was completed, no input should have more than one action happen
@@ -199,4 +210,7 @@ public class CardGrabber : MonoBehaviour
             return false;
         }
     }
+
+    
+
 }

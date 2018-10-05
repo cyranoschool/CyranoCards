@@ -63,9 +63,8 @@ public class LineManager : MonoBehaviour
             cardP.SetCard(cardIndexer, direction);
 
             CardDropoff dropoff = GameObject.Instantiate(CardDropOff, DropoffParent).GetComponent<CardDropoff>();
-            
-            //TEMPORARY setting position
-            float letterSpacing = .2f;
+            dropoff.transform.position = DropoffParent.position;
+
             //From or to length
             string textCard = direction == CardManager.Direction.To ? card.To : card.From;
             string textBlock = direction == CardManager.Direction.To ? card.From : card.To;
@@ -93,11 +92,6 @@ public class LineManager : MonoBehaviour
                     textBlock += ".";
                 }
             }
-
-            float offset = letterSpacing * textBlock.Length;
-            Vector3 off3 = new Vector3(lastOffset, 0, 0);
-            lastOffset += offset + dropoffSpacing;
-            dropoff.transform.position = DropoffParent.position + off3;
 
             GameObject uiText = GameObject.Instantiate(TextBlock, BlockUI);
             uiText.GetComponentInChildren<TextMeshProUGUI>().text = textBlock;

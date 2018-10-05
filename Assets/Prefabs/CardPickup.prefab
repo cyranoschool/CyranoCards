@@ -82,6 +82,9 @@ MonoBehaviour:
   StartLocation: {fileID: 0}
   StartMovingHome: 1
   Speed: 5
+  SpinSpeed: 8
+  SpawnRangeX: {x: -3.5, y: 1}
+  SpawnRangeY: {x: -0.75, y: 0.5}
 --- !u!212 &212795175706360322
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -117,8 +120,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Color: {r: 0.52832514, g: 0.75, b: 0.75, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

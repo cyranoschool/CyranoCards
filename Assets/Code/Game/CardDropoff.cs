@@ -96,10 +96,14 @@ public class CardDropoff : MonoBehaviour
         //Perform some kind of animation
         //Make some sort of success sound
         //Shoot out some sort of particles
-        holding.SetParent(transform);
-        //Move downward arbitary amount;
-        holding.localPosition = Vector3.down;
 
+        holding.SetParent(transform);
+
+        //Make it move back to its home but this time in a new location
+        CardPickup pickup = holding.GetComponent<CardPickup>();
+        pickup.HomeLocation.position = transform.position + Vector3.down;
+
+        pickup.MoveHome();
         tookCard = true;
     }
 
