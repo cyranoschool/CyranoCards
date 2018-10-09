@@ -9,7 +9,7 @@ public static class SerializationManager
 
     public static List<ISerializationSurrogate> Surrogates = new List<ISerializationSurrogate>();
     public static SurrogateSelector Selector = new SurrogateSelector();
-    public enum SavePathType { Persistent, Local, Streaming, TempCache}
+    public enum SavePathType { Persistent, Local, Streaming, TempCache, FileNameOnly }
 
     static SerializationManager()
     {
@@ -41,6 +41,9 @@ public static class SerializationManager
                 break;
             case SavePathType.TempCache:
                 path = Application.temporaryCachePath;
+                break;
+            case SavePathType.FileNameOnly:
+                path = filename;
                 break;
         }
         return Path.Combine(path, "SaveData/" + filename);
