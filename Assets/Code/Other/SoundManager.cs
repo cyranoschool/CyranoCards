@@ -30,6 +30,11 @@ public class SoundManager : MonoBehaviour
 
     public static AudioSource GetSound(string name, bool autoKill = true, Transform parent = null, float pitchShiftRange = 0)
     {
+        if(!instance.resourceSounds.ContainsKey(name))
+        {
+            Debug.LogError($"Sound \"{name}\" does not exist!");
+            return null;
+        }
         return GetSound(instance.resourceSounds[name], autoKill, parent, pitchShiftRange);
     }
 
