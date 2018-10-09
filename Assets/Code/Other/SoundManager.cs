@@ -10,7 +10,15 @@ public class SoundManager : MonoBehaviour
 
     void Awake()
     {
+        if (instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         instance = this;
+        DontDestroyOnLoad(gameObject);
+
         foreach (AudioClip audioClip in Resources.LoadAll<AudioClip>(""))
         {
             resourceSounds.Add(audioClip.name, audioClip);
