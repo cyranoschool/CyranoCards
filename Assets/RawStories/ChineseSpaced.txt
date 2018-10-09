@@ -1,0 +1,10 @@
+#story 中文 $ zhōngwén / Chinese = Chinese *
+#section 说 中文 $ shuō zhōngwén / speak Chinese = speaking Chinese *
+我 可以 讲 一 点 中文 $ wǒ kěyǐ jiǎng yì diǎn zhōngwén / i can speak a little Chienese = I can speak a little bit Chinese  *
+我的 中国 朋友 教 我 的 $ wǒde zhōngguó péngyǒu jiāo wǒ de / my Chinese friend teach me _auxiliary = My Chinese friend taught me  *
+#section 简单的 句子 $ jiǎndānde jùzi / simple sentense = simple sentenses *
+例如 你 好 吗 谢谢  $ lìrú nǐ hǎo ma xièxie / for_example you good _question thanks = For example, how are you? And Thank you  *
+噢 还 有 我 吃 饱 了 $ òu hái yǒu wǒ chī bǎo le / oh still have i eat full _past = Oh and I'm full  *
+#section 学 中文 $ xué zhōngwén / learn Chinese = learning Chinese *
+沒了 $ méile / that_is_it = that's it  *
+我 想 学 更 多 中文 $ wǒ xiǎng xué gèng duō zhōngwén / I think lean more many Chinese = I want to learn more Chinese *

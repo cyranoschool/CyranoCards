@@ -16,4 +16,7 @@ public class CardData
 
     public string From = "";
     public string To = "";
+
+    public string BrokenUpFrom = "";
+    public string BrokenUpTo = "";
 }
