@@ -28,6 +28,14 @@ public class CardGrabber : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Call to simulate a button press (useful for touch screen areas, or screen buttons)
+    /// </summary>
+    public void PressButton()
+    {
+        buttonPressed = true;
+    }
+
     // Update is called once per frame
     void Update()
     {

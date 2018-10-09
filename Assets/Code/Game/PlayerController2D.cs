@@ -7,6 +7,7 @@ public class PlayerController2D : MonoBehaviour
 {
     [Header ("Init")]
     public Transform Body;
+    public Joystick joystick;
 
     [Header("Config")]
     public float Acceleration = 2f;
@@ -46,7 +47,12 @@ public class PlayerController2D : MonoBehaviour
     {
         //Consider using getaxisraw for less "floaty" input
         inX = Input.GetAxisRaw("Horizontal");
-       inY = Input.GetAxisRaw("Vertical");
+        inY = Input.GetAxisRaw("Vertical");
+        if(joystick != null)
+        {
+            inX += joystick.Horizontal;
+            inY += joystick.Vertical;
+        }
         input = Vector3.right * inX + Vector3.up * inY;
         input.Normalize();
 
