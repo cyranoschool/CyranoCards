@@ -18,12 +18,12 @@ public class CardManager
     int totalFromCollisions = 0;
     int totalToCollisions = 0;
 
-    public static void LoadFolder(string folderName)
+    public static void LoadFolder(string folderName, SearchOption searchOption = SearchOption.AllDirectories)
     {
-        Instance.loadFolder(folderName);
+        Instance.loadFolder(folderName, searchOption);
     }
 
-    void loadFolder(string folderName)
+    void loadFolder(string folderName, SearchOption searchOption = SearchOption.AllDirectories)
     {
         string folderPath = Path.Combine(Application.streamingAssetsPath, "SaveData/" + folderName + "/");
         var info = new DirectoryInfo(folderPath);
@@ -32,7 +32,7 @@ public class CardManager
             Debug.LogError($"Folder {folderPath} doesn't exist!");
             return;
         }
-        var fileInfo = info.GetFiles("*.json", SearchOption.AllDirectories);
+        var fileInfo = info.GetFiles("*.json", searchOption);
         foreach (FileInfo file in fileInfo)
         {
 
