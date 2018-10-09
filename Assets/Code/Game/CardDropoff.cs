@@ -25,11 +25,11 @@ public class CardDropoff : MonoBehaviour
     bool tookCard = false;
     public bool TookCard { get { return tookCard; } }
 
-    BoxCollider2D boxCollider2D;
+    //BoxCollider2D boxCollider2D;
 
     private void Awake()
     {
-        boxCollider2D = GetComponent<BoxCollider2D>();
+        //boxCollider2D = GetComponent<BoxCollider2D>();
     }
 
     // Use this for initialization
