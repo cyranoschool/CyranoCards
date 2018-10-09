@@ -4,7 +4,7 @@ using System.IO;
 
 public class CardEditorWindow : EditorWindow
 {
-    string filename = "Tests/TestCard";
+    string filename = "Testing/test.json";
     SerializationManager.SavePathType pathType = SerializationManager.SavePathType.Streaming;
 
     CardData cardData = new CardData();
