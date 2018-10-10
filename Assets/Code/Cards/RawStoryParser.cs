@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RawStoryParser : MonoBehaviour
+public class RawStoryParser
 {
 
     public TextAsset storyText;

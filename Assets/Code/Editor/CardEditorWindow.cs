@@ -30,20 +30,12 @@ public class CardEditorWindow : EditorWindow
             EditorGUILayout.HelpBox("File does not exist at path!", MessageType.Error, true);
         }
         EditorGUI.BeginDisabledGroup(!fileExists);
-        if (GUILayout.Button("Load Card"))
+        if (GUILayout.Button("Load Card", new GUILayoutOption[] { GUILayout.Width(300), GUILayout.Height(32) }))
         {
             cardData = SerializationManager.LoadJsonObject<CardData>(filePath);
         }
         EditorGUI.EndDisabledGroup();
-        if (fileExists)
-        {
-            EditorGUILayout.HelpBox("File already exists at path.\nAre you sure you want to overrite?", MessageType.Warning, true);
-        }
-        if (GUILayout.Button("Save Card"))
-        {
-            SerializationManager.SaveJsonObject(filePath, cardData, true);
-        }
-
+       
         //Card Data editing here
         GUILayout.FlexibleSpace();
 
@@ -52,6 +44,22 @@ public class CardEditorWindow : EditorWindow
         cardData.To = EditorGUILayout.TextField("To", cardData.To);
 
         GUILayout.FlexibleSpace();
+
+        if (fileExists)
+        {
+            EditorGUILayout.HelpBox("File already exists at path.\nAre you sure you want to overrite?", MessageType.Warning, true);
+        }
+        if (GUILayout.Button("Save Card", new GUILayoutOption[] { GUILayout.Width(300), GUILayout.Height(32) }))
+        {
+            if (fileExists)
+            {
+                if (!EditorUtility.DisplayDialog("Overrite card?", "Card will be replaced:\n" + filePath + "\nThis cannot be undone.", "Yes", "Cancel"))
+                {
+                    return;
+                }
+            }
+            SerializationManager.SaveJsonObject(filePath, cardData, true);
+        }
     }
 
 }
