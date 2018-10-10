@@ -8,4 +8,5 @@ public class LineData : CardData{
 
     //Currently references child cards explicitly by CardData 
     public List<string> CardsUID = new List<string>();
+
 }

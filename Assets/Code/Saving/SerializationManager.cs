@@ -314,4 +314,16 @@ public static class SerializationManager
         Debug.LogFormat("Loading file: {0}", path);
         return JsonUtility.FromJson<T>(dataAsJson);
     }
+
+    public static string LoadJsonText(string path)
+    {
+        if (!File.Exists(path))
+        {
+            Debug.LogFormat("Could not load file: {0}\nFile does not exist!", path);
+            return null;
+        }
+
+        Debug.LogFormat("Loading file: {0}", path);
+        return File.ReadAllText(path);
+    }
 }

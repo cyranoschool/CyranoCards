@@ -20,7 +20,16 @@ public class CardData
     //public bool Favorited = false;
     //public string creator = Get current creator here;
     //public int creatorID = only this field is required instead of creator field;
-    public long dateTime = DateTime.UtcNow.Ticks;
+    public long DateTicks = DateTime.UtcNow.Ticks;
+
+    //Values constant
+    //public string CardType = "CardData"; //This is used to denote what the inherited type is for json
+    public string CardType;
+
+    public CardData()
+    {
+        CardType = this.GetType().FullName;
+    }
 
     public virtual void Duplicate(CardData cardData)
     {

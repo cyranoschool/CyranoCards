@@ -43,9 +43,12 @@ public class CardManager
 
     void LoadCard(string path)
     {
-        CardData card = SerializationManager.LoadJsonObject<CardData>(path);
-        PlaceInDictionaries(card);
         
+        string cardText = SerializationManager.LoadJsonText(path);
+        CardData card = JsonUtility.FromJson<CardData>(cardText);
+        //Card needs to be loaded from json as the derived type before casting so data isn't lost
+        CardData fullCard = (CardData)JsonUtility.FromJson(cardText, Type.GetType(card.CardType));
+        PlaceInDictionaries(fullCard);
     }
 
     public static void PlaceInDictionaries(CardData card)
