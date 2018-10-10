@@ -19,36 +19,40 @@ public class CardManager
     int totalFromCollisions = 0;
     int totalToCollisions = 0;
 
-    public static void LoadFolder(string folderName, SearchOption searchOption = SearchOption.AllDirectories)
+    public static List<CardData> LoadFolder(string folderName, bool placeInDictionary = true, SearchOption searchOption = SearchOption.AllDirectories)
     {
-        Instance.loadFolder(folderName, searchOption);
+        return Instance.loadFolder(folderName, placeInDictionary, searchOption);
     }
 
-    void loadFolder(string folderName, SearchOption searchOption = SearchOption.AllDirectories)
+    List<CardData> loadFolder(string folderName, bool placeInDictionary = true, SearchOption searchOption = SearchOption.AllDirectories)
     {
         string folderPath = Path.Combine(Application.streamingAssetsPath, "SaveData/" + folderName + "/");
         var info = new DirectoryInfo(folderPath);
         if (!info.Exists)
         {
             Debug.LogError($"Folder {folderPath} doesn't exist!");
-            return;
+            return new List<CardData>();
         }
         var fileInfo = info.GetFiles("*.json", searchOption);
+        List<CardData> cardsLoaded = new List<CardData>();
         foreach (FileInfo file in fileInfo)
         {
-
-            LoadCard(file.FullName);
+            cardsLoaded.Add(LoadCard(file.FullName, placeInDictionary));
         }
+        return cardsLoaded;
     }
 
-    void LoadCard(string path)
+    CardData LoadCard(string path, bool placeInDictionary = true)
     {
-        
         string cardText = SerializationManager.LoadJsonText(path);
         CardData card = JsonUtility.FromJson<CardData>(cardText);
         //Card needs to be loaded from json as the derived type before casting so data isn't lost
         CardData fullCard = (CardData)JsonUtility.FromJson(cardText, Type.GetType(card.CardType));
-        PlaceInDictionaries(fullCard);
+        if (placeInDictionary)
+        {
+            PlaceInDictionaries(fullCard);
+        }
+        return fullCard;
     }
 
     public static void PlaceInDictionaries(CardData card)
@@ -142,6 +146,11 @@ public class CardManager
         CardData card = null;
         Instance.cardsUID.TryGetValue(UID, out card);
         return card;
+    }
+
+    public static IEnumerable<CardData> GetAllCards()
+    {
+        return Instance.cardsUID.Values;
     }
 
     public static List<CardData> GetCardsFrom(string text)

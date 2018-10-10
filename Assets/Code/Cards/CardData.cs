@@ -10,9 +10,9 @@ public class CardData
 
     public string From = "";
     public string To = "";
-    public string BrokenUpFrom = "";
+    public string PhoneticFrom = "";
     public string BrokenUpTo = "";
-    //public string Icon = "";
+    public string Icon = "";
 
     //Values not duplicated
 
@@ -37,7 +37,7 @@ public class CardData
         //e.g. favorited, creator, creation date, UID
         From = cardData.From;
         To = cardData.To;
-        BrokenUpFrom = cardData.BrokenUpFrom;
+        PhoneticFrom = cardData.PhoneticFrom;
         BrokenUpTo = cardData.BrokenUpTo;
         //Icon = cardData.Icon;
     }

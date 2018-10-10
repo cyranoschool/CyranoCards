@@ -184,6 +184,7 @@ GameObject:
   m_Component:
   - component: {fileID: 528455815}
   - component: {fileID: 528455816}
+  - component: {fileID: 528455817}
   m_Layer: 5
   m_Name: TreeGrid
   m_TagString: Untagged
@@ -233,6 +234,23 @@ MonoBehaviour:
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 0
   m_ChildControlHeight: 1
+--- !u!114 &528455817
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 528455814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b858d5d10540d3d46b4ccbed06a03b76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CardPrefab: {fileID: 1619080413812218, guid: faebbc434e30bca40af120baa11c52c2, type: 2}
+  LayoutGroupPrefab: {fileID: 1437385680920412, guid: 7cddb08c0655f304698f0d62727fe173,
+    type: 2}
+  CardHeight: 560
+  VerticalSpacing: 0
+  SpacingSpeed: 1
 --- !u!1 &664012856
 GameObject:
   m_ObjectHideFlags: 0
@@ -1537,7 +1555,7 @@ Prefab:
     - target: {fileID: 114595275714400308, guid: faebbc434e30bca40af120baa11c52c2,
         type: 2}
       propertyPath: m_Delegates.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114595275714400308, guid: faebbc434e30bca40af120baa11c52c2,
         type: 2}
@@ -1763,6 +1781,16 @@ Prefab:
       propertyPath: m_Delegates.Array.data[1].callback.m_TypeName
       value: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI, Version=1.0.0.0,
         Culture=neutral, PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 114595275714400308, guid: faebbc434e30bca40af120baa11c52c2,
+        type: 2}
+      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114595275714400308, guid: faebbc434e30bca40af120baa11c52c2,
+        type: 2}
+      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: faebbc434e30bca40af120baa11c52c2, type: 2}

@@ -65,7 +65,7 @@ public class RawStoryParser
                     //Trim all whitespace
                     current.From = current.From.TrimEnd();
                     current.To = current.To.TrimEnd();
-                    current.BrokenUpFrom = current.BrokenUpFrom.TrimEnd();
+                    current.PhoneticFrom = current.PhoneticFrom.TrimEnd();
                     current.BrokenUpTo = current.BrokenUpTo.TrimEnd();
 
                     parseType = ParseType.From;
@@ -95,7 +95,7 @@ public class RawStoryParser
                             current.From += word + " ";
                             break;
                         case ParseType.BrokenUpFrom:
-                            current.BrokenUpFrom += word + " ";
+                            current.PhoneticFrom += word + " ";
                             break;
                         case ParseType.BrokenUpTo:
                             current.BrokenUpTo += word + " ";

@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class StoryCard : MonoBehaviour {
 
@@ -11,15 +13,19 @@ public class StoryCard : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
+        EventTrigger trigger = GetComponent<EventTrigger>();
+        EventTrigger.Entry entry = new EventTrigger.Entry();
+        entry.eventID = EventTriggerType.PointerClick;
+        entry.callback.AddListener(ShowCards);
+        trigger.triggers.Add(entry);
+    }
+
+    // Update is called once per frame
+    void Update () {
 		
 	}
 
-    public void ShowCards()
+    public void ShowCards(BaseEventData arg0)
     {
         for(int i = 0; i < LineLayout.childCount; i++)
         {
