@@ -13,6 +13,7 @@ public class CardManager
 
     Dictionary<string, List<CardData>> cardsFromAll = new Dictionary<string, List<CardData>>();
     Dictionary<string, List<CardData>> cardsToAll = new Dictionary<string, List<CardData>>();
+    Dictionary<string, CardData> cardsGUID = new Dictionary<string, CardData>();
 
     int totalCards = 0;
     int totalFromCollisions = 0;
@@ -46,6 +47,7 @@ public class CardManager
         //Create both from and too collections
         SetupCard(card, fileName, Direction.From);
         SetupCard(card, fileName, Direction.To);
+        cardsGUID.Add(card.UID, card);
     }
 
 
@@ -103,12 +105,14 @@ public class CardManager
         {
             potentialCards.Remove(cardData);
         }
+        cardsGUID.Remove(cardData.UID);
     }
 
     public static void UnloadAll()
     {
         Instance.cardsFromAll.Clear();
         Instance.cardsToAll.Clear();
+        Instance.cardsGUID.Clear();
     }
 
     public static List<CardData> GetCards(string text, Direction direction)

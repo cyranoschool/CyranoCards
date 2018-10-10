@@ -37,7 +37,7 @@ public class RawStoryParser : MonoBehaviour
 
         foreach (string word in s.Trim().Split())
         {
-            if (string.IsNullOrEmpty(word) || string.IsNullOrWhiteSpace(word))
+            if (string.IsNullOrWhiteSpace(word))
             {
                 continue;
             }
