@@ -284,6 +284,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   storyText: {fileID: 4900000, guid: d0018d88d5dd27d49893117e0b207373, type: 3}
+  SavePath: 2
+  folderPath: /Testing/ChineseStory
 --- !u!4 &1751520530
 Transform:
   m_ObjectHideFlags: 0

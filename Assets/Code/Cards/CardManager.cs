@@ -13,7 +13,7 @@ public class CardManager
 
     Dictionary<string, List<CardData>> cardsFromAll = new Dictionary<string, List<CardData>>();
     Dictionary<string, List<CardData>> cardsToAll = new Dictionary<string, List<CardData>>();
-    Dictionary<string, CardData> cardsGUID = new Dictionary<string, CardData>();
+    Dictionary<string, CardData> cardsUID = new Dictionary<string, CardData>();
 
     int totalCards = 0;
     int totalFromCollisions = 0;
@@ -37,21 +37,27 @@ public class CardManager
         foreach (FileInfo file in fileInfo)
         {
 
-            LoadCard(file.FullName, file.Name);
+            LoadCard(file.FullName);
         }
     }
 
-    void LoadCard(string path, string fileName)
+    void LoadCard(string path)
     {
         CardData card = SerializationManager.LoadJsonObject<CardData>(path);
+        PlaceInDictionaries(card);
+        
+    }
+
+    public static void PlaceInDictionaries(CardData card)
+    {
         //Create both from and too collections
-        SetupCard(card, fileName, Direction.From);
-        SetupCard(card, fileName, Direction.To);
-        cardsGUID.Add(card.UID, card);
+        Instance.SetupCard(card, Direction.From);
+        Instance.SetupCard(card, Direction.To);
+        Instance.cardsUID.Add(card.UID, card);
     }
 
 
-    void SetupCard(CardData card, string fileName, Direction direction)
+    void SetupCard(CardData card, Direction direction)
     {
         Dictionary<string, List<CardData>> allCards;
         //Currently key is the text and not the name of the file
@@ -105,14 +111,14 @@ public class CardManager
         {
             potentialCards.Remove(cardData);
         }
-        cardsGUID.Remove(cardData.UID);
+        cardsUID.Remove(cardData.UID);
     }
 
     public static void UnloadAll()
     {
         Instance.cardsFromAll.Clear();
         Instance.cardsToAll.Clear();
-        Instance.cardsGUID.Clear();
+        Instance.cardsUID.Clear();
     }
 
     public static List<CardData> GetCards(string text, Direction direction)
@@ -128,6 +134,13 @@ public class CardManager
         //This is for compiler warnings
         return new List<CardData>(0);
     }
+    public static CardData GetCardUID(string UID)
+    {
+        CardData card = null;
+        Instance.cardsUID.TryGetValue(UID, out card);
+        return card;
+    }
+
     public static List<CardData> GetCardsFrom(string text)
     {
         List<CardData> value;
@@ -139,9 +152,14 @@ public class CardManager
         return Instance.cardsToAll.TryGetValue(text.ToLower(), out value) ? value : new List<CardData>(0);
     }
 
-    public static bool SaveCard(CardData cardData, string path)
+    public static bool SaveCard(CardData cardData, string path, bool prettyPrint = true, bool useDefaultName = true)
     {
-        return SerializationManager.SaveJsonObject(path, cardData);
+        string name = "";
+        if(useDefaultName)
+        {
+            name = "/" + cardData.UID + ".json";
+        }
+        return SerializationManager.SaveJsonObject(path + name, cardData, prettyPrint);
     }
 
     /// <summary>
@@ -150,18 +168,14 @@ public class CardManager
     /// <param name="cardData">Card Data to duplicate</param>
     /// <param name="placeInDictionary">Put this card into the current dictionary after creation</param>
     /// <returns></returns>
-    public static CardData DuplicateCard(CardData cardData, bool placeInDictionary = true)
+    public static CardData GetDuplicateCard(CardData cardData, bool placeInDictionary = true)
     {
-        //Save into temporary folder and reload it
-        string path = SerializationManager.CreatePath("ClonedCard.json", SerializationManager.SavePathType.TempCache);
-        SerializationManager.SaveJsonObject(path, cardData);
-        CardData clone = SerializationManager.LoadJsonObject<CardData>(path);
+        CardData clone = new CardData();
+        clone.Duplicate(cardData);
 
         if(placeInDictionary)
         {
-            Instance.SetupCard(clone,"", Direction.From);
-            Instance.SetupCard(clone, "", Direction.To);
-
+            PlaceInDictionaries(clone);
         }
         return clone;
     }

@@ -8,5 +8,5 @@ public class SectionData : CardData
 {
 
     //Currently references child lines explicitly by LineData 
-    public List<LineData> Lines = new List<LineData>();
+    public List<string> LinesUID = new List<string>();
 }

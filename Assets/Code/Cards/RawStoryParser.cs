@@ -6,6 +6,8 @@ public class RawStoryParser : MonoBehaviour
 {
 
     public TextAsset storyText;
+    public SerializationManager.SavePathType SavePath = SerializationManager.SavePathType.Streaming;
+    public string folderPath = "/Testing";
 
     enum EditType { None, Story, Section, Line }
     enum ParseType { From, BrokenUpFrom, BrokenUpTo, To }
@@ -34,7 +36,7 @@ public class RawStoryParser : MonoBehaviour
         CardData card = null;
 
         CardData current = null; //Can be story, section, line, or card. All inherit from carddata
-
+        List<CardData> generatedCards = new List<CardData>();
         foreach (string word in s.Trim().Split())
         {
             if (string.IsNullOrWhiteSpace(word))
@@ -51,7 +53,7 @@ public class RawStoryParser : MonoBehaviour
                 case "#section":
                     editType = EditType.Section;
                     section = new SectionData();
-                    story.Sections.Add(section);
+                    story.SectionsUID.Add(section.UID);
                     current = section;
                     break;
                 case "*":
@@ -67,6 +69,7 @@ public class RawStoryParser : MonoBehaviour
                     current.BrokenUpTo = current.BrokenUpTo.TrimEnd();
 
                     parseType = ParseType.From;
+                    generatedCards.Add(current);
                     current = null;
                     break;
                 case "$":
@@ -84,7 +87,7 @@ public class RawStoryParser : MonoBehaviour
                     {
                         line = new LineData();
                         current = line;
-                        section.Lines.Add(line);
+                        section.LinesUID.Add(line.UID);
                     }
                     switch (parseType)
                     {
@@ -106,8 +109,11 @@ public class RawStoryParser : MonoBehaviour
 
         }
 
-        string path = SerializationManager.CreatePath("test.json", SerializationManager.SavePathType.TempCache);
-        SerializationManager.SaveJsonObject(path, story, true);
+        string path = SerializationManager.CreatePath(folderPath, SavePath);
+        foreach(CardData c in generatedCards)
+        {
+            CardManager.SaveCard(c, path);
+        }
     }
 
 }
