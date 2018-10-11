@@ -14,10 +14,17 @@ public class CardManager
     Dictionary<string, List<CardData>> cardsFromAll = new Dictionary<string, List<CardData>>();
     Dictionary<string, List<CardData>> cardsToAll = new Dictionary<string, List<CardData>>();
     Dictionary<string, CardData> cardsUID = new Dictionary<string, CardData>();
+    //This has to be a Dictionary as you can't get values back out of hashset (which is important due to the custom equality check)
+    Dictionary<CardData, CardData> matchingDefinitions;
 
     int totalCards = 0;
     int totalFromCollisions = 0;
     int totalToCollisions = 0;
+
+    public CardManager()
+    {
+        matchingDefinitions = new Dictionary<CardData, CardData>(new CardData.DefinitionComparer());
+    }
 
     public static List<CardData> LoadFolder(string folderName, bool placeInDictionary = true, SearchOption searchOption = SearchOption.AllDirectories)
     {
@@ -61,6 +68,11 @@ public class CardManager
         Instance.SetupCard(card, Direction.From);
         Instance.SetupCard(card, Direction.To);
         Instance.cardsUID.Add(card.UID, card);
+        if(!Instance.matchingDefinitions.ContainsKey(card))
+        {
+            Instance.matchingDefinitions.Add(card, card);
+        }
+        
     }
 
 
@@ -126,6 +138,7 @@ public class CardManager
         Instance.cardsFromAll.Clear();
         Instance.cardsToAll.Clear();
         Instance.cardsUID.Clear();
+        Instance.matchingDefinitions.Clear();
     }
 
     public static List<CardData> GetCards(string text, Direction direction)
@@ -190,6 +203,16 @@ public class CardManager
             PlaceInDictionaries(clone);
         }
         return clone;
+    }
+
+    public static bool ContainsMatchingDefinition(CardData card)
+    {
+        return Instance.matchingDefinitions.ContainsKey(card);
+    }
+
+    public static CardData MatchingDefinition(CardData card)
+    {
+        return Instance.matchingDefinitions[card];
     }
 
 }

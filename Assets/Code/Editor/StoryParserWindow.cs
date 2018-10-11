@@ -4,6 +4,7 @@ using System.IO;
 
 public class StoryParserWindow : EditorWindow
 {
+    string userFolder = "Testing";
     string folderPath = "Testing/TestStory";
     string rawText = "Put raw story here";
     Vector2 scroll;
@@ -20,6 +21,7 @@ public class StoryParserWindow : EditorWindow
         GUILayout.Label("Story Parser", EditorStyles.boldLabel);
 
         pathType = (SerializationManager.SavePathType)EditorGUILayout.EnumPopup("Save path:", pathType);
+        userFolder = EditorGUILayout.TextField("User Path", userFolder);
         folderPath = EditorGUILayout.TextField("Folder Path", folderPath);
 
         string path = SerializationManager.CreatePath(folderPath, pathType);
@@ -47,10 +49,15 @@ public class StoryParserWindow : EditorWindow
             {
                 return;
             }
+            //Load user cards first
+            CardManager.LoadFolder(userFolder);
+
             RawStoryParser parser = new RawStoryParser();
             parser.folderPath = folderPath;
             parser.SavePath = pathType;
             parser.ParseData(rawText);
+
+            CardManager.UnloadAll();
         }
     }
 

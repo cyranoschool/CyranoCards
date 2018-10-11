@@ -41,4 +41,39 @@ public class CardData
         BrokenUpTo = cardData.BrokenUpTo;
         //Icon = cardData.Icon;
     }
+
+    /// <summary>
+    /// Finalize card creation (Take all language strings in CardData and trim and force lowercase)
+    /// </summary>
+    public virtual void Finalize()
+    {
+        From = From.ToLower();
+        To = To.ToLower();
+        PhoneticFrom = PhoneticFrom.ToLower();
+        BrokenUpTo = BrokenUpTo.ToLower();
+    }
+
+    /// <summary>
+    /// If children of card already exist in Dictionary, replace them with already occuring card
+    /// </summary>
+    public virtual void CheckDefinitionRepair()
+    {
+
+    }
+
+    /// <summary>
+    /// Cards with the same From and Broken up value are considerd equal for the use of checking if card has already been made 
+    /// </summary>
+    public class DefinitionComparer : EqualityComparer<CardData>
+    {
+        public override bool Equals(CardData c1, CardData c2)
+        {
+            return c1.From.Equals(c2.From) && c1.BrokenUpTo.Equals(c2.BrokenUpTo);
+        }
+        public override int GetHashCode(CardData c)
+        {
+            return c.From.GetHashCode() ^ c.To.GetHashCode();
+        }
+    }
+
 }

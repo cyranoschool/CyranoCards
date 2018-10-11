@@ -251,6 +251,7 @@ MonoBehaviour:
   CardHeight: 560
   VerticalSpacing: 0
   SpacingSpeed: 1
+  StoryFolder: /Testing
 --- !u!1 &664012856
 GameObject:
   m_ObjectHideFlags: 0
@@ -580,7 +581,7 @@ Prefab:
     - target: {fileID: 114595275714400308, guid: faebbc434e30bca40af120baa11c52c2,
         type: 2}
       propertyPath: m_Delegates.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114595275714400308, guid: faebbc434e30bca40af120baa11c52c2,
         type: 2}

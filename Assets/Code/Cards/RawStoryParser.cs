@@ -109,10 +109,18 @@ public class RawStoryParser
 
         }
 
+        //Finalize cards and repair their references to refer to cards that already exist
+        generatedCards.ForEach(x => x.Finalize());
+        generatedCards.ForEach(x => x.CheckDefinitionRepair());
+
         string path = SerializationManager.CreatePath(folderPath, SavePath);
+        
         foreach(CardData c in generatedCards)
         {
-            CardManager.SaveCard(c, path);
+            if (!CardManager.ContainsMatchingDefinition(c))
+            {
+                CardManager.SaveCard(c, path);
+            }
         }
     }
 
