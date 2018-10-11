@@ -17,16 +17,31 @@ public class StoryData : CardData{
 
     /// <summary>
     /// If dictionary already contains words matching this definition then refer to those instead
+    /// Should be static
     /// </summary>
-    /*
-    public override void CheckDefinitionRepair()
+    public override void CheckDefinitionRepair(Dictionary<string, CardData> tempCards)
     {
         List<string> newUID = new List<string>();
-        
-        for(int i = 0; i < SectionsUID.Count; i++)
+
+        for (int i = 0; i < SectionsUID.Count; i++)
         {
-            if(CardManager.ContainsMatchingDefinition())
+            string refID = SectionsUID[i];
+            CardData refCard = tempCards[refID];
+            if (CardManager.ContainsMatchingDefinition(refCard))
+            {
+                newUID.Add(CardManager.GetMatchingDefinition(refCard).UID);
+            }
+            else
+            {
+                newUID.Add(refID);
+            }
         }
+        SectionsUID = newUID;
     }
-    //*/
+
+    public override void AddCardReferences(List<CardData> cards)
+    {
+        base.AddCardReferences(cards);
+        cards.ForEach(x => SectionsUID.Add(x.UID));
+    }
 }

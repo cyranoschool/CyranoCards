@@ -10,10 +10,38 @@ public class LineData : CardData{
     public List<string> CardsUID = new List<string>();
 
     //Note: this does not guarantee that the cards are loaded
-    public List<CardData> GetCards()
+    public List<CardData> GetWordCards()
     {
-        throw new NotImplementedException();
-        //The way lines get cards is slightly different, because base cards don't matter as much as the preferred line
-        //return CardsUID.ConvertAll<CardData>(s => (CardData)CardManager.GetCardUID(s));
+        return CardsUID.ConvertAll<CardData>(s => (CardData)CardManager.GetCardUID(s));
     }
+
+    /// <summary>
+    /// If dictionary already contains words matching this definition then refer to those instead
+    /// </summary>
+    public override void CheckDefinitionRepair(Dictionary<string, CardData> tempCards)
+    {
+        List<string> newUID = new List<string>();
+
+        for (int i = 0; i < CardsUID.Count; i++)
+        {
+            string refID = CardsUID[i];
+            CardData refCard = tempCards[refID];
+            if (CardManager.ContainsMatchingDefinition(refCard))
+            {
+                newUID.Add(CardManager.GetMatchingDefinition(refCard).UID);
+            }
+            else
+            {
+                newUID.Add(refID);
+            }
+        }
+        CardsUID = newUID;
+    }
+
+    public override void AddCardReferences(List<CardData> cards)
+    {
+        base.AddCardReferences(cards);
+        cards.ForEach(x => CardsUID.Add(x.UID));
+    }
+
 }

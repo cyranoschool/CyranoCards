@@ -45,7 +45,7 @@ public class CardData
     /// <summary>
     /// Finalize card creation (Take all language strings in CardData and trim and force lowercase)
     /// </summary>
-    public virtual void Finalize()
+    public virtual void DataFinalize()
     {
         From = From.ToLower();
         To = To.ToLower();
@@ -56,7 +56,7 @@ public class CardData
     /// <summary>
     /// If children of card already exist in Dictionary, replace them with already occuring card
     /// </summary>
-    public virtual void CheckDefinitionRepair()
+    public virtual void CheckDefinitionRepair(Dictionary<string, CardData> tempCards)
     {
 
     }
@@ -76,4 +76,43 @@ public class CardData
         }
     }
 
+    public virtual void AddCardReferences(List<CardData> cards)
+    {
+
+    }
+
+    /// <summary>
+    /// Breaks up card into its base words and makes cards for those words
+    /// Intended for use in LineData,SectionData and StoryData
+    /// </summary>
+    /// <returns></returns>
+    public List<CardData> GenerateWordCards()
+    {
+        List<CardData> wordCards = new List<CardData>();
+        string[] wordsFrom = From.Split();
+        //string[] wordsTo = To.Split();
+        string[] wordsPhon = PhoneticFrom.Split();
+        string[] wordsBrokenUp = BrokenUpTo.Split();
+
+        int length = wordsFrom.Length;
+        if(wordsPhon.Length != length || wordsBrokenUp.Length != length)
+        {
+            Debug.LogError($"Line not matching:\n{To}\n" +
+                $"FromLength: {wordsFrom.Length}\n" +
+                $"PhonLength: {wordsPhon.Length}\n" +
+                $"BrokenUpLength: {wordsBrokenUp.Length}");
+            return wordCards;
+        }
+
+        for (int i = 0; i < wordsFrom.Length; i++)
+        {
+            CardData card = new CardData();
+            card.From = wordsFrom[i];
+            card.To = wordsBrokenUp[i];
+            card.PhoneticFrom = wordsPhon[i];
+            card.BrokenUpTo = wordsBrokenUp[i];
+            wordCards.Add(card);
+        }
+        return wordCards;
+    }
 }

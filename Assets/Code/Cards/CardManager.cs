@@ -210,7 +210,7 @@ public class CardManager
         return Instance.matchingDefinitions.ContainsKey(card);
     }
 
-    public static CardData MatchingDefinition(CardData card)
+    public static CardData GetMatchingDefinition(CardData card)
     {
         return Instance.matchingDefinitions[card];
     }

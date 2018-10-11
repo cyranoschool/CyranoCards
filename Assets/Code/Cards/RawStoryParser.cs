@@ -30,13 +30,15 @@ public class RawStoryParser
         EditType editType = EditType.None;
         ParseType parseType = ParseType.From;
 
+
         StoryData story = null;
         SectionData section = null;
         LineData line = null;
-        CardData card = null;
 
         CardData current = null; //Can be story, section, line, or card. All inherit from carddata
-        List<CardData> generatedCards = new List<CardData>();
+        Dictionary<string, CardData> generatedCards = new Dictionary<string, CardData>();
+        List<CardData> generatedWordCards = new List<CardData>();
+
         foreach (string word in s.Trim().Split())
         {
             if (string.IsNullOrWhiteSpace(word))
@@ -57,19 +59,25 @@ public class RawStoryParser
                     current = section;
                     break;
                 case "*":
-                    //Finish parsing line
-                    if (editType == EditType.Section)
-                    {
-                        editType = EditType.Line;
-                    }
                     //Trim all whitespace
                     current.From = current.From.TrimEnd();
                     current.To = current.To.TrimEnd();
                     current.PhoneticFrom = current.PhoneticFrom.TrimEnd();
                     current.BrokenUpTo = current.BrokenUpTo.TrimEnd();
 
+                    //Finish parsing line
+                    if (editType == EditType.Section)
+                    {
+                        editType = EditType.Line;
+                    }
+                    //Create individual word cards for all stories/sections/lines
+                    current.DataFinalize();
+                    List<CardData> lineCards = current.GenerateWordCards();
+                    lineCards.ForEach(x => {generatedWordCards.Add(x); generatedCards.Add(x.UID, x); });
+                    current.AddCardReferences(lineCards);
+
                     parseType = ParseType.From;
-                    generatedCards.Add(current);
+                    generatedCards.Add(current.UID, current);
                     current = null;
                     break;
                 case "$":
@@ -108,20 +116,35 @@ public class RawStoryParser
             }
 
         }
-
-        //Finalize cards and repair their references to refer to cards that already exist
-        generatedCards.ForEach(x => x.Finalize());
-        generatedCards.ForEach(x => x.CheckDefinitionRepair());
-
         string path = SerializationManager.CreatePath(folderPath, SavePath);
-        
-        foreach(CardData c in generatedCards)
+        //Finalize cards and repair their references to refer to cards that already exist
+
+        //Save word cards before checking for references because CheckDefinitionRepair checks CardManager dictionary
+        generatedWordCards.ForEach(x => x.DataFinalize());
+        foreach (CardData c in generatedWordCards)
         {
+            if (!CardManager.ContainsMatchingDefinition(c))
+            {
+                CardManager.SaveCard(c, path);
+                CardManager.PlaceInDictionaries(c);
+            }
+        }
+        //References fixed, add new cards to dictionary/save as well
+        foreach (CardData c in generatedCards.Values)
+        {
+            //Don't resave this card, it is only in the dictionary to be used with CheckDefinitionRepair
+            if(c.CardType == "CardData")
+            {
+                continue;
+            }
+
+            c.CheckDefinitionRepair(generatedCards);
             if (!CardManager.ContainsMatchingDefinition(c))
             {
                 CardManager.SaveCard(c, path);
             }
         }
+
     }
 
 }

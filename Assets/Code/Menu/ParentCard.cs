@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class StoryCard : MonoBehaviour {
+public class ParentCard : MonoBehaviour {
+
+    static ParentCard currentShowing;
 
     [Header("Init")]
-    public Transform LineLayout;
-
     public List<GameObject> LineCards;
 
 	// Use this for initialization
@@ -27,13 +27,16 @@ public class StoryCard : MonoBehaviour {
 
     public void ShowCards(BaseEventData arg0)
     {
-        for(int i = 0; i < LineLayout.childCount; i++)
+        if(currentShowing != null)
         {
-            LineLayout.GetChild(i).gameObject.SetActive(false);
+            currentShowing.HideCards();
         }
-        for(int i = 0; i < LineCards.Count; i++)
-        {
-            LineCards[i].gameObject.SetActive(true);
-        }
+        currentShowing = this;
+        LineCards.ForEach(x => x.SetActive(true));
+    }
+
+    public void HideCards()
+    {
+        LineCards.ForEach(x => x.SetActive(false));
     }
 }
