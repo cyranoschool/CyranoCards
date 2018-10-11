@@ -68,7 +68,7 @@ public class CardData
     {
         public override bool Equals(CardData c1, CardData c2)
         {
-            return c1.From.Equals(c2.From) && c1.BrokenUpTo.Equals(c2.BrokenUpTo);
+            return c1.From.Equals(c2.From) && c1.BrokenUpTo.Equals(c2.BrokenUpTo) && c1.CardType.Equals(c2.CardType);
         }
         public override int GetHashCode(CardData c)
         {

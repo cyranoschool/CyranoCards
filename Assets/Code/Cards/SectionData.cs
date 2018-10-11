@@ -17,29 +17,6 @@ public class SectionData : CardData
         return LinesUID.ConvertAll<LineData>(s => (LineData)CardManager.GetCardUID(s));
     }
 
-    /// <summary>
-    /// If dictionary already contains words matching this definition then refer to those instead
-    /// </summary>
-    public override void CheckDefinitionRepair(Dictionary<string, CardData> tempCards)
-    {
-        List<string> newUID = new List<string>();
-
-        for (int i = 0; i < LinesUID.Count; i++)
-        {
-            string refID = LinesUID[i];
-            CardData refCard = tempCards[refID];
-            if (CardManager.ContainsMatchingDefinition(refCard))
-            {
-                newUID.Add(CardManager.GetMatchingDefinition(refCard).UID);
-            }
-            else
-            {
-                newUID.Add(refID);
-            }
-        }
-        LinesUID = newUID;
-    }
-
     public override void AddCardReferences(List<CardData> cards)
     {
         base.AddCardReferences(cards);

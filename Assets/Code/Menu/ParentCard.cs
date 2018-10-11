@@ -9,7 +9,7 @@ public class ParentCard : MonoBehaviour {
     static ParentCard currentShowing;
 
     [Header("Init")]
-    public List<GameObject> LineCards;
+    public List<GameObject> LineCards = new List<GameObject>();
 
 	// Use this for initialization
 	void Start () {
@@ -32,11 +32,23 @@ public class ParentCard : MonoBehaviour {
             currentShowing.HideCards();
         }
         currentShowing = this;
-        LineCards.ForEach(x => x.SetActive(true));
+        foreach(GameObject card in LineCards)
+        {
+            CanvasGroup group = card.GetComponent<CanvasGroup>();
+            group.alpha = 1f;
+            group.interactable = true;
+            group.blocksRaycasts = true;
+        }
     }
 
     public void HideCards()
     {
-        LineCards.ForEach(x => x.SetActive(false));
+        foreach (GameObject card in LineCards)
+        {
+            CanvasGroup group = card.GetComponent<CanvasGroup>();
+            group.alpha = 0;
+            group.interactable = false;
+            group.blocksRaycasts = false;
+        }
     }
 }

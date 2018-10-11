@@ -65,16 +65,21 @@ public class RawStoryParser
                     current.PhoneticFrom = current.PhoneticFrom.TrimEnd();
                     current.BrokenUpTo = current.BrokenUpTo.TrimEnd();
 
+                    //Create individual word cards for all stories/sections/lines
+                    current.DataFinalize();
+                    List<CardData> lineCards = current.GenerateWordCards();
+                    lineCards.ForEach(x => { generatedWordCards.Add(x); generatedCards.Add(x.UID, x); });
+
                     //Finish parsing line
                     if (editType == EditType.Section)
                     {
                         editType = EditType.Line;
                     }
-                    //Create individual word cards for all stories/sections/lines
-                    current.DataFinalize();
-                    List<CardData> lineCards = current.GenerateWordCards();
-                    lineCards.ForEach(x => {generatedWordCards.Add(x); generatedCards.Add(x.UID, x); });
-                    current.AddCardReferences(lineCards);
+                    else if(editType == EditType.Line)
+                    {
+                        current.AddCardReferences(lineCards);
+                    }
+                    
 
                     parseType = ParseType.From;
                     generatedCards.Add(current.UID, current);

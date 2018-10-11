@@ -22,7 +22,7 @@ public class MenuTreeGenerator : MonoBehaviour {
 	void Start () {
         layout = GetComponent<VerticalLayoutGroup>();
 
-        //PopulateLayers();
+        PopulateLayers();
     }
 	
 	// Update is called once per frame
@@ -36,6 +36,7 @@ public class MenuTreeGenerator : MonoBehaviour {
 
     void PopulateLayers()
     {
+        CardManager.UnloadAll();
         List<CardData> loadedCards = CardManager.LoadFolder(StoryFolder, true, SearchOption.AllDirectories);
         List<StoryData> storyCards = new List<StoryData>();
         List<SectionData> sectionCards = new List<SectionData>();
@@ -60,21 +61,58 @@ public class MenuTreeGenerator : MonoBehaviour {
         }
 
         Transform storyGroup = GameObject.Instantiate(LayoutGroupPrefab, transform).transform;
+        storyGroup.name = "StoryGroup";
         Transform sectionGroup = GameObject.Instantiate(LayoutGroupPrefab, transform).transform;
+        sectionGroup.name = "SectionGroup";
         Transform LineGroup = GameObject.Instantiate(LayoutGroupPrefab, transform).transform;
+        LineGroup.name = "LineGroup";
 
-        foreach (StoryData story in storyCards)
+        Dictionary<string, GameObject> cardRefs = new Dictionary<string, GameObject>();
+        //Create card gameObjects and add them to dictionary
+        storyCards.ForEach(x => cardRefs.Add(x.UID, CreateCardInGroup(x, storyGroup)));
+        sectionCards.ForEach(x => cardRefs.Add(x.UID, CreateCardInGroup(x, sectionGroup)));
+        lineCards.ForEach(x => cardRefs.Add(x.UID, CreateCardInGroup(x, LineGroup)));
+
+        //Add child references to each card through ParentCard for all except for line
+        foreach(StoryData story in storyCards)
         {
-            //Create story card
-            CreateCardInGroup(story, storyGroup);
-            
+            string UID = story.UID;
+            GameObject go = cardRefs[UID];
+            ParentCard parenter = go.AddComponent<ParentCard>();
+            parenter.LineCards = story.SectionsUID.ConvertAll<GameObject>(s => cardRefs[s]);
+            parenter.HideCards();
         }
+        foreach (SectionData section in sectionCards)
+        {
+            string UID = section.UID;
+            GameObject go = cardRefs[UID];
+            ParentCard parenter = go.AddComponent<ParentCard>();
+            //parenter.LineCards = section.LinesUID.ConvertAll<GameObject>(s => cardRefs[s]);
+            for(int i = 0; i < section.LinesUID.Count; i++)
+            {
+                GameObject foundObject = null;
+                if(cardRefs.TryGetValue(section.LinesUID[i], out foundObject))
+                {
+                    parenter.LineCards.Add(foundObject);
+                }
+                else
+                {
+                    Debug.LogError($"{section.To}\n{section.BrokenUpTo.Split()[i]}\n{section.PhoneticFrom.Split()[i]}");
+                }
+                
+            }
+            parenter.HideCards();
+        }
+
+        //For LineData add trigger for game instead
 
 
     }
 
-    void CreateCardInGroup(CardData cardData, Transform group)
+    GameObject CreateCardInGroup(CardData cardData, Transform group)
     {
-        GameObject.Instantiate(CardPrefab, group);
+        GameObject go = GameObject.Instantiate(CardPrefab, group);
+        go.GetComponent<LargeCard>().SetCard(cardData);
+        return go;
     }
 }
