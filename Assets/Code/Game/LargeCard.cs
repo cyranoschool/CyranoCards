@@ -28,6 +28,7 @@ public class LargeCard : MonoBehaviour
 
 
     bool spinning = false;
+    bool visible = true;
 
     // Use this for initialization
     void Start()
@@ -54,6 +55,25 @@ public class LargeCard : MonoBehaviour
             UpdateCard();
         }
     }
+
+    public void SetVisible(bool setVisible)
+    {
+        CanvasGroup group = GetComponent<CanvasGroup>();
+        if (setVisible)
+        {
+            group.alpha = 1f;
+            group.interactable = true;
+            group.blocksRaycasts = true;
+        }
+        else
+        {
+            group.alpha = 0;
+            group.interactable = false;
+            group.blocksRaycasts = false;
+        }
+        visible = setVisible;
+    }
+
     public void SetDirection(CardManager.Direction dir, bool forceUpdate = true)
     {
         direction = dir;

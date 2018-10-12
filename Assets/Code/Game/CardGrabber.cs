@@ -42,7 +42,8 @@ public class CardGrabber : MonoBehaviour
         //Button input has to be cached because it is checked in the fixed update which may or may not happen
         buttonPressed = buttonPressed | Input.GetButtonDown("Jump");
 
-        largeCard.gameObject.SetActive(holding);
+        //largeCard.gameObject.SetActive(holding != null);
+        largeCard.SetVisible(holding != null);
     }
 
     private void FixedUpdate()
