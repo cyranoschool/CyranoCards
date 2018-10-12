@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -34,16 +35,16 @@ public class GameLineTrigger : MonoBehaviour, IBeginDragHandler {
             LanguageFolder = folder;
             
             //To Broken up
-            Direction = CardManager.Direction.To;
-            Line = card.BrokenUpTo;
+            //Direction = CardManager.Direction.To;
+            //Line = card.BrokenUpTo;
 
             //To with phrases
             //Direction = CardManager.Direction.To;
             //Line = card.To;
-
+            
             //From
-            //Direction = CardManager.Direction.From;
-            //Line = card.From;
+            Direction = CardManager.Direction.From;
+            Line = card.From;
         }
 
         protected override void DoAfterLoad()
