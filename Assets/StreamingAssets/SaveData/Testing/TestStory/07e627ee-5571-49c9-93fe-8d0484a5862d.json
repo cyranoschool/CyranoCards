@@ -1,0 +1,14 @@
+{
+    "From": "简单的 句子",
+    "To": "simple sentenses",
+    "PhoneticFrom": "jiǎndānde jùzi",
+    "BrokenUpTo": "simple sentense",
+    "Icon": "",
+    "UID": "07e627ee-5571-49c9-93fe-8d0484a5862d",
+    "DateTicks": 636748895937825120,
+    "CardType": "SectionData",
+    "LinesUID": [
+        "b46b183e-674a-40db-87bc-e2789c80c285",
+        "cdc44442-6119-42f1-96b3-0974d24d5618"
+    ]
+}

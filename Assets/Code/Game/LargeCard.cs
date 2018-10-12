@@ -5,6 +5,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System.Linq;
+using UnityEngine.EventSystems;
 
 public class LargeCard : MonoBehaviour
 {
@@ -31,7 +32,11 @@ public class LargeCard : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
+        EventTrigger trigger = GetComponent<EventTrigger>();
+        EventTrigger.Entry entry = new EventTrigger.Entry();
+        entry.eventID = EventTriggerType.PointerClick;
+        entry.callback.AddListener((data) => { TappedCard((PointerEventData)data); });
+        trigger.triggers.Add(entry);
     }
 
     // Update is called once per frame
@@ -69,7 +74,7 @@ public class LargeCard : MonoBehaviour
 
     public void UpdateCard()
     {
-        if(cardData == null)
+        if (cardData == null)
         {
             return;
         }
@@ -92,10 +97,15 @@ public class LargeCard : MonoBehaviour
 
     }
 
-    public void TappedCard()
+    public void TappedCard(PointerEventData data)
     {
+        //Ignore if this isn't a true click (was doing a drag and released)
+        if (data.dragging)
+        {
+            return;
+        }
         //Don't spin it twice, wait for spinning to finish
-        if(!CanSpin || spinning)
+        if (!CanSpin || spinning)
         {
             return;
         }

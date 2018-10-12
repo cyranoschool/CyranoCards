@@ -1,0 +1,14 @@
+{
+    "From": "说 中文",
+    "To": "speaking chinese",
+    "PhoneticFrom": "shuō zhōngwén",
+    "BrokenUpTo": "speak chinese",
+    "Icon": "",
+    "UID": "6c3c6b76-e47a-4553-a389-8a719bad7964",
+    "DateTicks": 636748895937825120,
+    "CardType": "SectionData",
+    "LinesUID": [
+        "227d546b-034c-48fd-af4d-1896b40ff4b8",
+        "7eb9a512-bf0e-4d7d-8e76-94217d144004"
+    ]
+}

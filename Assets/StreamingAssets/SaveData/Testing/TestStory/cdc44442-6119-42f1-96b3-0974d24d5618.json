@@ -1,0 +1,19 @@
+{
+    "From": "噢 还 有 我 吃 饱 了",
+    "To": "oh and i'm full",
+    "PhoneticFrom": "òu hái yǒu wǒ chī bǎo le",
+    "BrokenUpTo": "oh still have i eat full _past",
+    "Icon": "",
+    "UID": "cdc44442-6119-42f1-96b3-0974d24d5618",
+    "DateTicks": 636748895937825120,
+    "CardType": "LineData",
+    "CardsUID": [
+        "ee232f12-b1c1-4480-bb69-371bfe78e329",
+        "c6d8639d-db93-4313-a212-998b87f6633f",
+        "98395d08-dc57-4a3e-89e6-985c234d803a",
+        "1d4cb08d-d78a-4c5f-bc34-58389863961e",
+        "6c29e8ce-104d-4e3f-80f4-b82a43d49822",
+        "905d4383-214b-4c15-8c4a-085e065ede49",
+        "b59906c7-1e8e-43f8-bb04-8d7a555e2b72"
+    ]
+}

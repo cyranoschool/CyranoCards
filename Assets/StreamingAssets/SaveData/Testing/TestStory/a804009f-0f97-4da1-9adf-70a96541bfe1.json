@@ -1,0 +1,15 @@
+{
+    "From": "中文",
+    "To": "chinese",
+    "PhoneticFrom": "zhōngwén",
+    "BrokenUpTo": "chinese",
+    "Icon": "",
+    "UID": "a804009f-0f97-4da1-9adf-70a96541bfe1",
+    "DateTicks": 636748895937805086,
+    "CardType": "StoryData",
+    "SectionsUID": [
+        "6c3c6b76-e47a-4553-a389-8a719bad7964",
+        "07e627ee-5571-49c9-93fe-8d0484a5862d",
+        "f54ae68d-ead6-4de9-ae6c-d88ede525572"
+    ]
+}
