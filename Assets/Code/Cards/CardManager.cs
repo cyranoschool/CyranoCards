@@ -37,7 +37,7 @@ public class CardManager
         var info = new DirectoryInfo(folderPath);
         if (!info.Exists)
         {
-            Debug.LogError($"Folder {folderPath} doesn't exist!");
+            Debug.LogWarning($"Folder {folderPath} doesn't exist!");
             return new List<CardData>();
         }
         var fileInfo = info.GetFiles("*.json", searchOption);

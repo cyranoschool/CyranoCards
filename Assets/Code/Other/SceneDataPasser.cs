@@ -19,7 +19,7 @@ public class SceneDataPasser : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    protected virtual void DoAfterLoad() { Debug.Log("aljda"); }
+    protected virtual void DoAfterLoad() { }
 
     void OnLevelWasLoaded(int level)
     {   
