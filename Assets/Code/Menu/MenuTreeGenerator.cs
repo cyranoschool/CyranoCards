@@ -130,6 +130,8 @@ public class MenuTreeGenerator : MonoBehaviour {
             parenter.LayoutLayer = (int)ParentCard.Layer.Line;
             parenter.HideTransform = transform;
             parenter.HideCards();
+
+            go.AddComponent<GameLineTrigger>();
         }
 
     }

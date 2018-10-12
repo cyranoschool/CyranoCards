@@ -19,8 +19,9 @@ public class LineManager : MonoBehaviour
     [Header("Config")]
     public string LineString;
     public string LanguageFolder;
-    public CardManager.Direction direction = CardManager.Direction.To;
-    public bool reloadCards = false;
+    public CardManager.Direction Direction = CardManager.Direction.To;
+    public bool ReloadCards = true;
+    public bool UnloadCards = true;
 
     List<List<CardIndexer>> wordIndices;
 
@@ -28,14 +29,17 @@ public class LineManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
-        if (reloadCards)
+        if(UnloadCards)
+        {
+            CardManager.UnloadAll();
+        }
+        if (ReloadCards)
         {
             CardManager.LoadFolder(LanguageFolder);
         }
         //To: I ate three blind mice last night
         //From: yo comé trés ratoncitos ciegos anocho
-        wordIndices = BuildWords(direction);
+        wordIndices = BuildWords(Direction);
 
         ////a b c b a c b c
         //1 2 3 2 1 3 2 3
@@ -56,14 +60,14 @@ public class LineManager : MonoBehaviour
             CardPickup cardP = GameObject.Instantiate(CardPickup,PickupParent).GetComponent<CardPickup>();
             cardP.transform.position = PickupParent.position;
             //Pick card based on directionality
-            cardP.SetCard(cardIndexer, direction);
+            cardP.SetCard(cardIndexer, Direction);
 
             CardDropoff dropoff = GameObject.Instantiate(CardDropOff, DropoffParent).GetComponent<CardDropoff>();
             dropoff.transform.position = DropoffParent.position;
 
             //From or to length
-            string textCard = direction == CardManager.Direction.To ? card.To : card.From;
-            string textBlock = direction == CardManager.Direction.To ? card.From : card.To;
+            string textCard = Direction == CardManager.Direction.To ? card.To : card.From;
+            string textBlock = Direction == CardManager.Direction.To ? card.From : card.To;
 
             //Temp String formatting for capital first letter and period at end
             if(i == 0)
@@ -92,7 +96,7 @@ public class LineManager : MonoBehaviour
             GameObject uiText = GameObject.Instantiate(TextBlock, BlockUI);
             uiText.GetComponentInChildren<TextMeshProUGUI>().text = textBlock;
 
-            dropoff.SetCard(cardIndexer, direction, uiText);
+            dropoff.SetCard(cardIndexer, Direction, uiText);
 
         }
     }
@@ -250,7 +254,9 @@ public class LineManager : MonoBehaviour
 
                 //Get all cards that match that key and create CardIndexers for them
                 var set = CardManager.GetCards(key, direction);
-                var cardIndexerSet = set.Select(x => new CardIndexer(x, i, wordSize));
+                //only take cards that are words, not lines/stories/cards
+
+                var cardIndexerSet = set.Where(x => x.CardType == "CardData").Select(x => new CardIndexer(x, i, wordSize));
                 cardSet.UnionWith(cardIndexerSet);
             }
         }

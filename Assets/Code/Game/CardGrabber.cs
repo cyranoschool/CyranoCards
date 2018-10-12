@@ -158,7 +158,7 @@ public class CardGrabber : MonoBehaviour
 
             //Set large card to match this one
             largeCard.SetCard(card.GetCardIndexer().Card, false);
-            largeCard.SetDirection(lineManager.direction);
+            largeCard.SetDirection(lineManager.Direction);
 
             return true;
         }
