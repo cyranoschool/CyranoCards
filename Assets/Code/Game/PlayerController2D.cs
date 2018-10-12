@@ -54,18 +54,17 @@ public class PlayerController2D : MonoBehaviour
             inY += joystick.Vertical;
         }
         input = Vector3.right * inX + Vector3.up * inY;
+        float mag = input.magnitude;
         input.Normalize();
 
         //Cut off input if there isn't much of it
         //This is to stop faulty presses or 0 input scenarios
-        float mag = Mathf.Abs(inX) + Mathf.Abs(inY);
         float cutoff = 1;
         if(mag < .02f)
         {
             cutoff = 0;
         }
-        
 
-        rb.AddForce(input * cutoff * Acceleration);
+        rb.AddForce(input * mag * cutoff * Acceleration);
     }
 }
