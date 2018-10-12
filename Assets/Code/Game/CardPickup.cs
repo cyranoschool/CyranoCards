@@ -97,6 +97,7 @@ public class CardPickup : MonoBehaviour {
     public void MoveHome()
     {
         wasEnabled = GetComponent<BoxCollider2D>().enabled;
+        GetComponent<BoxCollider2D>().enabled = false;
         originalScale = transform.lossyScale;
         transform.parent = HomeLocation.transform.parent;
         movingHome = true;
