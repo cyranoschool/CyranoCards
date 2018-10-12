@@ -113,6 +113,39 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &286396453
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 286396455}
+  m_Layer: 5
+  m_Name: CardSelectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &286396455
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 286396453}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 960, y: 540}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &411717070
 Prefab:
   m_ObjectHideFlags: 0
@@ -190,6 +223,7 @@ GameObject:
   - component: {fileID: 528455815}
   - component: {fileID: 528455816}
   - component: {fileID: 528455817}
+  - component: {fileID: 528455818}
   m_Layer: 5
   m_Name: TreeGrid
   m_TagString: Untagged
@@ -257,6 +291,17 @@ MonoBehaviour:
   VerticalSpacing: 0
   SpacingSpeed: 1
   StoryFolder: Testing
+--- !u!114 &528455818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 528455814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e53b20145cc2d03498b981ba8c64a044, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &664012856
 GameObject:
   m_ObjectHideFlags: 0
@@ -966,6 +1011,46 @@ Prefab:
         type: 2}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 224962083468199252, guid: faebbc434e30bca40af120baa11c52c2,
+        type: 2}
+      propertyPath: m_SizeDelta.x
+      value: 360
+      objectReference: {fileID: 0}
+    - target: {fileID: 224217056341216772, guid: faebbc434e30bca40af120baa11c52c2,
+        type: 2}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224217056341216772, guid: faebbc434e30bca40af120baa11c52c2,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224217056341216772, guid: faebbc434e30bca40af120baa11c52c2,
+        type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 224217056341216772, guid: faebbc434e30bca40af120baa11c52c2,
+        type: 2}
+      propertyPath: m_SizeDelta.x
+      value: 340
+      objectReference: {fileID: 0}
+    - target: {fileID: 224962083468199252, guid: faebbc434e30bca40af120baa11c52c2,
+        type: 2}
+      propertyPath: m_SizeDelta.y
+      value: 101.62
+      objectReference: {fileID: 0}
+    - target: {fileID: 224217056341216772, guid: faebbc434e30bca40af120baa11c52c2,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: -50.81
+      objectReference: {fileID: 0}
+    - target: {fileID: 224217056341216772, guid: faebbc434e30bca40af120baa11c52c2,
+        type: 2}
+      propertyPath: m_SizeDelta.y
+      value: 81.62
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: faebbc434e30bca40af120baa11c52c2, type: 2}
