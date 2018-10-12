@@ -29,6 +29,7 @@ public class LargeCard : MonoBehaviour
 
     bool spinning = false;
     bool visible = true;
+    public bool Visible { get { return visible; } }
 
     // Use this for initialization
     void Start()

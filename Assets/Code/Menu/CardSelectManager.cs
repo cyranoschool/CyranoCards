@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 /// <summary>
@@ -75,7 +76,44 @@ public class CardSelectManager : MonoBehaviour {
     }
 
 	// Update is called once per frame
-	void Update () {
-		
+	void Update ()
+    {
+        SendCardsToScene();
 	}
+
+    void SendCardsToScene()
+    {
+        //Temporary key input as there is no button yet
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            //Create Scene Data passer
+            GameObject go = new GameObject();
+            CardSelectPasser passer = go.AddComponent<CardSelectPasser>();
+            //Add data to passer
+            passer.Setup(selectedCards);
+            //SceneManager.LoadScene("CardViewTest");
+        }
+    }
+
+    class CardSelectPasser : SceneDataPasser
+    {
+        List<CardData> cards = new List<CardData>();
+
+        public void Setup(HashSet<LargeCard> largeCards)
+        {
+            cards.Clear();
+            
+            foreach(LargeCard lCard in largeCards)
+            {
+                cards.Add(lCard.GetCardData());
+            }
+        }
+
+        protected override void DoAfterLoad()
+        {
+            base.DoAfterLoad();
+            //Do something with data
+        }
+    }
+
 }
