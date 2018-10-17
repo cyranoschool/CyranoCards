@@ -26,14 +26,15 @@ public class CardManager
         matchingDefinitions = new Dictionary<CardData, CardData>(new CardData.DefinitionComparer());
     }
 
-    public static List<CardData> LoadFolder(string folderName, bool placeInDictionary = true, SearchOption searchOption = SearchOption.AllDirectories)
+    public static List<CardData> LoadFolder(string folderName, bool placeInDictionary = true, SerializationManager.SavePathType PathType = SerializationManager.SavePathType.Streaming, SearchOption searchOption = SearchOption.AllDirectories)
     {
-        return Instance.loadFolder(folderName, placeInDictionary, searchOption);
+        return Instance.loadFolder(folderName, placeInDictionary, PathType, searchOption);
     }
 
-    List<CardData> loadFolder(string folderName, bool placeInDictionary = true, SearchOption searchOption = SearchOption.AllDirectories)
+    List<CardData> loadFolder(string folderName, bool placeInDictionary = true, SerializationManager.SavePathType PathType = SerializationManager.SavePathType.Streaming, SearchOption searchOption = SearchOption.AllDirectories)
     {
-        string folderPath = Path.Combine(Application.streamingAssetsPath, "SaveData/" + folderName + "/");
+        string folderPath = SerializationManager.CreatePath(folderName, PathType);
+        folderPath = folderPath.TrimEnd(new char[] { '\\', '/' }) + "/";
         var info = new DirectoryInfo(folderPath);
         if (!info.Exists)
         {

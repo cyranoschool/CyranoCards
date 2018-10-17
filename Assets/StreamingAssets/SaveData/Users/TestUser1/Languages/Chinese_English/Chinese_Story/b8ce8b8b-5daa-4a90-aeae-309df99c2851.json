@@ -1,0 +1,14 @@
+{
+    "From": "学 中文",
+    "To": "learning chinese",
+    "PhoneticFrom": "xué zhōngwén",
+    "BrokenUpTo": "learn chinese",
+    "Icon": "",
+    "UID": "b8ce8b8b-5daa-4a90-aeae-309df99c2851",
+    "DateTicks": 636753915837698467,
+    "CardType": "SectionData",
+    "LinesUID": [
+        "358a6b32-c208-47e8-b57e-a3770273f9fe",
+        "239b5bfe-8a3f-4529-a530-d7629c21c401"
+    ]
+}

@@ -1,0 +1,18 @@
+{
+    "From": "我的 中国 朋友 教 我 的",
+    "To": "my chinese friend taught me",
+    "PhoneticFrom": "wǒde zhōngguó péngyǒu jiāo wǒ de",
+    "BrokenUpTo": "my chinese friend teach me _auxiliary",
+    "Icon": "",
+    "UID": "f14f3fb9-bc29-4599-9776-c025cd742976",
+    "DateTicks": 636753915837698467,
+    "CardType": "LineData",
+    "CardsUID": [
+        "5772b14a-ddb6-484f-a687-5471f12c7711",
+        "ebc8a701-bbd4-4f4c-9efa-550b068fe3ff",
+        "d5562946-220f-4cf5-82ce-2ccf786dbca8",
+        "6e880393-d55a-44fa-b977-4a82d6239517",
+        "6c361ad3-2149-48e4-b349-ebb1d1edfee1",
+        "9c566837-000e-4430-849e-8f9c873f6636"
+    ]
+}

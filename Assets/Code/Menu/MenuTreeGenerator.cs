@@ -14,7 +14,7 @@ public class MenuTreeGenerator : MonoBehaviour {
     public float CardHeight = 560f;
     public float VerticalSpacing = 240f;
     public float SpacingSpeed = 1f;
-
+    public SerializationManager.SavePathType PathType = SerializationManager.SavePathType.Streaming;
     public string StoryFolder = "Testing";
 
     VerticalLayoutGroup layout;
@@ -49,7 +49,7 @@ public class MenuTreeGenerator : MonoBehaviour {
     void PopulateLayers()
     {
         CardManager.UnloadAll();
-        List<CardData> loadedCards = CardManager.LoadFolder(StoryFolder, true, SearchOption.AllDirectories);
+        List<CardData> loadedCards = CardManager.LoadFolder(StoryFolder, true, PathType, SearchOption.AllDirectories);
         List<StoryData> storyCards = new List<StoryData>();
         List<SectionData> sectionCards = new List<SectionData>();
         List<LineData> lineCards = new List<LineData>();

@@ -15,7 +15,6 @@ public class SceneDataPasser : MonoBehaviour
 
     void OnEnable()
     {
-        Debug.Log("enabled");
         DontDestroyOnLoad(gameObject);
     }
 

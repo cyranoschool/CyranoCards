@@ -1,0 +1,17 @@
+{
+    "From": "例如 你 好 吗 谢谢",
+    "To": "for example, how are you? and thank you",
+    "PhoneticFrom": "lìrú nǐ hǎo ma xièxie",
+    "BrokenUpTo": "for_example you good _question thanks",
+    "Icon": "",
+    "UID": "500c3a63-dfe5-4a49-b0ea-41f0ffe6aad0",
+    "DateTicks": 636753915837698467,
+    "CardType": "LineData",
+    "CardsUID": [
+        "17773aa0-b70e-40e6-8f60-136e081cb41e",
+        "c50ce58c-f7af-4d67-ad02-f1fc13463b69",
+        "72ced090-b8f4-4f38-89f8-d951a4af2f5d",
+        "ba603014-f3ee-4b46-8cf8-2c20fc5f40b7",
+        "7e4abcbe-229c-4d93-9636-8b21751c9c4c"
+    ]
+}

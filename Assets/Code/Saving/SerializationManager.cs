@@ -43,7 +43,9 @@ public static class SerializationManager
                 path = Application.temporaryCachePath;
                 break;
             case SavePathType.FileNameOnly:
-                path = filename;
+                //path = filename;
+                //Immediately return
+                return filename;
                 break;
         }
         return Path.Combine(path, "SaveData/" + filename);

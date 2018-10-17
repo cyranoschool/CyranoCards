@@ -1,0 +1,18 @@
+{
+    "From": "我 可以 讲 一 点 中文",
+    "To": "i can speak a little bit chinese",
+    "PhoneticFrom": "wǒ kěyǐ jiǎng yì diǎn zhōngwén",
+    "BrokenUpTo": "i can speak a little chienese",
+    "Icon": "",
+    "UID": "70e0c7e3-11e2-4a13-925f-45f030f2c073",
+    "DateTicks": 636753915837698467,
+    "CardType": "LineData",
+    "CardsUID": [
+        "c5b9d467-28cf-422b-a246-11ab1a9ee7a9",
+        "649fe07a-ba34-4929-acc9-9862a135cd72",
+        "ca042152-8ee9-4663-a109-360ec44aa80c",
+        "b2c9bcfb-abdf-40ce-8c42-f909163b7007",
+        "e44fc16d-51b1-4e8d-b024-1d3158187a58",
+        "cb07d92d-4fef-4ab7-958f-122db5e356fe"
+    ]
+}
