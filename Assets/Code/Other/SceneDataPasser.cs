@@ -19,7 +19,10 @@ public class SceneDataPasser : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    protected virtual void DoAfterLoad() { }
+    protected virtual void DoAfterLoad()
+    {
+
+    }
 
     void OnLevelWasLoaded(int level)
     {   

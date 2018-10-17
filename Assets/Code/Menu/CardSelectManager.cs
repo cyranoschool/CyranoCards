@@ -10,12 +10,18 @@ using UnityEngine.UI;
 /// </summary>
 public class CardSelectManager : MonoBehaviour {
 
+    //Multiple cards can be passed on but for this purpose only one is needed
+    public int MaxSelectedCards = 1;
+
     HashSet<LargeCard> selectedCards = new HashSet<LargeCard>();
+    Queue<LargeCard> cardQueue = new Queue<LargeCard>();
     Color previousColor;
 
 	// Use this for initialization
 	void Start () {
-       //Call after start
+        //Call after start
+        //The triggers will have to be added if new cards are ever added to the groups
+        //in this case there should be a delegate that can be subscribed to on LargeCard creation there
        Invoke("FindCardsAddTriggers",0);
     }
 	
@@ -47,10 +53,27 @@ public class CardSelectManager : MonoBehaviour {
         if(!selectedCards.Contains(selected))
         {
             SelectCard(selected);
+            cardQueue.Enqueue(selected);
+            while(cardQueue.Count > MaxSelectedCards)
+            {
+                LargeCard card = cardQueue.Dequeue();
+                UnselectCard(card);
+            }
         }
         else
         {
             UnselectCard(selected);
+            //Remove this card from the queue
+            Queue<LargeCard> newQueue = new Queue<LargeCard>();
+            while(cardQueue.Count > 0)
+            {
+                LargeCard card = cardQueue.Dequeue();
+                if(card != selected)
+                {
+                    newQueue.Enqueue(card);
+                }
+            }
+            cardQueue = newQueue;
         }
 
     }
