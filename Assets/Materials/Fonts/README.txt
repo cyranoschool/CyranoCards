@@ -19,3 +19,5 @@ Noto cjk
 0000-007E,4E00-9FA5,3000-303F,FF00-FFEF,3040-309F,30A0-30FF,AC00-D7AF
 Size 19, padding 2, SourceHanSerif (not all ttf fonts support all the unicode characters needed)
 https://github.com/adobe-fonts/source-han-serif
+
+Latin Supplements A and B: 0100-024F
