@@ -50,6 +50,14 @@ public class CardSelectManager : MonoBehaviour {
         GameObject go = data.pointerCurrentRaycast.gameObject;
         LargeCard selected = go.GetComponentInParent<LargeCard>();
         
+        //Quick select and pass to scene as this is the only card that can be selected
+        if(MaxSelectedCards == 1)
+        {
+            selectedCards.Add(selected);
+            SendCardsToScene();
+            return;
+        }
+
         if(!selectedCards.Contains(selected))
         {
             SelectCard(selected);
@@ -101,26 +109,28 @@ public class CardSelectManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-        SendCardsToScene();
+        //Temporary key input as there is no button yet
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            SendCardsToScene();
+        }
 	}
 
     void SendCardsToScene()
     {
-        //Temporary key input as there is no button yet
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            //Create Scene Data passer
-            GameObject go = new GameObject();
-            CardSelectPasser passer = go.AddComponent<CardSelectPasser>();
-            //Add data to passer
-            passer.Setup(selectedCards);
-            //SceneManager.LoadScene("CardViewTest");
-        }
+        //Create Scene Data passer
+        GameObject go = new GameObject();
+        CardSelectPasser passer = go.AddComponent<CardSelectPasser>();
+        //Add data to passer
+        passer.Setup(selectedCards);
+        SceneManager.LoadScene("CardFocus");
     }
 
     class CardSelectPasser : SceneDataPasser
     {
         List<CardData> cards = new List<CardData>();
+        string Folder;
+        SerializationManager.SavePathType PathType;
 
         public void Setup(HashSet<LargeCard> largeCards)
         {
@@ -130,12 +140,23 @@ public class CardSelectManager : MonoBehaviour {
             {
                 cards.Add(lCard.GetCardData());
             }
+            //Need refence of the user/language folder that this card came from
+            MenuTreeGenerator generator = GameObject.FindObjectOfType<MenuTreeGenerator>();
+            Folder = generator.StoryFolder;
+            PathType = generator.PathType;
         }
 
         protected override void DoAfterLoad()
         {
             base.DoAfterLoad();
-            //Do something with data
+            //Set card in scene to this card data
+            LargeCard lCard = GameObject.FindObjectOfType<LargeCard>();
+            lCard.SetCard(cards[0]);
+
+            //Add trigger temporarily so user can still swipe down to continue
+            GameLineTrigger trigger = lCard.gameObject.AddComponent<GameLineTrigger>();
+            trigger.PathType = PathType;
+            trigger.Folder = Folder;
         }
     }
 

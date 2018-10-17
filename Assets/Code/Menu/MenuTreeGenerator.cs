@@ -132,7 +132,9 @@ public class MenuTreeGenerator : MonoBehaviour {
             parenter.HideTransform = transform;
             parenter.HideCards();
 
-            go.AddComponent<GameLineTrigger>();
+            GameLineTrigger trigger = go.AddComponent<GameLineTrigger>();
+            trigger.PathType = PathType;
+            trigger.Folder = StoryFolder;
         }
 
     }

@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 public class GameLineTrigger : MonoBehaviour, IBeginDragHandler {
     //Folder string can be passed down through MenuTreeGenerator in separate monobehaviour
     public string Folder = "Testing";
-
+    public SerializationManager.SavePathType PathType = SerializationManager.SavePathType.Streaming;
     public void OnBeginDrag(PointerEventData eventData)
     {
         //Dragged downwards
@@ -17,21 +17,23 @@ public class GameLineTrigger : MonoBehaviour, IBeginDragHandler {
             //Create data passer for new line scene
             GameObject go = new GameObject();
             LineGamePasser passer = go.AddComponent<LineGamePasser>();
-            passer.Setup(GetComponent<LargeCard>().GetCardData(), Folder);
+            passer.Setup(GetComponent<LargeCard>().GetCardData(), Folder, PathType);
             SceneManager.LoadScene("LineGame");
         }
     }
 
     class LineGamePasser : SceneDataPasser
     {
+        public SerializationManager.SavePathType PathType = SerializationManager.SavePathType.Streaming;
         public string LanguageFolder = "";
         public string Line = "";
         public bool ReloadCards = true;
         public bool UnloadCards = true;
         public CardManager.Direction Direction = CardManager.Direction.To;
 
-        public void Setup(CardData card, string folder)
+        public void Setup(CardData card, string folder, SerializationManager.SavePathType PathType)
         {
+            this.PathType = PathType;
             LanguageFolder = folder;
             
             //To Broken up
@@ -52,6 +54,7 @@ public class GameLineTrigger : MonoBehaviour, IBeginDragHandler {
             base.DoAfterLoad();
             LineManager lineM = GameObject.FindObjectOfType<LineManager>();
             lineM.LineString = Line;
+            lineM.PathType = PathType;
             lineM.LanguageFolder = LanguageFolder;
             lineM.ReloadCards = ReloadCards;
             lineM.UnloadCards = UnloadCards;

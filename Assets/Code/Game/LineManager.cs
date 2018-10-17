@@ -18,10 +18,12 @@ public class LineManager : MonoBehaviour
 
     [Header("Config")]
     public string LineString;
+    public SerializationManager.SavePathType PathType = SerializationManager.SavePathType.Streaming;
     public string LanguageFolder;
     public CardManager.Direction Direction = CardManager.Direction.To;
     public bool ReloadCards = true;
     public bool UnloadCards = true;
+
 
     List<List<CardIndexer>> wordIndices;
 
@@ -35,7 +37,7 @@ public class LineManager : MonoBehaviour
         }
         if (ReloadCards)
         {
-            CardManager.LoadFolder(LanguageFolder);
+            CardManager.LoadFolder(LanguageFolder,true, PathType);
         }
         //To: I ate three blind mice last night
         //From: yo comé trés ratoncitos ciegos anocho

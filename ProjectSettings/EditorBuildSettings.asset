@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/BuildScenes/LineGame.unity
     guid: fd7ccd10d34a273488cb52b529dbc16e
+  - enabled: 1
+    path: Assets/Scenes/BuildScenes/CardFocus.unity
+    guid: e1471d6951a3ae04495b43793028896d
   m_configObjects: {}
