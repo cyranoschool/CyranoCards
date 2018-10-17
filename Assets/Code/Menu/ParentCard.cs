@@ -6,7 +6,8 @@ using UnityEngine.EventSystems;
 
 public class ParentCard : MonoBehaviour {
 
-    public enum Layer { Story = 4, Section = 3, Line = 2 }
+    //Each layer needs to be 1 greater than the one after it
+    public enum Layer { User = 5, Story = 4, Section = 3, Line = 2 }
 
     static Dictionary<int, ParentCard> currentShowing = new Dictionary<int, ParentCard>();
 

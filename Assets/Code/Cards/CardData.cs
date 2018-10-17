@@ -15,7 +15,7 @@ public class CardData
     public string Icon = "";
 
     //Values not duplicated
-
+    //In a networked system the card id should just be the ID of the last card created on the dedicated server + 1
     public string UID = Guid.NewGuid().ToString(); //Unique ID
     //public bool Favorited = false;
     //public string creator = Get current creator here;

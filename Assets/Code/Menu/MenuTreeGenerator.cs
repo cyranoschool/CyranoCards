@@ -25,7 +25,8 @@ public class MenuTreeGenerator : MonoBehaviour {
     }
 
     // Use this for initialization
-    void Start () {
+    void Start ()
+    {
         PopulateLayers();
         //Make sure spacing is correct at the very beginning of the game
         LerpSpacing(100f);

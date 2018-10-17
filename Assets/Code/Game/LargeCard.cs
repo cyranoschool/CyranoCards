@@ -12,6 +12,7 @@ public class LargeCard : MonoBehaviour
 
     [Header("Init")]
     public TextMeshProUGUI cardText;
+    public TextMeshProUGUI phoneticText;
     public Image image;
 
 
@@ -25,7 +26,6 @@ public class LargeCard : MonoBehaviour
 
     private CardManager.Direction direction = CardManager.Direction.From;
     public CardManager.Direction GetDirection() { return direction; }
-
 
     bool spinning = false;
     bool visible = true;
@@ -110,11 +110,29 @@ public class LargeCard : MonoBehaviour
             text = text.First().ToString().ToUpper() + text.Substring(1);
         }
 
-        cardText.text = text;
+        cardText.SetText(text);
 
         //Do image setting here
         //
         //
+
+        //If direction is from then set pronounceText
+        if(direction == CardManager.Direction.From)
+        {
+            GameObject parentGameObject = phoneticText.transform.parent.gameObject;
+            parentGameObject.gameObject.SetActive(true);
+            parentGameObject.GetComponent<Image>().color = new Color32(128,128,0,255);
+            phoneticText.SetText(cardData.PhoneticFrom);
+        }
+        else
+        {
+            GameObject parentGameObject = phoneticText.transform.parent.gameObject;
+            parentGameObject.SetActive(false);
+        }
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)cardText.transform.parent);
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)phoneticText.transform.parent);
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)transform);
+        //Canvas.ForceUpdateCanvases();
 
     }
 
