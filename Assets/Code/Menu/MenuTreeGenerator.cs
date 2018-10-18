@@ -54,6 +54,7 @@ public class MenuTreeGenerator : MonoBehaviour {
         List<StoryData> storyCards = new List<StoryData>();
         List<SectionData> sectionCards = new List<SectionData>();
         List<LineData> lineCards = new List<LineData>();
+        List<CardData> wordCards = new List<CardData>();
         
         foreach(CardData card in loadedCards)
         {
@@ -68,6 +69,9 @@ public class MenuTreeGenerator : MonoBehaviour {
                 case "LineData":
                     lineCards.Add((LineData)card);
                     break;
+                case "CardData":
+                    wordCards.Add(card);
+                    break;
                 default:
                     break;
             }
@@ -79,15 +83,18 @@ public class MenuTreeGenerator : MonoBehaviour {
         sectionGroup.name = "SectionGroup";
         Transform LineGroup = GameObject.Instantiate(LayoutGroupPrefab, transform).transform;
         LineGroup.name = "LineGroup";
+        Transform WordGroup = GameObject.Instantiate(LayoutGroupPrefab, transform).transform;
+        WordGroup.name = "WordGroup";
 
         Dictionary<string, GameObject> cardRefs = new Dictionary<string, GameObject>();
         //Create card gameObjects and add them to dictionary
         storyCards.ForEach(x => cardRefs.Add(x.UID, CreateCardInGroup(x, storyGroup)));
         sectionCards.ForEach(x => cardRefs.Add(x.UID, CreateCardInGroup(x, sectionGroup)));
         lineCards.ForEach(x => cardRefs.Add(x.UID, CreateCardInGroup(x, LineGroup)));
+        wordCards.ForEach(x => cardRefs.Add(x.UID, CreateCardInGroup(x, WordGroup)));
 
         //Add child references to each card through ParentCard for all except for line
-        foreach(StoryData story in storyCards)
+        foreach (StoryData story in storyCards)
         {
             string UID = story.UID;
             GameObject go = cardRefs[UID];
@@ -120,22 +127,39 @@ public class MenuTreeGenerator : MonoBehaviour {
             parenter.LayoutLayer = (int)ParentCard.Layer.Section;
             parenter.HideTransform = CardHideArea;
             parenter.HideCards();
+            parenter.HideSelf();
         }
 
-        //For LineData add trigger for game instead
+        
         foreach (LineData line in lineCards)
         {
             string UID = line.UID;
             GameObject go = cardRefs[UID];
             ParentCard parenter = go.AddComponent<ParentCard>();
-            
+            parenter.LineCards = line.CardsUID.ConvertAll<GameObject>(s => cardRefs[s]);
+            //Layer must count downward for each level
             parenter.LayoutLayer = (int)ParentCard.Layer.Line;
             parenter.HideTransform = CardHideArea;
             parenter.HideCards();
+            parenter.HideSelf();
+        }
 
-            GameLineTrigger trigger = go.AddComponent<GameLineTrigger>();
-            trigger.PathType = PathType;
-            trigger.Folder = StoryFolder;
+        //Don't add trigger to start game here anymore
+        foreach (CardData word in wordCards)
+        {
+            string UID = word.UID;
+            GameObject go = cardRefs[UID];
+            ParentCard parenter = go.AddComponent<ParentCard>();
+
+            parenter.LayoutLayer = (int)ParentCard.Layer.Word;
+            parenter.HideTransform = CardHideArea;
+            parenter.HideCards();
+            parenter.HideSelf();
+
+            //Don't trigger game from here
+            //GameLineTrigger trigger = go.AddComponent<GameLineTrigger>();
+            //trigger.PathType = PathType;
+            //trigger.Folder = StoryFolder;
         }
 
     }

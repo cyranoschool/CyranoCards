@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 public class ParentCard : MonoBehaviour {
 
     //Each layer needs to be 1 greater than the one after it
-    public enum Layer { User = 5, Story = 4, Section = 3, Line = 2 }
+    public enum Layer { User = 5, Story = 4, Section = 3, Line = 2, Word = 1 }
 
     static Dictionary<int, ParentCard> currentShowing = new Dictionary<int, ParentCard>();
 
@@ -74,6 +74,20 @@ public class ParentCard : MonoBehaviour {
             currentShowing.Remove(layerCheck);
             layerCheck--;
         }
+    }
+
+    //For initialization of menuTreegenerator
+    public void HideSelf()
+    {
+        CanvasGroup group = GetComponent<CanvasGroup>();
+        group.alpha = 0;
+        group.interactable = false;
+        group.blocksRaycasts = false;
+        if (cardsLayout == null)
+        {
+            cardsLayout = transform.parent;
+        }
+        transform.SetParent(HideTransform, false);
     }
 
     public void HideCards()
