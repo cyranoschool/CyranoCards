@@ -85,6 +85,8 @@ public class MenuTreeGenerator : MonoBehaviour {
         LineGroup.name = "LineGroup";
         Transform WordGroup = GameObject.Instantiate(LayoutGroupPrefab, transform).transform;
         WordGroup.name = "WordGroup";
+        //Make word group smaller to fit more cards
+        WordGroup.GetComponent<RectTransform>().localScale = new Vector3(.8f, .8f, .8f);
 
         Dictionary<string, GameObject> cardRefs = new Dictionary<string, GameObject>();
         //Create card gameObjects and add them to dictionary
@@ -155,7 +157,6 @@ public class MenuTreeGenerator : MonoBehaviour {
             parenter.HideTransform = CardHideArea;
             parenter.HideCards();
             parenter.HideSelf();
-
             //Don't trigger game from here
             //GameLineTrigger trigger = go.AddComponent<GameLineTrigger>();
             //trigger.PathType = PathType;
