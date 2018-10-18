@@ -9,6 +9,7 @@ public class MenuTreeGenerator : MonoBehaviour {
     [Header("Init")]
     public GameObject CardPrefab;
     public GameObject LayoutGroupPrefab;
+    public Transform CardHideArea;
 
     [Header("Config")]
     public float CardHeight = 560f;
@@ -94,7 +95,7 @@ public class MenuTreeGenerator : MonoBehaviour {
             parenter.LineCards = story.SectionsUID.ConvertAll<GameObject>(s => cardRefs[s]);
             //Layer must count downward for each level
             parenter.LayoutLayer = (int)ParentCard.Layer.Story;
-            parenter.HideTransform = transform;
+            parenter.HideTransform = CardHideArea;
             parenter.HideCards();
         }
         foreach (SectionData section in sectionCards)
@@ -117,7 +118,7 @@ public class MenuTreeGenerator : MonoBehaviour {
 
             }
             parenter.LayoutLayer = (int)ParentCard.Layer.Section;
-            parenter.HideTransform = transform;
+            parenter.HideTransform = CardHideArea;
             parenter.HideCards();
         }
 
@@ -129,7 +130,7 @@ public class MenuTreeGenerator : MonoBehaviour {
             ParentCard parenter = go.AddComponent<ParentCard>();
             
             parenter.LayoutLayer = (int)ParentCard.Layer.Line;
-            parenter.HideTransform = transform;
+            parenter.HideTransform = CardHideArea;
             parenter.HideCards();
 
             GameLineTrigger trigger = go.AddComponent<GameLineTrigger>();
