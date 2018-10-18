@@ -6,6 +6,7 @@ using TMPro;
 using UnityEngine.UI;
 using System.Linq;
 using UnityEngine.EventSystems;
+using System.IO;
 
 public class LargeCard : MonoBehaviour
 {
@@ -111,17 +112,37 @@ public class LargeCard : MonoBehaviour
         }
 
         cardText.SetText(text);
-
+        
         //Do image setting here
         //
-        //
+        //If the texture has already been set don't reload+reset
+        if (image.name != cardData.From)
+        {
+            string[] imageNames = new string[] { cardData.Icon, cardData.From, cardData.PhoneticFrom, cardData.BrokenUpTo, cardData.To, "questionmark"};
+            bool imageSet = false;
+            for (int i = 0; i < imageNames.Length; i++)
+            {
+                if (TryLoadImage(imageNames[i]))
+                {
+                    imageSet = true;
+                    break;
+                }
+            }
+            //Set default image or leave alone
+            if(!imageSet)
+            {
+
+            }
+
+            image.name = cardData.From;
+        }
 
         //If direction is from then set pronounceText
-        if(direction == CardManager.Direction.From)
+        if (direction == CardManager.Direction.From)
         {
             GameObject parentGameObject = phoneticText.transform.parent.gameObject;
             parentGameObject.gameObject.SetActive(true);
-            parentGameObject.GetComponent<Image>().color = new Color32(128,128,0,255);
+            parentGameObject.GetComponent<Image>().color = new Color32(128, 128, 0, 255);
             phoneticText.SetText(cardData.PhoneticFrom);
         }
         else
@@ -134,6 +155,25 @@ public class LargeCard : MonoBehaviour
         LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)transform);
         //Canvas.ForceUpdateCanvases();
 
+    }
+
+    bool TryLoadImage(string name)
+    {
+        string imageFolderPath = "Images/";
+        Texture2D texture = Resources.Load<Texture2D>(imageFolderPath + name);
+        if(texture == null)
+        {
+            return false;
+        }
+        Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(.5f, .5f));
+        
+        //Destroy old sprite here/unload
+        //
+
+        image.sprite = sprite;
+        image.preserveAspect = true;
+
+        return true;
     }
 
     public void TappedCard(PointerEventData data)
