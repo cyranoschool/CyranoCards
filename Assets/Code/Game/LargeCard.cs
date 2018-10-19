@@ -15,7 +15,7 @@ public class LargeCard : MonoBehaviour
     public TextMeshProUGUI cardText;
     public TextMeshProUGUI phoneticText;
     public Image image;
-
+    public string fallbackImage = "questionmark";
 
     [Header("Config")]
     public float SpinSpeed = 4f;
@@ -118,7 +118,7 @@ public class LargeCard : MonoBehaviour
         //If the texture has already been set don't reload+reset
         if (image.name != cardData.From)
         {
-            string[] imageNames = new string[] { cardData.Icon, cardData.From, cardData.PhoneticFrom, cardData.BrokenUpTo, cardData.To, "questionmark"};
+            string[] imageNames = new string[] { cardData.Icon, cardData.From, cardData.PhoneticFrom, cardData.BrokenUpTo, cardData.To, fallbackImage};
             bool imageSet = false;
             for (int i = 0; i < imageNames.Length; i++)
             {
@@ -142,7 +142,6 @@ public class LargeCard : MonoBehaviour
         {
             GameObject parentGameObject = phoneticText.transform.parent.gameObject;
             parentGameObject.gameObject.SetActive(true);
-            parentGameObject.GetComponent<Image>().color = new Color32(128, 128, 0, 255);
             phoneticText.SetText(cardData.PhoneticFrom);
         }
         else
