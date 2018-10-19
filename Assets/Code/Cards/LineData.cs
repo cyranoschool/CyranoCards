@@ -14,6 +14,10 @@ public class LineData : CardData{
     {
         return CardsUID.ConvertAll<CardData>(s => (CardData)CardManager.GetCardUID(s));
     }
+    public override List<CardData> GetChildCards()
+    {
+        return CardsUID.ConvertAll<CardData>(s => (CardData)CardManager.GetCardUID(s));
+    }
 
     /// <summary>
     /// If dictionary already contains words matching this definition then refer to those instead

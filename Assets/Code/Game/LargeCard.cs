@@ -87,7 +87,7 @@ public class LargeCard : MonoBehaviour
 
     public void FlipDirection(bool forceUpdate = true)
     {
-        direction = direction == CardManager.Direction.From ? CardManager.Direction.To : CardManager.Direction.From;
+        direction = (direction == CardManager.Direction.From) ? CardManager.Direction.To : CardManager.Direction.From;
         if (forceUpdate)
         {
             UpdateCard();
@@ -182,6 +182,11 @@ public class LargeCard : MonoBehaviour
         {
             return;
         }
+        SpinCard();
+    }
+
+    public void SpinCard()
+    {
         //Don't spin it twice, wait for spinning to finish
         if (!CanSpin || spinning)
         {

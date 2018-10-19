@@ -497,7 +497,7 @@ Prefab:
     - target: {fileID: 224962083468199252, guid: faebbc434e30bca40af120baa11c52c2,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 50
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224962083468199252, guid: faebbc434e30bca40af120baa11c52c2,
         type: 2}
@@ -537,12 +537,12 @@ Prefab:
     - target: {fileID: 224431885096379012, guid: faebbc434e30bca40af120baa11c52c2,
         type: 2}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224431885096379012, guid: faebbc434e30bca40af120baa11c52c2,
         type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224431885096379012, guid: faebbc434e30bca40af120baa11c52c2,
         type: 2}
@@ -562,7 +562,7 @@ Prefab:
     - target: {fileID: 224431885096379012, guid: faebbc434e30bca40af120baa11c52c2,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -50
       objectReference: {fileID: 0}
     - target: {fileID: 224217056341216772, guid: faebbc434e30bca40af120baa11c52c2,
         type: 2}
@@ -937,6 +937,7 @@ GameObject:
   - component: {fileID: 1626759413}
   - component: {fileID: 1626759412}
   - component: {fileID: 1626759411}
+  - component: {fileID: 1626759414}
   m_Layer: 5
   m_Name: ViewChildrenButton
   m_TagString: Untagged
@@ -1049,6 +1050,18 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1626759409}
   m_CullTransparentMesh: 0
+--- !u!114 &1626759414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1626759409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe22b54d6d4e4d446b01ff5b4e38cbd1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SceneName: CardWordViewer
 --- !u!1001 &1729460375
 Prefab:
   m_ObjectHideFlags: 0

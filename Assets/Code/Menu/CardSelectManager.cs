@@ -144,6 +144,11 @@ public class CardSelectPasser : SceneDataPasser
     string Folder;
     SerializationManager.SavePathType PathType;
 
+    public CardData GetSelectedCard()
+    {
+        return cards[0];
+    }
+
     public void Setup(HashSet<LargeCard> largeCards)
     {
         cards.Clear();

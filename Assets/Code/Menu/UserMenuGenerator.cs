@@ -144,6 +144,5 @@ public class CardFolderPasser : SceneDataPasser
         generator.StoryFolder = FolderPath;
         //This path is the full path
         generator.PathType = SerializationManager.SavePathType.FileNameOnly;
-        Debug.Log("set");
     }
 }

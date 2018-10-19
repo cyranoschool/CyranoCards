@@ -76,9 +76,18 @@ public class CardData
         }
     }
 
+    /// <summary>
+    /// Used by inherited classes to fill in their children lists from their references
+    /// </summary>
+    /// <param name="cards"></param>
     public virtual void AddCardReferences(List<CardData> cards)
     {
 
+    }
+
+    public virtual List<CardData> GetChildCards()
+    {
+        return new List<CardData>(0);
     }
 
     /// <summary>
@@ -112,6 +121,30 @@ public class CardData
             card.PhoneticFrom = wordsPhon[i];
             card.BrokenUpTo = wordsBrokenUp[i];
             wordCards.Add(card);
+        }
+        return wordCards;
+    }
+
+    /// <summary>
+    /// Get all the lowest level word cards of a given card
+    /// </summary>
+    /// <returns></returns>
+    public List<CardData> GetBaseWordCards()
+    {
+        Queue<CardData> cardSearch = new Queue<CardData>(GetChildCards());
+        List<CardData> wordCards = new List<CardData>();
+        while(cardSearch.Count > 0)
+        {
+            CardData card = cardSearch.Dequeue();
+            switch(card.CardType)
+            {
+                case "CardData":
+                    wordCards.Add(card);
+                    break;
+                default:
+                    card.GetChildCards().ForEach(x => cardSearch.Enqueue(x));
+                    break;
+            }
         }
         return wordCards;
     }

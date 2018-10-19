@@ -16,6 +16,10 @@ public class SectionData : CardData
     {
         return LinesUID.ConvertAll<LineData>(s => (LineData)CardManager.GetCardUID(s));
     }
+    public override List<CardData> GetChildCards()
+    {
+        return LinesUID.ConvertAll<CardData>(s => (CardData)CardManager.GetCardUID(s));
+    }
 
     public override void AddCardReferences(List<CardData> cards)
     {

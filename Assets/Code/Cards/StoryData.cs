@@ -14,6 +14,10 @@ public class StoryData : CardData{
     {
         return SectionsUID.ConvertAll<SectionData>(s => (SectionData)CardManager.GetCardUID(s));
     }
+    public override List<CardData> GetChildCards()
+    {
+        return SectionsUID.ConvertAll<CardData>(s => (CardData)CardManager.GetCardUID(s));
+    }
 
     public override void AddCardReferences(List<CardData> cards)
     {
