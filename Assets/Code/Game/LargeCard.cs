@@ -101,9 +101,9 @@ public class LargeCard : MonoBehaviour
             return;
         }
         //Clear old data out
-        //Not necessary in this implementation
-
-        string text = direction == CardManager.Direction.From ? cardData.From : cardData.To;
+        //Primary text is always From now
+        //string text = direction == CardManager.Direction.From ? cardData.From : cardData.To;
+        string text = cardData.From;
 
         //Make first letter uppercase
         if (!string.IsNullOrEmpty(text))
@@ -136,18 +136,19 @@ public class LargeCard : MonoBehaviour
 
             image.name = cardData.From;
         }
-        
+        //Changes here, phonetic text is always active but is swapped for the broken up text
         //If direction is from then set pronounceText
         if (direction == CardManager.Direction.From)
         {
-            GameObject parentGameObject = phoneticText.transform.parent.gameObject;
-            parentGameObject.gameObject.SetActive(true);
+            //GameObject parentGameObject = phoneticText.transform.parent.gameObject;
+            //parentGameObject.gameObject.SetActive(true);
             phoneticText.SetText(cardData.PhoneticFrom);
         }
         else
         {
-            GameObject parentGameObject = phoneticText.transform.parent.gameObject;
-            parentGameObject.SetActive(false);
+            //GameObject parentGameObject = phoneticText.transform.parent.gameObject;
+            //parentGameObject.SetActive(false);
+            phoneticText.SetText(cardData.BrokenUpTo);
         }
         LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)cardText.transform.parent);
         LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)phoneticText.transform.parent);
