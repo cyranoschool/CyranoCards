@@ -65,14 +65,16 @@ public class CardManager
 
     public static void PlaceInDictionaries(CardData card)
     {
+        //If card already exists unload old card and replace with this one
+        if(Instance.matchingDefinitions.ContainsKey(card))
+        {
+            Instance.UnloadCard(Instance.matchingDefinitions[card]);
+        }
         //Create both from and too collections
         Instance.SetupCard(card, Direction.From);
         Instance.SetupCard(card, Direction.To);
         Instance.cardsUID.Add(card.UID, card);
-        if(!Instance.matchingDefinitions.ContainsKey(card))
-        {
-            Instance.matchingDefinitions.Add(card, card);
-        }
+        Instance.matchingDefinitions.Add(card, card);
         
     }
 
@@ -132,6 +134,8 @@ public class CardManager
             potentialCards.Remove(cardData);
         }
         cardsUID.Remove(cardData.UID);
+
+        totalCards--;
     }
 
     public static void UnloadAll()

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Class for passing object data/functions to new scene
@@ -11,7 +12,7 @@ public class SceneDataPasser : MonoBehaviour
     //Does this object wait around until the correct scene is loaded or destroy itself if loaded into wrong scene?
     public bool DestroyOnWrongLevel = true;
     //if null this will always fire no matter the level that was loaded (possibility of incorrect level)
-    public int? LevelTarget = null;
+    public string LevelTarget = null;
 
     void OnEnable()
     {
@@ -24,9 +25,9 @@ public class SceneDataPasser : MonoBehaviour
     }
 
     void OnLevelWasLoaded(int level)
-    {   
+    {
         //This scenedatapasser was not meant to be used on this scene
-        if(LevelTarget != null && level != LevelTarget)
+        if(LevelTarget != null && SceneManager.GetSceneByBuildIndex(level).name != LevelTarget)
         {
             if(DestroyOnWrongLevel)
             {

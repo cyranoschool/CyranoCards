@@ -54,7 +54,7 @@ public class UserMenuGenerator : MonoBehaviour
 
             //Add trigger
             //Name is set to the folderpath
-            go.name = folderPath +"/Languages";
+            go.name = folderPath + "/Languages";
             EventTrigger trigger = go.AddComponent<EventTrigger>();
             EventTrigger.Entry entry = new EventTrigger.Entry();
             entry.eventID = EventTriggerType.PointerClick;
@@ -113,24 +113,37 @@ public class UserMenuGenerator : MonoBehaviour
         string folderPath = go.name;
         DirectoryInfo dInfo = new DirectoryInfo(folderPath);
 
-        GameObject po = new GameObject();
-        CardFolderPasser passer = po.AddComponent<CardFolderPasser>();
+        //Don't rebuild if it already exists
+        CardFolderPasser passer = GameObject.FindObjectOfType<CardFolderPasser>();
+        if (passer == null)
+        {
+            GameObject po = new GameObject();
+            passer = po.AddComponent<CardFolderPasser>();
+        }
         //This is the full name path so make sure to switch from streaming path creation to no path
         passer.FolderPath = dInfo.FullName;
+        //Always keep around to move back to the menu if needed
+        passer.DestroyAfterLoad = false;
+        passer.DestroyOnWrongLevel = false;
+        passer.LevelTarget = "TreeMenu";
         SceneManager.LoadScene("TreeMenu");
     }
 
-    class CardFolderPasser : SceneDataPasser
-    {
-        public string FolderPath = "";
-        protected override void DoAfterLoad()
-        {
-            base.DoAfterLoad();
-            MenuTreeGenerator generator = GameObject.FindObjectOfType<MenuTreeGenerator>();
-            generator.StoryFolder = FolderPath;
-            //This path is the full path
-            generator.PathType = SerializationManager.SavePathType.FileNameOnly;
-        }
-    }
+}
 
+/// <summary>
+/// After it loads into the menu scene it sets the proper folder
+/// </summary>
+public class CardFolderPasser : SceneDataPasser
+{
+    public string FolderPath = "";
+    protected override void DoAfterLoad()
+    {
+        base.DoAfterLoad();
+        MenuTreeGenerator generator = GameObject.FindObjectOfType<MenuTreeGenerator>();
+        generator.StoryFolder = FolderPath;
+        //This path is the full path
+        generator.PathType = SerializationManager.SavePathType.FileNameOnly;
+        Debug.Log("set");
+    }
 }
