@@ -34,14 +34,19 @@ public class ParentCard : MonoBehaviour {
 
     public void DragBegin(PointerEventData data)
     {
+        float deltaXAbs = Mathf.Abs(data.delta.x);
+        float deltaYAbs = Mathf.Abs(data.delta.y);
         //Upwards drag
-        if(data.delta.y > 0)
+        if(deltaYAbs > deltaXAbs)
         {
-            HideLayer(LayoutLayer + 1);
-        }
-        else if(data.delta.y < 0)
-        {
-            ShowCards();
+            if (data.delta.y > 0)
+            {
+                HideLayer(LayoutLayer + 1);
+            }
+            else if (data.delta.y < 0)
+            {
+                ShowCards();
+            }
         }
     }
 
@@ -57,8 +62,8 @@ public class ParentCard : MonoBehaviour {
             group.alpha = 1f;
             group.interactable = true;
             group.blocksRaycasts = true;
-            group.transform.localScale = Vector3.one;
             card.transform.SetParent(cardsLayout);
+            group.transform.localScale = Vector3.one;
         }
     }
 

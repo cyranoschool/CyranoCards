@@ -12,7 +12,7 @@ public class GameLineTrigger : MonoBehaviour, IBeginDragHandler {
     public void OnBeginDrag(PointerEventData eventData)
     {
         //Dragged downwards
-        if(eventData.delta.y < 0)
+        if(eventData.delta.y < 0 && Mathf.Abs(eventData.delta.y) > Mathf.Abs(eventData.delta.x) )
         {
             //Create data passer for new line scene
             GameObject go = new GameObject();
