@@ -136,7 +136,7 @@ public class LargeCard : MonoBehaviour
 
             image.name = cardData.From;
         }
-
+        
         //If direction is from then set pronounceText
         if (direction == CardManager.Direction.From)
         {
@@ -193,7 +193,14 @@ public class LargeCard : MonoBehaviour
 
     IEnumerator Spin(float speed, float duration, Vector3 originalScale)
     {
-        SoundManager.GetSound("flick").Play();
+
+        //Sound too short to play with playclipatpoint
+        //AudioSource.PlayClipAtPoint(SoundManager.GetClip("flick"), transform.position);
+        AudioSource flickSound = SoundManager.GetSound("flick");
+        flickSound.Play();
+        //Have to manually activate because sound is too short
+        flickSound.GetComponent<SoundDestroyer>().activated = true;
+
         spinning = true;
         for (float t = 0; t <= duration; t += Time.deltaTime)
         {

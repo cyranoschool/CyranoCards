@@ -191,7 +191,7 @@ public class CardGrabber : MonoBehaviour
             {
                 //Send back to where it came from
                 //Play some kind of negative sound
-                SoundManager.GetSound("ring_down").Play();
+                AudioSource.PlayClipAtPoint(SoundManager.GetClip("ring_down"), transform.position);
                 cardPickup.GetComponent<BoxCollider2D>().enabled = true;
                 cardPickup.MoveHome();
 
@@ -205,7 +205,7 @@ public class CardGrabber : MonoBehaviour
                 dropOff.GiveCard(holding);
 
                 //Play positive sound
-                SoundManager.GetSound("ring_up").Play();
+                AudioSource.PlayClipAtPoint(SoundManager.GetClip("ring_up"), transform.position);
 
                 //Change color of text
                 textColor  = CompletionColor;

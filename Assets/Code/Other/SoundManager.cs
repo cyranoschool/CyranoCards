@@ -35,6 +35,10 @@ public class SoundManager : MonoBehaviour
     {
 
     }
+    public static AudioClip GetClip(string clip)
+    {
+        return instance.resourceSounds[clip];
+    }
 
     public static AudioSource GetSound(string name, bool autoKill = true, Transform parent = null, float pitchShiftRange = 0)
     {

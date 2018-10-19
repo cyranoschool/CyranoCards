@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(AudioSource))]
 public class SoundDestroyer : MonoBehaviour
 {
-    bool activated = false;
+    public bool activated = false;
     AudioSource source;
 
     void Start()
