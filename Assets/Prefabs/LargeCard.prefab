@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 222502540207133130}
   - component: {fileID: 114171011951554970}
   m_Layer: 5
-  m_Name: SpriteImage
+  m_Name: "\u9971"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -308,7 +308,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300082, guid: 0e3808cd502ef4fe2a083dcefacad788, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -507,6 +507,7 @@ MonoBehaviour:
   cardText: {fileID: 114047514819340134}
   phoneticText: {fileID: 114355375724436978}
   image: {fileID: 114171011951554970}
+  fallbackImage: questionmark
   SpinSpeed: 8
   SpinDuration: 0.125
   CanSpin: 1

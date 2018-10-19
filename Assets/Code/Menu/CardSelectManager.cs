@@ -153,8 +153,8 @@ public class CardSelectManager : MonoBehaviour {
             LargeCard lCard = GameObject.FindObjectOfType<LargeCard>();
             lCard.SetCard(cards[0]);
 
-            //Add trigger temporarily so user can still swipe down to continue
-            GameLineTrigger trigger = lCard.gameObject.AddComponent<GameLineTrigger>();
+            //Assume card already has game line trigger
+            GameLineTrigger trigger = lCard.GetComponent<GameLineTrigger>();
             trigger.PathType = PathType;
             trigger.Folder = Folder;
         }

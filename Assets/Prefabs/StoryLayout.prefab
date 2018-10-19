@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224762140375116020}
   - component: {fileID: 114214761637953906}
+  - component: {fileID: 114455009348342960}
   m_Layer: 5
   m_Name: StoryLayout
   m_TagString: Untagged
@@ -50,6 +51,19 @@ MonoBehaviour:
   m_Spacing: {x: 0, y: 0}
   m_Constraint: 2
   m_ConstraintCount: 1
+--- !u!114 &114455009348342960
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1437385680920412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74d4c791f268e644ea29b012e3a406d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LayoutElementWidth: 400
+  Spacing: 0
 --- !u!224 &224762140375116020
 RectTransform:
   m_ObjectHideFlags: 1

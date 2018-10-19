@@ -9,17 +9,28 @@ public class GameLineTrigger : MonoBehaviour, IBeginDragHandler {
     //Folder string can be passed down through MenuTreeGenerator in separate monobehaviour
     public string Folder = "Testing";
     public SerializationManager.SavePathType PathType = SerializationManager.SavePathType.Streaming;
+    public bool SwipeEnabled = true;
+
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if(!SwipeEnabled)
+        {
+            return;
+        }
         //Dragged downwards
         if(eventData.delta.y < 0 && Mathf.Abs(eventData.delta.y) > Mathf.Abs(eventData.delta.x) )
         {
-            //Create data passer for new line scene
-            GameObject go = new GameObject();
-            LineGamePasser passer = go.AddComponent<LineGamePasser>();
-            passer.Setup(GetComponent<LargeCard>().GetCardData(), Folder, PathType);
-            SceneManager.LoadScene("LineGame");
+            SendCardToLineGame();
         }
+    }
+    
+    public void SendCardToLineGame()
+    {
+        //Create data passer for new line scene
+        GameObject go = new GameObject();
+        LineGamePasser passer = go.AddComponent<LineGamePasser>();
+        passer.Setup(GetComponent<LargeCard>().GetCardData(), Folder, PathType);
+        SceneManager.LoadScene("LineGame");
     }
 
     class LineGamePasser : SceneDataPasser
