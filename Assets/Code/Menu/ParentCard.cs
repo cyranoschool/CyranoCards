@@ -13,7 +13,7 @@ public class ParentCard : MonoBehaviour {
 
     public Transform HideTransform { get; set; }
     public int LayoutLayer { get; set; }
-    Transform cardsLayout;
+    public Transform cardsLayout;
 
     [Header("Init")]
     public List<GameObject> LineCards = new List<GameObject>();
@@ -58,10 +58,7 @@ public class ParentCard : MonoBehaviour {
             group.interactable = true;
             group.blocksRaycasts = true;
             group.transform.localScale = Vector3.one;
-            if (cardsLayout != null)
-            {
-                card.transform.SetParent(cardsLayout, false);
-            }  
+            card.transform.SetParent(cardsLayout);
         }
     }
 
@@ -83,10 +80,6 @@ public class ParentCard : MonoBehaviour {
         group.alpha = 0;
         group.interactable = false;
         group.blocksRaycasts = false;
-        if (cardsLayout == null)
-        {
-            cardsLayout = transform.parent;
-        }
         transform.SetParent(HideTransform, false);
     }
 

@@ -104,6 +104,7 @@ public class MenuTreeGenerator : MonoBehaviour {
             parenter.LineCards = story.SectionsUID.ConvertAll<GameObject>(s => cardRefs[s]);
             //Layer must count downward for each level
             parenter.LayoutLayer = (int)ParentCard.Layer.Story;
+            parenter.cardsLayout = sectionGroup;
             parenter.HideTransform = CardHideArea;
             parenter.HideCards();
         }
@@ -127,6 +128,7 @@ public class MenuTreeGenerator : MonoBehaviour {
 
             }
             parenter.LayoutLayer = (int)ParentCard.Layer.Section;
+            parenter.cardsLayout = LineGroup;
             parenter.HideTransform = CardHideArea;
             parenter.HideCards();
             parenter.HideSelf();
@@ -141,6 +143,7 @@ public class MenuTreeGenerator : MonoBehaviour {
             parenter.LineCards = line.CardsUID.ConvertAll<GameObject>(s => cardRefs[s]);
             //Layer must count downward for each level
             parenter.LayoutLayer = (int)ParentCard.Layer.Line;
+            parenter.cardsLayout = WordGroup;
             parenter.HideTransform = CardHideArea;
             parenter.HideCards();
             parenter.HideSelf();
@@ -154,6 +157,7 @@ public class MenuTreeGenerator : MonoBehaviour {
             ParentCard parenter = go.AddComponent<ParentCard>();
 
             parenter.LayoutLayer = (int)ParentCard.Layer.Word;
+            parenter.cardsLayout = null;
             parenter.HideTransform = CardHideArea;
             parenter.HideCards();
             parenter.HideSelf();
