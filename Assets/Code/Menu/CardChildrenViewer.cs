@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class CardChildrenViewer : MonoBehaviour {
     [Header("Init")]
     public GameObject CardPrefab;
+    [Header("Config")]
+    public string CardType = "CardData";
 
     CardData cardFocused;
 
@@ -24,7 +26,7 @@ public class CardChildrenViewer : MonoBehaviour {
 
     void PopulateLayout()
     {
-        List<CardData> baseCards = cardFocused.GetBaseWordCards();
+        List<CardData> baseCards = cardFocused.GetChildCardsOfType(CardType);
         foreach(CardData card in baseCards)
         {
             GameObject go = GameObject.Instantiate(CardPrefab, transform);

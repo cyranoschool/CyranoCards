@@ -17,10 +17,14 @@ public class CardData
     //Values not duplicated
     //In a networked system the card id should just be the ID of the last card created on the dedicated server + 1
     public string UID = Guid.NewGuid().ToString(); //Unique ID
-    //public bool Favorited = false;
-    //public string creator = Get current creator here;
-    //public int creatorID = only this field is required instead of creator field;
+    //public string Creator = Get current creator here;
+    //public int CreatorID = only this field is required instead of creator field;
     public long DateTicks = DateTime.UtcNow.Ticks;
+
+    //Values per user (also not duplicated)
+    //While card is unique individual users can favorite it
+    //This can be circumvented locally (Users can have hashset/dictionary of cards they favorited saved locally in user class for now)
+    //public bool Favorited = false;
 
     //Values constant
     //public string CardType = "CardData"; //This is used to denote what the inherited type is for json
@@ -104,7 +108,7 @@ public class CardData
         string[] wordsBrokenUp = BrokenUpTo.Split();
 
         int length = wordsFrom.Length;
-        if(wordsPhon.Length != length || wordsBrokenUp.Length != length)
+        if (wordsPhon.Length != length || wordsBrokenUp.Length != length)
         {
             Debug.LogError($"Line not matching:\n{To}\n" +
                 $"FromLength: {wordsFrom.Length}\n" +
@@ -129,21 +133,20 @@ public class CardData
     /// Get all the lowest level word cards of a given card
     /// </summary>
     /// <returns></returns>
-    public List<CardData> GetBaseWordCards()
+    public List<CardData> GetChildCardsOfType(string cardType = "CardData")
     {
         Queue<CardData> cardSearch = new Queue<CardData>(GetChildCards());
         List<CardData> wordCards = new List<CardData>();
-        while(cardSearch.Count > 0)
+        while (cardSearch.Count > 0)
         {
             CardData card = cardSearch.Dequeue();
-            switch(card.CardType)
+            if (card.CardType == cardType)
             {
-                case "CardData":
-                    wordCards.Add(card);
-                    break;
-                default:
-                    card.GetChildCards().ForEach(x => cardSearch.Enqueue(x));
-                    break;
+                wordCards.Add(card);
+            }
+            else
+            {
+                card.GetChildCards().ForEach(x => cardSearch.Enqueue(x));
             }
         }
         return wordCards;
