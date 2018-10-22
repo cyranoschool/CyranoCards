@@ -198,10 +198,10 @@ public class CardManager
     /// <param name="cardData">Card Data to duplicate</param>
     /// <param name="placeInDictionary">Put this card into the current dictionary after creation</param>
     /// <returns></returns>
-    public static CardData GetDuplicateCard(CardData cardData, bool placeInDictionary = true)
+    public static CardData GetDuplicateCard(CardData cardData, bool placeInDictionary = false)
     {
         CardData clone = new CardData();
-        clone.Duplicate(cardData);
+        clone.CloneFrom(cardData);
 
         if(placeInDictionary)
         {

@@ -35,7 +35,7 @@ public class CardData
         CardType = this.GetType().FullName;
     }
 
-    public virtual void Duplicate(CardData cardData)
+    public virtual void CloneFrom(CardData cardData)
     {
         //Some values for new card shouldn't be duplicated
         //e.g. favorited, creator, creation date, UID
@@ -45,6 +45,14 @@ public class CardData
         BrokenUpTo = cardData.BrokenUpTo;
         //Icon = cardData.Icon;
     }
+
+    public CardData Duplicate()
+    {
+        CardData clone = new CardData();
+        clone.CloneFrom(this);
+        return clone;
+    }
+
 
     /// <summary>
     /// Finalize card creation (Take all language strings in CardData and trim and force lowercase)

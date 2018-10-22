@@ -324,6 +324,11 @@ Prefab:
       propertyPath: CardParents.Array.size
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114284624068368242, guid: 3ed5fa413f31d9d4fa2845dc09bbeb5f,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 224043193075023314, guid: 3ed5fa413f31d9d4fa2845dc09bbeb5f,
         type: 2}
       propertyPath: m_LocalPosition.x
@@ -429,7 +434,71 @@ Prefab:
       propertyPath: CardParents.Array.data[0]
       value: 
       objectReference: {fileID: 2014185213}
-    m_RemovedComponents: []
+    - target: {fileID: 1486572103851922, guid: 3ed5fa413f31d9d4fa2845dc09bbeb5f, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1486572103851922, guid: 3ed5fa413f31d9d4fa2845dc09bbeb5f, type: 2}
+      propertyPath: m_Name
+      value: RestartButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 114892942366031656, guid: 3ed5fa413f31d9d4fa2845dc09bbeb5f,
+        type: 2}
+      propertyPath: m_text
+      value: Restart
+      objectReference: {fileID: 0}
+    - target: {fileID: 114892942366031656, guid: 3ed5fa413f31d9d4fa2845dc09bbeb5f,
+        type: 2}
+      propertyPath: m_textInfo.characterCount
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 114892942366031656, guid: 3ed5fa413f31d9d4fa2845dc09bbeb5f,
+        type: 2}
+      propertyPath: m_textInfo.spaceCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114892942366031656, guid: 3ed5fa413f31d9d4fa2845dc09bbeb5f,
+        type: 2}
+      propertyPath: m_textInfo.wordCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114892942366031656, guid: 3ed5fa413f31d9d4fa2845dc09bbeb5f,
+        type: 2}
+      propertyPath: m_textInfo.lineCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114892942366031656, guid: 3ed5fa413f31d9d4fa2845dc09bbeb5f,
+        type: 2}
+      propertyPath: m_textInfo.pageCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114284624068368242, guid: 3ed5fa413f31d9d4fa2845dc09bbeb5f,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2014185215}
+    - target: {fileID: 114284624068368242, guid: 3ed5fa413f31d9d4fa2845dc09bbeb5f,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: RestartGame
+      objectReference: {fileID: 0}
+    - target: {fileID: 114284624068368242, guid: 3ed5fa413f31d9d4fa2845dc09bbeb5f,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114284624068368242, guid: 3ed5fa413f31d9d4fa2845dc09bbeb5f,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 114284624068368242, guid: 3ed5fa413f31d9d4fa2845dc09bbeb5f,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 114021183182032522, guid: 3ed5fa413f31d9d4fa2845dc09bbeb5f, type: 2}
   m_SourcePrefab: {fileID: 100100000, guid: 3ed5fa413f31d9d4fa2845dc09bbeb5f, type: 2}
   m_IsPrefabAsset: 0
 --- !u!224 &505960297 stripped
@@ -1125,8 +1194,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.0034876, y: -0.11769}
-  m_SizeDelta: {x: 17.853, y: 10.28}
+  m_AnchoredPosition: {x: 0, y: -0.11767578}
+  m_SizeDelta: {x: 17.846, y: 10.28}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2008913115
 MonoBehaviour:
@@ -1202,8 +1271,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2014185213}
   - component: {fileID: 2014185216}
-  - component: {fileID: 2014185215}
   - component: {fileID: 2014185214}
+  - component: {fileID: 2014185215}
   m_Layer: 5
   m_Name: CardGrid
   m_TagString: Untagged
@@ -1226,7 +1295,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000061035156, y: -0.0017346108}
+  m_AnchoredPosition: {x: 0.000061035156, y: -0.00012207031}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &2014185214
@@ -1250,11 +1319,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 2014185212}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 395089e363d42c949a119b92ed2d2af5, type: 3}
+  m_Script: {fileID: 11500000, guid: b2fde121c3f88154faa7bed7aa79f826, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   CardPrefab: {fileID: 1619080413812218, guid: faebbc434e30bca40af120baa11c52c2, type: 2}
   CardType: CardData
+  FlipBackDelay: 0.75
+  selectedCard: {fileID: 0}
 --- !u!114 &2014185216
 MonoBehaviour:
   m_ObjectHideFlags: 0

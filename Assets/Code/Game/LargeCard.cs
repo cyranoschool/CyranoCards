@@ -15,12 +15,17 @@ public class LargeCard : MonoBehaviour
     public TextMeshProUGUI cardText;
     public TextMeshProUGUI phoneticText;
     public Image image;
+    public GameObject BackOverlay;
     public string fallbackImage = "questionmark";
 
     [Header("Config")]
     public float SpinSpeed = 4f;
     public float SpinDuration = .25f;
     public bool CanSpin = true;
+
+    public enum HideType { NoHide, HideFront, HideBack, HideBoth }
+    public HideType hideType = HideType.NoHide;
+
 
     private CardData cardData;
     public CardData GetCardData() { return cardData; }
@@ -112,13 +117,13 @@ public class LargeCard : MonoBehaviour
         }
 
         cardText.SetText(text);
-        
+
         //Do image setting here
         //
         //If the texture has already been set don't reload+reset
         if (image.name != cardData.From)
         {
-            string[] imageNames = new string[] { cardData.Icon, cardData.From, cardData.PhoneticFrom, cardData.BrokenUpTo, cardData.To, fallbackImage};
+            string[] imageNames = new string[] { cardData.Icon, cardData.From, cardData.PhoneticFrom, cardData.BrokenUpTo, cardData.To, fallbackImage };
             bool imageSet = false;
             for (int i = 0; i < imageNames.Length; i++)
             {
@@ -129,7 +134,7 @@ public class LargeCard : MonoBehaviour
                 }
             }
             //Set default image or leave alone
-            if(!imageSet)
+            if (!imageSet)
             {
 
             }
@@ -150,6 +155,10 @@ public class LargeCard : MonoBehaviour
             //parentGameObject.SetActive(false);
             phoneticText.SetText(cardData.To);
         }
+
+        //Card backing
+        UpdateBacking();
+
         LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)cardText.transform.parent);
         LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)phoneticText.transform.parent);
         LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)transform);
@@ -157,16 +166,35 @@ public class LargeCard : MonoBehaviour
 
     }
 
+    void UpdateBacking()
+    {
+        bool showBack = false;
+        switch (hideType)
+        {
+            case HideType.NoHide:
+                break;
+            case HideType.HideFront:
+                showBack = (direction == CardManager.Direction.From) ? true : false;
+                break;
+            case HideType.HideBack:
+                showBack = (direction == CardManager.Direction.From) ? false : true;
+                break;
+            case HideType.HideBoth:
+                showBack = true;
+                break;
+        }
+        BackOverlay.SetActive(showBack);
+    }
     bool TryLoadImage(string name)
     {
         string imageFolderPath = "Images/";
         Texture2D texture = Resources.Load<Texture2D>(imageFolderPath + name);
-        if(texture == null)
+        if (texture == null)
         {
             return false;
         }
         Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(.5f, .5f));
-        
+
         //Destroy old sprite here/unload
         //
 
@@ -194,6 +222,7 @@ public class LargeCard : MonoBehaviour
             return;
         }
         FlipDirection();
+        spinning = true;
         StartCoroutine(Spin(SpinSpeed, SpinDuration, transform.localScale));
     }
 
@@ -207,7 +236,7 @@ public class LargeCard : MonoBehaviour
         //Have to manually activate because sound is too short
         flickSound.GetComponent<SoundDestroyer>().activated = true;
 
-        spinning = true;
+        
         for (float t = 0; t <= duration; t += Time.deltaTime)
         {
             float xScale = Mathf.Sin(t * speed) * originalScale.x;
