@@ -148,7 +148,7 @@ public class LargeCard : MonoBehaviour
         {
             //GameObject parentGameObject = phoneticText.transform.parent.gameObject;
             //parentGameObject.SetActive(false);
-            phoneticText.SetText(cardData.BrokenUpTo);
+            phoneticText.SetText(cardData.To);
         }
         LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)cardText.transform.parent);
         LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)phoneticText.transform.parent);
