@@ -23,4 +23,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/BuildScenes/CardWordViewer.unity
     guid: 6902fe7ecd8898241b5b37a1b1689d46
+  - enabled: 1
+    path: Assets/Scenes/BuildScenes/CardEditor.unity
+    guid: 4170e92e81ba87044a3ff895039399c0
   m_configObjects: {}

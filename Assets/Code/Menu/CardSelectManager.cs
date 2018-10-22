@@ -168,11 +168,13 @@ public class CardSelectPasser : SceneDataPasser
         base.DoAfterLoad();
         //Set card in scene to this card data
         LargeCard lCard = GameObject.FindObjectOfType<LargeCard>();
-        lCard.SetCard(cards[0]);
 
-        //Assume card already has game line trigger
+        //If it contains game line trigger
         GameLineTrigger trigger = lCard.GetComponent<GameLineTrigger>();
-        trigger.PathType = PathType;
-        trigger.Folder = Folder;
+        if(trigger != null)
+        {
+            trigger.PathType = PathType;
+            trigger.Folder = Folder;
+        }
     }
 }
