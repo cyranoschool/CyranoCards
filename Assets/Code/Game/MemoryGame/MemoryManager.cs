@@ -17,7 +17,8 @@ public class MemoryManager : MonoBehaviour
     CardData cardFocused;
 
     bool lockedSpin = false;
-    public LargeCard selectedCard;
+    LargeCard selectedCard;
+    HashSet<Transform> ignoreSet = new HashSet<Transform>();
 
     void OnEnable()
     {
@@ -118,6 +119,10 @@ public class MemoryManager : MonoBehaviour
         }
         GameObject go = data.pointerCurrentRaycast.gameObject;
         LargeCard lCard = go.GetComponentInParent<LargeCard>();
+        if(!lCard.CanSpin || (selectedCard != null && !selectedCard.CanSpin) || ignoreSet.Contains(lCard.transform))
+        {
+            return;
+        }
         if(selectedCard == null)
         {
             selectedCard = lCard;
@@ -128,8 +133,9 @@ public class MemoryManager : MonoBehaviour
         }
         else
         {
-            //Selected the correct second card
-            if(lCard.GetCardData() == selectedCard.GetCardData())
+
+            //Selected the correct second card (has to be facing the other way)
+            if (lCard.GetCardData() == selectedCard.GetCardData() && (lCard.hideType != selectedCard.hideType))
             {
                 //Disable interactivity
                 //Can't just set canspin because canspin is constantly reset (can make it only reset cards that aren't in solved hashset if necessary)
@@ -140,10 +146,14 @@ public class MemoryManager : MonoBehaviour
                 lCardGroup.blocksRaycasts = false;
                 selectedGroup.blocksRaycasts = false;
 
+                //Ignore these cards when forcing all cards to flip over
+                ignoreSet.Add(lCard.transform);
+                ignoreSet.Add(selectedCard.transform);
+
                 //Show some other way that it was correct
                 lCard.GetComponent<Image>().color = Color.cyan;
                 selectedCard.GetComponent<Image>().color = Color.cyan;
-
+                ForceCardsOver();
                 selectedCard = null;
             }
             else
@@ -151,7 +161,10 @@ public class MemoryManager : MonoBehaviour
 
                 //Make sure second card is still flipped due to how events are passed
                 lCard.SpinCard();
-
+                //Force all other children cards over if they aren't in hashSet of solved cards or selected cards
+                ignoreSet.Add(lCard.transform);
+                ignoreSet.Add(selectedCard.transform);
+                ForceCardsOver();
                 //Enforce a delay to see that you made a mistake
                 SetFlippingChildren(false);
                 StartCoroutine(FlipBackCards(lCard, selectedCard));
@@ -165,8 +178,30 @@ public class MemoryManager : MonoBehaviour
     {
         yield return new WaitForSeconds(FlipBackDelay + a.SpinDuration);
         SetFlippingChildren(true);
+        ignoreSet.Remove(a.transform);
+        ignoreSet.Remove(b.transform);
         a.SpinCard();
         b.SpinCard();
+        ForceCardsOver();
+    }
+
+    /// <summary>
+    /// Forces cards to spin to hidden if not in the ignoreSet
+    /// </summary>
+    void ForceCardsOver()
+    {
+        foreach (Transform child in transform)
+        {
+            if(ignoreSet.Contains(child))
+            {
+                continue;
+            }
+            LargeCard lCard = child.GetComponent<LargeCard>();
+            if (!lCard.IsHidden())
+            {
+                lCard.FlipDirection();
+            }
+        }
     }
 
     void SetFlippingChildren(bool canFlip)
@@ -181,7 +216,8 @@ public class MemoryManager : MonoBehaviour
 
     void ClearLayout()
     {
-        foreach(Transform child in transform)
+        ignoreSet.Clear();
+        foreach (Transform child in transform)
         {
             Destroy(child.gameObject);
         }

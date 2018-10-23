@@ -168,22 +168,7 @@ public class LargeCard : MonoBehaviour
 
     void UpdateBacking()
     {
-        bool showBack = false;
-        switch (hideType)
-        {
-            case HideType.NoHide:
-                break;
-            case HideType.HideFront:
-                showBack = (direction == CardManager.Direction.From) ? true : false;
-                break;
-            case HideType.HideBack:
-                showBack = (direction == CardManager.Direction.From) ? false : true;
-                break;
-            case HideType.HideBoth:
-                showBack = true;
-                break;
-        }
-        BackOverlay.SetActive(showBack);
+        BackOverlay.SetActive(IsHidden());
     }
     bool TryLoadImage(string name)
     {
@@ -247,4 +232,23 @@ public class LargeCard : MonoBehaviour
         transform.localScale = originalScale;
     }
 
+    public bool IsHidden()
+    {
+        bool hidden = false;
+        switch (hideType)
+        {
+            case HideType.NoHide:
+                break;
+            case HideType.HideFront:
+                hidden = (direction == CardManager.Direction.From) ? true : false;
+                break;
+            case HideType.HideBack:
+                hidden = (direction == CardManager.Direction.From) ? false : true;
+                break;
+            case HideType.HideBoth:
+                hidden = true;
+                break;
+        }
+        return hidden;
+    }
 }
