@@ -23,6 +23,8 @@ public class LargeCard : MonoBehaviour
     public float SpinSpeed = 4f;
     public float SpinDuration = .25f;
     public bool CanSpin = true;
+    public Color FrontColor;
+    public Color BackColor;
 
     public enum HideType { NoHide, HideFront, HideBack, HideBoth }
     public HideType hideType = HideType.NoHide;
@@ -162,6 +164,17 @@ public class LargeCard : MonoBehaviour
 
         //Update Favorite toggle
         FavoriteToggle.isOn = cardData.IsFavorited();
+
+        Image panelImage = GetComponent<Image>();
+        //Update color of card (front or back)
+        if (direction == CardManager.Direction.From)
+        {
+            panelImage.color = FrontColor;
+        }
+        else
+        {
+            panelImage.color = BackColor;
+        }
 
         LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)cardText.transform.parent);
         LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)phoneticText.transform.parent);

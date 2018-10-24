@@ -164,7 +164,11 @@ public class CardData
     {
         if(userData == null)
         {
-            userData = UserManager.Instance.GetCurrentUser();
+            userData = UserManager.Instance?.GetCurrentUser();
+            if(userData == null)
+            {
+                return false;
+            }
         }
         return userData.IsCardUIDFavorited(UID);
     }
