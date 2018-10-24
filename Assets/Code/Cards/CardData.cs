@@ -23,8 +23,7 @@ public class CardData
 
     //Values per user (also not duplicated)
     //While card is unique individual users can favorite it
-    //This can be circumvented locally (Users can have hashset/dictionary of cards they favorited saved locally in user class for now)
-    //public bool Favorited = false;
+    
 
     //Values constant
     //public string CardType = "CardData"; //This is used to denote what the inherited type is for json
@@ -63,6 +62,7 @@ public class CardData
         To = To.ToLower();
         PhoneticFrom = PhoneticFrom.ToLower();
         BrokenUpTo = BrokenUpTo.ToLower();
+        
     }
 
     /// <summary>
@@ -159,4 +159,14 @@ public class CardData
         }
         return wordCards;
     }
+
+    public bool IsFavorited(UserData userData = null)
+    {
+        if(userData == null)
+        {
+            userData = UserManager.Instance.GetCurrentUser();
+        }
+        return userData.IsCardUIDFavorited(UID);
+    }
+
 }

@@ -46,7 +46,8 @@ public static class SerializationManager
                 //path = filename;
                 //Immediately return
                 return filename;
-                break;
+                //Commenting out warning for unreachable code (uncomment if not returning)
+                //break;
         }
         return Path.Combine(path, "SaveData/" + filename);
     }

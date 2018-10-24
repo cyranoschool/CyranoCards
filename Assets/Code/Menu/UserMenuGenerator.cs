@@ -21,6 +21,8 @@ public class UserMenuGenerator : MonoBehaviour
     public SerializationManager.SavePathType PathType = SerializationManager.SavePathType.Streaming;
     public string UserFolder = "Users";
 
+    UserData userDataSelected;
+
     // Use this for initialization
     void Start()
     {
@@ -41,9 +43,9 @@ public class UserMenuGenerator : MonoBehaviour
         for (int i = 0; i < directories.Length; i++)
         {
             string folderPath = directories[i];
-            string userDataText = File.ReadAllText(folderPath + "/user.json");
+            string filePath = folderPath + "/user.json";
+            string userDataText = File.ReadAllText(filePath);
             UserData userData = JsonUtility.FromJson<UserData>(userDataText);
-
 
             GameObject go = GameObject.Instantiate(UserPrefab, UserLayout);
             go.transform.position = Vector3.zero;
@@ -61,11 +63,12 @@ public class UserMenuGenerator : MonoBehaviour
             entry.callback.AddListener((data) => { TappedUser((PointerEventData)data); });
             trigger.triggers.Add(entry);
 
+            //Add userdata to object for later retrieval
+            UserButton buttonData = go.AddComponent<UserButton>();
+            buttonData.userData = userData;
         }
         LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)transform);
     }
-
-
 
     void PopulateLanguages(string directory)
     {
@@ -103,12 +106,17 @@ public class UserMenuGenerator : MonoBehaviour
         {
             Destroy(LanguageLayout.GetChild(i).gameObject);
         }
+
+        userDataSelected = go.GetComponent<UserButton>().userData;
+
         //Repopulate languages
         PopulateLanguages(folderPath);
     }
 
     void TappedLanguage(PointerEventData data)
     {
+        UserManager.Instance.SetCurrentUser(userDataSelected);
+
         GameObject go = data.pointerCurrentRaycast.gameObject;
         string folderPath = go.name;
         DirectoryInfo dInfo = new DirectoryInfo(folderPath);
@@ -121,7 +129,8 @@ public class UserMenuGenerator : MonoBehaviour
             passer = po.AddComponent<CardFolderPasser>();
         }
         //This is the full name path so make sure to switch from streaming path creation to no path
-        passer.FolderPath = dInfo.FullName;
+        passer.LanguageFolderPath = dInfo.FullName;
+        passer.UserPath = dInfo.Parent.Parent + "/user.json";
         //Always keep around to move back to the menu if needed
         passer.DestroyAfterLoad = false;
         passer.DestroyOnWrongLevel = false;
@@ -131,17 +140,20 @@ public class UserMenuGenerator : MonoBehaviour
 
 }
 
+
+
 /// <summary>
 /// After it loads into the menu scene it sets the proper folder
 /// </summary>
 public class CardFolderPasser : SceneDataPasser
 {
-    public string FolderPath = "";
+    public string LanguageFolderPath = "";
+    public string UserPath = "";
     protected override void DoAfterLoad()
     {
         base.DoAfterLoad();
         MenuTreeGenerator generator = GameObject.FindObjectOfType<MenuTreeGenerator>();
-        generator.StoryFolder = FolderPath;
+        generator.StoryFolder = LanguageFolderPath;
         //This path is the full path
         generator.PathType = SerializationManager.SavePathType.FileNameOnly;
     }

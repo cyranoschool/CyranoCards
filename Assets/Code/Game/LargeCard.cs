@@ -16,6 +16,7 @@ public class LargeCard : MonoBehaviour
     public TextMeshProUGUI phoneticText;
     public Image image;
     public GameObject BackOverlay;
+    public Toggle FavoriteToggle;
     public string fallbackImage = "questionmark";
 
     [Header("Config")]
@@ -159,6 +160,9 @@ public class LargeCard : MonoBehaviour
         //Card backing
         UpdateBacking();
 
+        //Update Favorite toggle
+        FavoriteToggle.isOn = cardData.IsFavorited();
+
         LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)cardText.transform.parent);
         LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)phoneticText.transform.parent);
         LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)transform);
@@ -250,5 +254,26 @@ public class LargeCard : MonoBehaviour
                 break;
         }
         return hidden;
+    }
+
+    public void ToggleFavorite(bool IsOn)
+    {
+        UserData userData = UserManager.Instance.GetCurrentUser();
+        if(userData == null)
+        {
+            return;
+        }
+        if(IsOn)
+        {
+            userData.FavoriteCardUID(cardData.UID);
+        }
+        else
+        {
+            userData.UnfavoriteCardUID(cardData.UID);
+        }
+        //Potentially save changes right away
+        //Get current user path
+        string userPath = GameObject.FindObjectOfType<CardFolderPasser>().UserPath;
+        UserManager.SaveUser(userData, userPath, true, false);
     }
 }
