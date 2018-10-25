@@ -13,6 +13,8 @@ public class CardData
     public string PhoneticFrom = "";
     public string BrokenUpTo = "";
     public string Icon = "";
+    //If the card has children, which one does it reference for images and text
+    public int ChildCardViewIndex = -1;
 
     //Values not duplicated
     //In a networked system the card id should just be the ID of the last card created on the dedicated server + 1
@@ -100,6 +102,10 @@ public class CardData
     public virtual List<CardData> GetChildCards()
     {
         return new List<CardData>(0);
+    }
+    public virtual int ChildCardCount()
+    {
+        return 0;
     }
 
     /// <summary>

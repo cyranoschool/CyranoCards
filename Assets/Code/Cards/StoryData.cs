@@ -18,6 +18,10 @@ public class StoryData : CardData{
     {
         return SectionsUID.ConvertAll<CardData>(s => (CardData)CardManager.GetCardUID(s));
     }
+    public override int ChildCardCount()
+    {
+        return SectionsUID.Count;
+    }
 
     public override void AddCardReferences(List<CardData> cards)
     {

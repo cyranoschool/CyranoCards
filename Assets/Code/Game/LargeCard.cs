@@ -29,6 +29,9 @@ public class LargeCard : MonoBehaviour
     public enum HideType { NoHide, HideFront, HideBack, HideBoth }
     public HideType hideType = HideType.NoHide;
 
+    //Are all children images checked, just the ones from the child selected, or none at all
+    public enum ImageChecking { None, Selected, All}
+    public ImageChecking imageChecking = ImageChecking.All;
 
     private CardData cardData;
     public CardData GetCardData() { return cardData; }
@@ -101,6 +104,10 @@ public class LargeCard : MonoBehaviour
             UpdateCard();
         }
     }
+    public static List<string> GetPotentialImageNames(CardData cd)
+    {
+        return new List<string>() { cd.Icon, cd.From, cd.PhoneticFrom, cd.BrokenUpTo, cd.To };
+    }
 
     public void UpdateCard()
     {
@@ -108,6 +115,7 @@ public class LargeCard : MonoBehaviour
         {
             return;
         }
+
         //Clear old data out
         //Primary text is always From now
         //string text = direction == CardManager.Direction.From ? cardData.From : cardData.To;
@@ -123,27 +131,44 @@ public class LargeCard : MonoBehaviour
 
         //Do image setting here
         //
-        //If the texture has already been set don't reload+reset
-        if (image.name != cardData.From)
+        List<CardData> childrenCards = cardData.GetChildCards();
+        List<string> imageNames = GetPotentialImageNames(cardData);
+
+        if (imageChecking == ImageChecking.Selected)
         {
-            string[] imageNames = new string[] { cardData.Icon, cardData.From, cardData.PhoneticFrom, cardData.BrokenUpTo, cardData.To, fallbackImage };
-            bool imageSet = false;
-            for (int i = 0; i < imageNames.Length; i++)
+            //Add strings of the selected child card index if it exists
+            int childIndex = cardData.ChildCardViewIndex;
+            if (childIndex > 0 && childIndex < cardData.ChildCardCount())
             {
-                if (TryLoadImage(imageNames[i]))
-                {
-                    imageSet = true;
-                    break;
-                }
+                imageNames.AddRange(GetPotentialImageNames(childrenCards[childIndex]));
             }
-            //Set default image or leave alone
-            if (!imageSet)
-            {
-
-            }
-
-            image.name = cardData.From;
         }
+        else if (imageChecking == ImageChecking.All)
+        {
+            //Alternatively add all possible image names for all children
+            //THIS COULD TAKE MUCH LONGER
+            foreach (CardData c in childrenCards)
+            {
+                imageNames.AddRange(GetPotentialImageNames(c));
+            }
+        }
+
+        imageNames.Add(fallbackImage);
+        bool imageSet = false;
+        for (int i = 0; i < imageNames.Count; i++)
+        {
+            if (TryLoadImage(imageNames[i]))
+            {
+                imageSet = true;
+                break;
+            }
+        }
+        //Set default image or leave alone
+        if (!imageSet)
+        {
+
+        }
+
         //Changes here, phonetic text is always active but is swapped for the broken up text
         //If direction is from then set pronounceText
         if (direction == CardManager.Direction.From)
@@ -238,7 +263,7 @@ public class LargeCard : MonoBehaviour
         //Have to manually activate because sound is too short
         flickSound.GetComponent<SoundDestroyer>().activated = true;
 
-        
+
         for (float t = 0; t <= duration; t += Time.deltaTime)
         {
             float xScale = Mathf.Sin(t * speed) * originalScale.x;
@@ -272,11 +297,11 @@ public class LargeCard : MonoBehaviour
     public void ToggleFavorite(bool IsOn)
     {
         UserData userData = UserManager.Instance.GetCurrentUser();
-        if(userData == null)
+        if (userData == null)
         {
             return;
         }
-        if(IsOn)
+        if (IsOn)
         {
             userData.FavoriteCardUID(cardData.UID);
         }
