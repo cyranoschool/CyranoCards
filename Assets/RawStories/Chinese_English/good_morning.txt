@@ -1,0 +1,12 @@
+#story 早安 $ zǎoān / good_morning = good morning *
+#section 起床 $ qǐchuáng / waking_up = waking up *
+起床 很 难 $ qǐchuáng hěn nán / waking_up very hard = waking up is hard *
+早上 我 很 累 $ zǎoshàng wǒ hěn lèi / morning I very tired = i am so tired in the morning *
+
+#section 活力 $ huólì / energy = energy *
+我 喜欢 咖啡 $ wǒ xǐhuān kāfēi / i like coffee = I like coffe * 
+我 每天 都 喝 $ wǒ měitiān dōu hē / i every_day all drink = I have it every day *
+
+#section 工作 $ gōngzuò / work = work *
+我 喝 咖啡 后 去 工作 $ wǒ hē kāfēi hòu qù gōngzuò / I drink coffee after go work = after coffe i go to work *
+再 也 没有 活力 问题 $ zài yě méiyǒu huólì wèntí / again also no energy problem = no more problems with energy *
