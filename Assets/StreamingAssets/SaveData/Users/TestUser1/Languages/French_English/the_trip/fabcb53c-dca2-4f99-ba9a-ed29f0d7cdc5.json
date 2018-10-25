@@ -1,0 +1,15 @@
+{
+    "From": "avion pour manhattan",
+    "To": "airplane to manhattan",
+    "PhoneticFrom": "avyohn poogh manatan",
+    "BrokenUpTo": "airplane to manhattan",
+    "Icon": "",
+    "UID": "fabcb53c-dca2-4f99-ba9a-ed29f0d7cdc5",
+    "DateTicks": 636760821740565099,
+    "CardType": "SectionData",
+    "LinesUID": [
+        "f8f6493f-f7e5-49f1-94b4-043c34c089db",
+        "3c979746-5edf-4b68-afff-cfe8a7d6accf",
+        "179fcf65-ff23-4eee-b2b6-b31bf35c70f9"
+    ]
+}
