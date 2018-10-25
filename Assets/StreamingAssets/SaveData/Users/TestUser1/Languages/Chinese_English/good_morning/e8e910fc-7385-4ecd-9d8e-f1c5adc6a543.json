@@ -1,0 +1,14 @@
+{
+    "From": "工作",
+    "To": "work",
+    "PhoneticFrom": "gōngzuò",
+    "BrokenUpTo": "work",
+    "Icon": "",
+    "UID": "e8e910fc-7385-4ecd-9d8e-f1c5adc6a543",
+    "DateTicks": 636760818058572091,
+    "CardType": "SectionData",
+    "LinesUID": [
+        "0574e482-2c06-445e-ad6b-ed3d85473cd8",
+        "b5dfbdcc-bb6d-4cf2-965d-710c367f72a0"
+    ]
+}

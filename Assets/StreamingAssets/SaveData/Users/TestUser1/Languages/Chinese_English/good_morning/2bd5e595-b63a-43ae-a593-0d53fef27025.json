@@ -1,0 +1,15 @@
+{
+    "From": "我 喜欢 咖啡",
+    "To": "i like coffe",
+    "PhoneticFrom": "wǒ xǐhuān kāfēi",
+    "BrokenUpTo": "i like coffee",
+    "Icon": "",
+    "UID": "2bd5e595-b63a-43ae-a593-0d53fef27025",
+    "DateTicks": 636760818058572091,
+    "CardType": "LineData",
+    "CardsUID": [
+        "c5b9d467-28cf-422b-a246-11ab1a9ee7a9",
+        "6760e775-9099-464e-907d-230795906d7f",
+        "4cc485d4-2994-4ef1-a56b-284b95a17be5"
+    ]
+}

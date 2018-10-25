@@ -1,0 +1,15 @@
+{
+    "From": "起床 很 难",
+    "To": "waking up is hard",
+    "PhoneticFrom": "qǐchuáng hěn nán",
+    "BrokenUpTo": "waking_up very hard",
+    "Icon": "",
+    "UID": "08c3a725-69b3-4659-be24-6feec59ec324",
+    "DateTicks": 636760818058572091,
+    "CardType": "LineData",
+    "CardsUID": [
+        "850b7b21-4bcb-4ad7-ac44-c31bb2dd827e",
+        "8189c28d-0235-47c7-86c6-d82dca63603f",
+        "c08929e3-834e-40a1-a00b-03594d2fc3e0"
+    ]
+}

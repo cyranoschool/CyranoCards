@@ -1,0 +1,16 @@
+{
+    "From": "早上 我 很 累",
+    "To": "i am so tired in the morning",
+    "PhoneticFrom": "zǎoshàng wǒ hěn lèi",
+    "BrokenUpTo": "morning i very tired",
+    "Icon": "",
+    "UID": "b41ee8e4-caab-452e-875b-bccf7e57f7bb",
+    "DateTicks": 636760818058572091,
+    "CardType": "LineData",
+    "CardsUID": [
+        "a569922c-3864-4914-9050-39fb47357cd7",
+        "c5b9d467-28cf-422b-a246-11ab1a9ee7a9",
+        "8189c28d-0235-47c7-86c6-d82dca63603f",
+        "fd021ab8-8cd8-448d-ad7b-15fca26d8ca5"
+    ]
+}
