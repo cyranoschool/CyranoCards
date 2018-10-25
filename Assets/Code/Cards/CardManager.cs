@@ -138,12 +138,16 @@ public class CardManager
         totalCards--;
     }
 
-    public static void UnloadAll()
+    public static void UnloadAll(bool unloadTextures = true)
     {
         Instance.cardsFromAll.Clear();
         Instance.cardsToAll.Clear();
         Instance.cardsUID.Clear();
         Instance.matchingDefinitions.Clear();
+        if(unloadTextures)
+        {
+            Resources.UnloadUnusedAssets();
+        }
     }
 
     public static List<CardData> GetCards(string text, Direction direction)
