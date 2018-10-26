@@ -2,22 +2,5 @@
     "Name": "Test User 1",
     "UID": "63329ed8-56c0-4e16-80b3-1c5d99662450",
     "FriendedUsersUID": [],
-    "LocalUserCards": [
-        {
-            "CardUID": "1fba11d7-e4d6-4bbd-8400-14df356e23aa",
-            "Favorited": false,
-            "ParentPinnedCards": {
-                "PinnedCardsUID": []
-            },
-            "Progress": 0
-        },
-        {
-            "CardUID": "72ced090-b8f4-4f38-89f8-d951a4af2f5d",
-            "Favorited": false,
-            "ParentPinnedCards": {
-                "PinnedCardsUID": []
-            },
-            "Progress": 300
-        }
-    ]
+    "LocalUserCards": []
 }

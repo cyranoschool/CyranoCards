@@ -130,19 +130,24 @@ public class LineManager : MonoBehaviour
         if(grabber.IncorrectDrops == 0)
         {
             //If was perfect game increase card progress based on some amount
-            UserData userData = UserManager.Instance?.GetCurrentUser();
-            if(userData != null)
+            IncrementCardProgress();
+        }
+    }
+
+    void IncrementCardProgress()
+    {
+        UserData userData = UserManager.Instance?.GetCurrentUser();
+        if (userData != null)
+        {
+            var passer = GameObject.FindObjectOfType<CardSelectPasser>();
+            CardData cardData = passer.GetSelectedCard();
+            var localCardData = userData.GetOrCreateLocalCardData(cardData.UID);
+            localCardData.Progress += 100;
+            //Save user data
+            string userPath = GameObject.FindObjectOfType<CardFolderPasser>().UserPath;
+            if (userPath != null)
             {
-                var passer = GameObject.FindObjectOfType<CardSelectPasser>();
-                CardData cardData = passer.GetSelectedCard();
-                var localCardData = userData.GetOrCreateLocalCardData(cardData.UID);
-                localCardData.Progress += 100;
-                //Save user data
-                string userPath = GameObject.FindObjectOfType<CardFolderPasser>().UserPath;
-                if (userPath != null)
-                {
-                    UserManager.SaveUser(userData, userPath, true, false);
-                }
+                UserManager.SaveUser(userData, userPath, true, false);
             }
         }
     }
