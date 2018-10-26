@@ -7,14 +7,20 @@ using System;
 /// <summary>
 /// Data stored for individual cards on the user side
 /// For example a user may have favorited a card
-/// That favorite isn't stored on the card as the card could come from anywhere, it's per user
+/// That favorite isn't stored on the card as the card could come from anywhere, this is per-user data
 /// </summary>
 [Serializable]
 public class LocalUserCardData {
     public string CardUID = "";
     public bool Favorited = false;
-    public ParentPins ParentPinnedCards = null;
+    public ParentPins ParentPinnedCards = new ParentPins();
 
+    public int Progress = 0;
+    //For use with how the progress integer functions, which is yet unclear, and temporarily 100
+    //300 divisible by 	2-3-4-5-6-10-12-15, could be useful breakoff points in implementation
+    public const int MAX_PROGRESS = 300;
+
+    
     public LocalUserCardData() { }
 
 }

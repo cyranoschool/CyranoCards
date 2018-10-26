@@ -26,7 +26,8 @@ public class LineManager : MonoBehaviour
 
 
     List<List<CardIndexer>> wordIndices;
-
+    List<CardDropoff> dropoffs;
+    bool gameComplete = false;
 
     // Use this for initialization
     void Start()
@@ -54,7 +55,7 @@ public class LineManager : MonoBehaviour
 
     void CreateCardGameElements(List<CardIndexer> phrase)
     {
-
+        dropoffs = new List<CardDropoff>();
         for (int i = 0; i < phrase.Count; i++)
         {
             CardIndexer cardIndexer = phrase[i];
@@ -99,14 +100,51 @@ public class LineManager : MonoBehaviour
             uiText.GetComponentInChildren<TextMeshProUGUI>().text = textBlock;
 
             dropoff.SetCard(cardIndexer, Direction, uiText);
-
+            dropoffs.Add(dropoff);
         }
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(!gameComplete)
+        {
+            CheckGameComplete();
+        }
+    }
 
+    void CheckGameComplete()
+    {
+        //Check if all dropoffs took their cards
+        foreach(CardDropoff dropoff in dropoffs)
+        {
+            if(!dropoff.TookCard)
+            {
+                return;
+            }
+        }
+        gameComplete = true;
+        //If all dropoffs are holding the proper card
+        //get card grabber to see score
+        CardGrabber grabber = GameObject.FindObjectOfType<CardGrabber>();
+        if(grabber.IncorrectDrops == 0)
+        {
+            //If was perfect game increase card progress based on some amount
+            UserData userData = UserManager.Instance?.GetCurrentUser();
+            if(userData != null)
+            {
+                var passer = GameObject.FindObjectOfType<CardSelectPasser>();
+                CardData cardData = passer.GetSelectedCard();
+                var localCardData = userData.GetOrCreateLocalCardData(cardData.UID);
+                localCardData.Progress += 100;
+                //Save user data
+                string userPath = GameObject.FindObjectOfType<CardFolderPasser>().UserPath;
+                if (userPath != null)
+                {
+                    UserManager.SaveUser(userData, userPath, true, false);
+                }
+            }
+        }
     }
 
     #region Line Processing
