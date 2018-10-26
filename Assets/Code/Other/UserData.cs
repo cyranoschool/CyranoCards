@@ -26,6 +26,7 @@ public class UserData : ISerializationCallbackReceiver
         if (!localUserCards.TryGetValue(UID, out data))
         {
             data = new LocalUserCardData { CardUID = UID };
+            localUserCards.Add(UID, data);
         }
         return data;
     }
