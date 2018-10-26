@@ -93,14 +93,8 @@ public class MemoryManager : MonoBehaviour
         transform.DetachChildren();
 
         //Shuffle list
-        for (int i = 0; i < childTransforms.Count; i++)
-        {
-            int swapIndex = Random.Range(0, childTransforms.Count);
-            Transform t = childTransforms[i];
-            Transform swap = childTransforms[swapIndex];
-            childTransforms[i] = swap;
-            childTransforms[swapIndex] = t;
-        }
+        childTransforms.ShuffleInPlace();
+
         //Add list back into transform
         foreach (Transform child in childTransforms)
         {
