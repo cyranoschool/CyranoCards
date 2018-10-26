@@ -1,9 +1,5 @@
 {
     "Name": "Test User 1",
     "UID": "63329ed8-56c0-4e16-80b3-1c5d99662450",
-    "FavoritedCardsUID": [
-        "239b5bfe-8a3f-4529-a530-d7629c21c401"
-    ],
-    "FriendedUsersUID": [],
-    "ParentPinnedCards": []
+    "FriendedUsersUID": []
 }
