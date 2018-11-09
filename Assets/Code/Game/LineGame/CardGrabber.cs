@@ -23,9 +23,9 @@ public class CardGrabber : MonoBehaviour
     bool buttonPressed = false;
     bool buttonFixedPressed = false;
 
-    int dropAttempts = 0;
-    int incorrectDrops = 0;
-    int correctDrops = 0;
+    public int TotalDrops { get; set; }
+    public int IncorrectDrops { get; set; }
+    public int CorrectDrops { get; set; }
 
     // Use this for initialization
     void Start()
@@ -188,7 +188,7 @@ public class CardGrabber : MonoBehaviour
         if (holding && buttonFixedPressed)
         {
             //Increment drop counter
-            dropAttempts += 1;
+            TotalDrops += 1;
 
             //Check if correct card 
             //Unclear if card can be dropped if it's still wrong
@@ -196,7 +196,7 @@ public class CardGrabber : MonoBehaviour
             CardPickup cardPickup = holding.GetComponent<CardPickup>();
             if (!dropOff.IsSolution(cardPickup))
             {
-                incorrectDrops += 1;
+                IncorrectDrops += 1;
                 //Send back to where it came from
                 //Play some kind of negative sound
                 AudioSource.PlayClipAtPoint(SoundManager.GetClip("ring_down"), transform.position);
@@ -207,7 +207,7 @@ public class CardGrabber : MonoBehaviour
             }
             else
             {
-                correctDrops += 1;
+                CorrectDrops += 1;
                 //Remove CardPickup monobehaviour
                 //Or set flag to prevent pickup again of card (dropoff may be one way)
                 //Trigger is already disabled
@@ -234,11 +234,11 @@ public class CardGrabber : MonoBehaviour
 
     public float GetDropAccuracy()
     {
-        if(dropAttempts == 0)
+        if(TotalDrops == 0)
         {
             return 0;
         }
-        return (float)correctDrops / dropAttempts;
+        return (float)CorrectDrops / TotalDrops;
     }
 
 }

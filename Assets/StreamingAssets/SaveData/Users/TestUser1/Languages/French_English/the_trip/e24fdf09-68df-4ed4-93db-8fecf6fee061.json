@@ -1,0 +1,14 @@
+{
+    "From": "découvrir la ville",
+    "To": "",
+    "PhoneticFrom": "dekoovghigh la vil",
+    "BrokenUpTo": "discovering the city discovering the city",
+    "Icon": "",
+    "UID": "e24fdf09-68df-4ed4-93db-8fecf6fee061",
+    "DateTicks": 636760821740565099,
+    "CardType": "SectionData",
+    "LinesUID": [
+        "5299ea25-f6bb-4e68-9ae2-8b18358cab9a",
+        "763dfbf6-3e7f-4beb-91e1-b63814246cca"
+    ]
+}

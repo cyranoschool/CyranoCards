@@ -13,6 +13,8 @@ public class CardData
     public string PhoneticFrom = "";
     public string BrokenUpTo = "";
     public string Icon = "";
+    //If the card has children, which one does it reference for images and text
+    public int ChildCardViewIndex = -1;
 
     //Values not duplicated
     //In a networked system the card id should just be the ID of the last card created on the dedicated server + 1
@@ -42,7 +44,9 @@ public class CardData
         To = cardData.To;
         PhoneticFrom = cardData.PhoneticFrom;
         BrokenUpTo = cardData.BrokenUpTo;
-        //Icon = cardData.Icon;
+        Icon = cardData.Icon;
+        ChildCardViewIndex = cardData.ChildCardViewIndex;
+        //Must also inherit function and do transferring of children data
     }
 
     public CardData Duplicate()
@@ -101,6 +105,10 @@ public class CardData
     {
         return new List<CardData>(0);
     }
+    public virtual int ChildCardCount()
+    {
+        return 0;
+    }
 
     /// <summary>
     /// Breaks up card into its base words and makes cards for those words
@@ -145,6 +153,7 @@ public class CardData
     {
         Queue<CardData> cardSearch = new Queue<CardData>(GetChildCards());
         List<CardData> wordCards = new List<CardData>();
+        
         while (cardSearch.Count > 0)
         {
             CardData card = cardSearch.Dequeue();

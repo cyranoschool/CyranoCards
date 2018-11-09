@@ -17,9 +17,10 @@ public class LargeCard : MonoBehaviour
     public Image image;
     public GameObject BackOverlay;
     public Toggle FavoriteToggle;
-    public string fallbackImage = "questionmark";
+    public Image BadgeImage;
 
     [Header("Config")]
+    public string fallbackImage = "questionmark";
     public float SpinSpeed = 4f;
     public float SpinDuration = .25f;
     public bool CanSpin = true;
@@ -29,6 +30,9 @@ public class LargeCard : MonoBehaviour
     public enum HideType { NoHide, HideFront, HideBack, HideBoth }
     public HideType hideType = HideType.NoHide;
 
+    //Are all children images checked, just the ones from the child selected, or none at all
+    public enum ImageChecking { None, Selected, All }
+    public ImageChecking imageChecking = ImageChecking.All;
 
     private CardData cardData;
     public CardData GetCardData() { return cardData; }
@@ -101,13 +105,23 @@ public class LargeCard : MonoBehaviour
             UpdateCard();
         }
     }
+    public static List<string> GetPotentialImageNames(CardData cd)
+    {
+        return new List<string>() { cd.Icon, cd.From, cd.PhoneticFrom, cd.BrokenUpTo, cd.To };
+    }
 
+    /// <summary>
+    /// This gets called frequently when card is changed in some way, or interacted with
+    /// This method should eventually be swapped out for an event that other scripts subscribe to
+    /// An event based UpdateCard would allow for scalability (maintainability/single responsibility) and modularity
+    /// </summary>
     public void UpdateCard()
     {
         if (cardData == null)
         {
             return;
         }
+
         //Clear old data out
         //Primary text is always From now
         //string text = direction == CardManager.Direction.From ? cardData.From : cardData.To;
@@ -122,28 +136,8 @@ public class LargeCard : MonoBehaviour
         cardText.SetText(text);
 
         //Do image setting here
-        //
-        //If the texture has already been set don't reload+reset
-        if (image.name != cardData.From)
-        {
-            string[] imageNames = new string[] { cardData.Icon, cardData.From, cardData.PhoneticFrom, cardData.BrokenUpTo, cardData.To, fallbackImage };
-            bool imageSet = false;
-            for (int i = 0; i < imageNames.Length; i++)
-            {
-                if (TryLoadImage(imageNames[i]))
-                {
-                    imageSet = true;
-                    break;
-                }
-            }
-            //Set default image or leave alone
-            if (!imageSet)
-            {
+        UpdateImage();
 
-            }
-
-            image.name = cardData.From;
-        }
         //Changes here, phonetic text is always active but is swapped for the broken up text
         //If direction is from then set pronounceText
         if (direction == CardManager.Direction.From)
@@ -176,11 +170,53 @@ public class LargeCard : MonoBehaviour
             panelImage.color = BackColor;
         }
 
-        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)cardText.transform.parent);
-        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)phoneticText.transform.parent);
+        //Update progress bar
+        UpdateProgress();
+
         LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)transform);
         //Canvas.ForceUpdateCanvases();
 
+    }
+
+    void UpdateImage()
+    {
+        List<CardData> childrenCards = cardData.GetChildCards();
+        List<string> imageNames = GetPotentialImageNames(cardData);
+
+        if (imageChecking == ImageChecking.Selected)
+        {
+            //Add strings of the selected child card index if it exists
+            int childIndex = cardData.ChildCardViewIndex;
+            if (childIndex > 0 && childIndex < cardData.ChildCardCount())
+            {
+                imageNames.AddRange(GetPotentialImageNames(childrenCards[childIndex]));
+            }
+        }
+        else if (imageChecking == ImageChecking.All)
+        {
+            //Alternatively add all possible image names for all children
+            //THIS COULD TAKE MUCH LONGER
+            foreach (CardData c in childrenCards)
+            {
+                imageNames.AddRange(GetPotentialImageNames(c));
+            }
+        }
+
+        imageNames.Add(fallbackImage);
+        bool imageSet = false;
+        for (int i = 0; i < imageNames.Count; i++)
+        {
+            if (TryLoadImage(imageNames[i]))
+            {
+                imageSet = true;
+                break;
+            }
+        }
+        //Set default image or leave alone
+        if (!imageSet)
+        {
+
+        }
     }
 
     void UpdateBacking()
@@ -204,6 +240,38 @@ public class LargeCard : MonoBehaviour
         image.preserveAspect = true;
 
         return true;
+    }
+
+    void UpdateProgress()
+    {
+        UserData userData = UserManager.Instance?.GetCurrentUser();
+        if (userData == null)
+        {
+            return;
+        }
+        //Get local data but DO NOT place in dictionary if it doesn't yet exist
+        //It can be worthwhile not to save useless default save file data that is only a get
+        var localData = userData.GetOrCreateLocalCardData(cardData.UID, false);
+        int progress = localData.Progress;
+        //Temporary value for max progress as the way progress works is still somewhat undefined
+        int maxProgress = LocalUserCardData.MAX_PROGRESS;
+
+        //Base bar progress/badge color/number of stars on progress ratio
+        //These numbers are completely made up, they should be based on something concrete
+        Color badgeColor;
+        if (progress <= 0)
+        {
+            badgeColor = Color.red;
+        }
+        else if(progress < maxProgress)
+        {
+            badgeColor = Color.yellow;
+        }
+        else
+        {
+            badgeColor = Color.green;
+        }
+        BadgeImage.color = badgeColor;
     }
 
     public void TappedCard(PointerEventData data)
@@ -238,7 +306,7 @@ public class LargeCard : MonoBehaviour
         //Have to manually activate because sound is too short
         flickSound.GetComponent<SoundDestroyer>().activated = true;
 
-        
+
         for (float t = 0; t <= duration; t += Time.deltaTime)
         {
             float xScale = Mathf.Sin(t * speed) * originalScale.x;
@@ -272,11 +340,11 @@ public class LargeCard : MonoBehaviour
     public void ToggleFavorite(bool IsOn)
     {
         UserData userData = UserManager.Instance.GetCurrentUser();
-        if(userData == null)
+        if (userData == null)
         {
             return;
         }
-        if(IsOn)
+        if (IsOn)
         {
             userData.FavoriteCardUID(cardData.UID);
         }
@@ -287,6 +355,10 @@ public class LargeCard : MonoBehaviour
         //Potentially save changes right away
         //Get current user path
         string userPath = GameObject.FindObjectOfType<CardFolderPasser>().UserPath;
-        UserManager.SaveUser(userData, userPath, true, false);
+        if(userPath != null)
+        {
+            UserManager.SaveUser(userData, userPath, true, false);
+        }
+        
     }
 }

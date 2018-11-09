@@ -12,50 +12,40 @@ public class UserData : ISerializationCallbackReceiver
     //In a networked system the user id should just be the ID of the last user + 1
     public string UID = Guid.NewGuid().ToString();
 
-    //This is only used for serialization. To see if card is favorited use IsCardUIDFavorited
-    public List<string> FavoritedCardsUID;
-    HashSet<string> favoritedCardsSet = new HashSet<string>();
-
     public List<string> FriendedUsersUID;
+    
     HashSet<string> friendedUsersSet = new HashSet<string>();
 
-    public List<ParentPins> ParentPinnedCards;
-    Dictionary<string, ParentPins> parentPinnedCardsSetUID = new Dictionary<string, ParentPins>();
+    public List<LocalUserCardData> LocalUserCards;
     
-    [Serializable]
-    public class ParentPins
+    Dictionary<string, LocalUserCardData> localUserCards = new Dictionary<string, LocalUserCardData>();
+
+    public LocalUserCardData GetOrCreateLocalCardData(string UID, bool placeInDictionary = true)
     {
-        public string CardUID = "";
-        public List<string> PinnedCardsUID = new List<string>(0);
-
-        public void SetCard(string UID, int index)
+        LocalUserCardData data = null;
+        if (!localUserCards.TryGetValue(UID, out data))
         {
-            //Add empty indices if there are no pinned cards at those spots yet
-            while (PinnedCardsUID.Count <= index)
+            data = new LocalUserCardData { CardUID = UID };
+            if(placeInDictionary)
             {
-                PinnedCardsUID.Add("");
+                localUserCards.Add(UID, data);
             }
-            PinnedCardsUID[index] = UID;
         }
-
-        public string GetUIDAtIndex(int index)
-        {
-            string UID;
-            if(index < PinnedCardsUID.Count)
-            {
-                UID = PinnedCardsUID[index];
-            }
-            else
-            {
-                UID = "";
-            }
-            return UID;
-        }
+        return data;
     }
 
-    public bool IsCardUIDFavorited(string CardUID)
+
+    public bool IsCardUIDFavorited(string cardUID)
     {
-        return favoritedCardsSet.Contains(CardUID);
+        LocalUserCardData data = null;
+        if (localUserCards.TryGetValue(cardUID, out data))
+        {
+            return data.Favorited;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     /// <summary>
@@ -63,9 +53,10 @@ public class UserData : ISerializationCallbackReceiver
     /// </summary>
     /// <param name="CardUID"></param>
     /// <returns>true if the element is added to the HashSet<T> object; false if the element is already present.</returns>
-    public bool FavoriteCardUID(string CardUID)
+    public bool FavoriteCardUID(string cardUID)
     {
-        return favoritedCardsSet.Add(CardUID);
+        LocalUserCardData data = GetOrCreateLocalCardData(cardUID);
+        return data.Favorited = true;
     }
 
     /// <summary>
@@ -73,9 +64,10 @@ public class UserData : ISerializationCallbackReceiver
     /// </summary>
     /// <param name="CardUID"></param>
     /// <returns>true if the element is removed from the HashSet<T> object; false if the element didn't exist.</returns>
-    public bool UnfavoriteCardUID(string CardUID)
+    public bool UnfavoriteCardUID(string cardUID)
     {
-        return favoritedCardsSet.Remove(CardUID);
+        LocalUserCardData data = GetOrCreateLocalCardData(cardUID);
+        return data.Favorited = false;
     }
 
 
@@ -104,32 +96,38 @@ public class UserData : ISerializationCallbackReceiver
         return friendedUsersSet.Remove(UserUID);
     }
 
-    public Dictionary<string, ParentPins> GetParentPins()
+    public ParentPins GetParentPin(string UID)
     {
-        return parentPinnedCardsSetUID;
+        return GetOrCreateLocalCardData(UID).ParentPinnedCards;
     }
     
+    /// <summary>
+    /// This should only be edited in the case that A localcarddata that was returned wasn't placed in dictionary
+    /// Waiting to place in dictionary can be useful if only reading data, where the returned data can be used as default values
+    /// </summary>
+    /// <returns></returns>
+    public Dictionary<string, LocalUserCardData> GetLocalUserCards()
+    {
+        return localUserCards;
+    }
+
+
 
     public void OnAfterDeserialize()
     {
-        favoritedCardsSet = new HashSet<string>(FavoritedCardsUID);
-        FavoritedCardsUID = null;
-
         friendedUsersSet = new HashSet<string>(FriendedUsersUID);
         FriendedUsersUID = null;
 
-        parentPinnedCardsSetUID = new Dictionary<string, ParentPins>();
-        ParentPinnedCards.ForEach(x => parentPinnedCardsSetUID.Add(x.CardUID, x));
-        ParentPinnedCards = null;
+        localUserCards = new Dictionary<string, LocalUserCardData>();
+        LocalUserCards.ForEach(x => localUserCards.Add(x.CardUID, x));
+        LocalUserCards = null;
         
     }
 
     public void OnBeforeSerialize()
     {
-        FavoritedCardsUID = favoritedCardsSet.ToList();
-
         FriendedUsersUID = friendedUsersSet.ToList();
 
-        ParentPinnedCards = parentPinnedCardsSetUID.Values.ToList();
+        LocalUserCards = localUserCards.Values.ToList();
     }
 }

@@ -18,6 +18,10 @@ public class LineData : CardData{
     {
         return CardsUID.ConvertAll<CardData>(s => (CardData)CardManager.GetCardUID(s));
     }
+    public override int ChildCardCount()
+    {
+        return CardsUID.Count;
+    }
 
     /// <summary>
     /// If dictionary already contains words matching this definition then refer to those instead

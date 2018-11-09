@@ -1,0 +1,18 @@
+{
+    "From": "jai pris lavion la semaine dernière",
+    "To": "i took the airplane last week",
+    "PhoneticFrom": "jeh pkhi laviohn la semehn deghnyegh",
+    "BrokenUpTo": "i_have take the_plane the previous week",
+    "Icon": "",
+    "UID": "179fcf65-ff23-4eee-b2b6-b31bf35c70f9",
+    "DateTicks": 636760821740565099,
+    "CardType": "LineData",
+    "CardsUID": [
+        "a3b31baf-fedf-4953-b098-6776012cdb30",
+        "839075f5-8ccc-46bb-8d55-2688d065e690",
+        "a5b11cba-5298-4fd2-8dcc-80df989419bf",
+        "781757bb-1192-43de-95ed-feebae34a89d",
+        "746d87bf-d188-4330-9e32-28d7a608b727",
+        "6b4736b1-799f-4199-a97b-920d475b67c5"
+    ]
+}

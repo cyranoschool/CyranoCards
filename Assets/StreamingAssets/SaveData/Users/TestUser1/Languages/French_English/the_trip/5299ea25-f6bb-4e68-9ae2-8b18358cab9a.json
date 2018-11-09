@@ -1,0 +1,16 @@
+{
+    "From": "cétait une ville merveilleuse",
+    "To": "it was a wonderful city",
+    "PhoneticFrom": "seteh uhne vil meghveyehz",
+    "BrokenUpTo": "it_was a city marvelous",
+    "Icon": "",
+    "UID": "5299ea25-f6bb-4e68-9ae2-8b18358cab9a",
+    "DateTicks": 636760821740575104,
+    "CardType": "LineData",
+    "CardsUID": [
+        "9b8bafa3-4a1f-4263-88bc-74b3708755d7",
+        "06a14238-26a8-4a2f-a692-1ef0316efe1f",
+        "420c4eea-bf73-4db0-bc0d-e03ea84fbf06",
+        "c2a4a0bb-4994-4524-a305-d2e649076030"
+    ]
+}

@@ -1,0 +1,16 @@
+{
+    "From": "我 每天 都 喝",
+    "To": "i have it every day",
+    "PhoneticFrom": "wǒ měitiān dōu hē",
+    "BrokenUpTo": "i every_day all drink",
+    "Icon": "",
+    "UID": "2809e63e-7a07-4982-bb14-dbeff33cf800",
+    "DateTicks": 636760818058572091,
+    "CardType": "LineData",
+    "CardsUID": [
+        "c5b9d467-28cf-422b-a246-11ab1a9ee7a9",
+        "debc74ef-426c-4f6e-84f5-3ccd0289c169",
+        "a7f6a52c-d7cf-4310-9057-68ed3b302a0d",
+        "953e5c23-93a4-4efe-b9e5-69473c61752d"
+    ]
+}

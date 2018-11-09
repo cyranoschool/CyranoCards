@@ -1,0 +1,14 @@
+{
+    "From": "活力",
+    "To": "energy",
+    "PhoneticFrom": "huólì",
+    "BrokenUpTo": "energy",
+    "Icon": "",
+    "UID": "03542f8f-fbab-41c5-9581-d2ab6035211a",
+    "DateTicks": 636760818058572091,
+    "CardType": "SectionData",
+    "LinesUID": [
+        "2bd5e595-b63a-43ae-a593-0d53fef27025",
+        "2809e63e-7a07-4982-bb14-dbeff33cf800"
+    ]
+}

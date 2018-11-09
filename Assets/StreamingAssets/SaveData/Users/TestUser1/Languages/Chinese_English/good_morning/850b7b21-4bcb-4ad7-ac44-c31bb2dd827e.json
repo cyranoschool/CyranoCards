@@ -1,0 +1,10 @@
+{
+    "From": "起床",
+    "To": "waking_up",
+    "PhoneticFrom": "qǐchuáng",
+    "BrokenUpTo": "waking_up",
+    "Icon": "",
+    "UID": "850b7b21-4bcb-4ad7-ac44-c31bb2dd827e",
+    "DateTicks": 636760818058572091,
+    "CardType": "CardData"
+}

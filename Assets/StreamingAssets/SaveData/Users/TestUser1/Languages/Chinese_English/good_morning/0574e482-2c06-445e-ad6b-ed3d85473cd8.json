@@ -1,0 +1,18 @@
+{
+    "From": "我 喝 咖啡 后 去 工作",
+    "To": "after coffe i go to work",
+    "PhoneticFrom": "wǒ hē kāfēi hòu qù gōngzuò",
+    "BrokenUpTo": "i drink coffee after go work",
+    "Icon": "",
+    "UID": "0574e482-2c06-445e-ad6b-ed3d85473cd8",
+    "DateTicks": 636760818058572091,
+    "CardType": "LineData",
+    "CardsUID": [
+        "c5b9d467-28cf-422b-a246-11ab1a9ee7a9",
+        "953e5c23-93a4-4efe-b9e5-69473c61752d",
+        "4cc485d4-2994-4ef1-a56b-284b95a17be5",
+        "7aa6706e-715c-404f-b20d-79d085cf1cec",
+        "754d1496-0952-49fa-b922-a94be1508ec2",
+        "91320c47-1946-4ece-b043-fe210cc7407f"
+    ]
+}

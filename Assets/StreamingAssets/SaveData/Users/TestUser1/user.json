@@ -1,4 +1,6 @@
 {
     "Name": "Test User 1",
-    "UID": "63329ed8-56c0-4e16-80b3-1c5d99662450"
+    "UID": "63329ed8-56c0-4e16-80b3-1c5d99662450",
+    "FriendedUsersUID": [],
+    "LocalUserCards": []
 }

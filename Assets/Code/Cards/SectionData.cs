@@ -20,6 +20,10 @@ public class SectionData : CardData
     {
         return LinesUID.ConvertAll<CardData>(s => (CardData)CardManager.GetCardUID(s));
     }
+    public override int ChildCardCount()
+    {
+        return LinesUID.Count;
+    }
 
     public override void AddCardReferences(List<CardData> cards)
     {

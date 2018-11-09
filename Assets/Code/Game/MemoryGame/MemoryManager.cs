@@ -19,6 +19,8 @@ public class MemoryManager : MonoBehaviour
     bool lockedSpin = false;
     LargeCard selectedCard;
     HashSet<Transform> ignoreSet = new HashSet<Transform>();
+    bool gameCompleted = false;
+    int cardsCompleted = 0;
 
     void OnEnable()
     {
@@ -93,14 +95,8 @@ public class MemoryManager : MonoBehaviour
         transform.DetachChildren();
 
         //Shuffle list
-        for (int i = 0; i < childTransforms.Count; i++)
-        {
-            int swapIndex = Random.Range(0, childTransforms.Count);
-            Transform t = childTransforms[i];
-            Transform swap = childTransforms[swapIndex];
-            childTransforms[i] = swap;
-            childTransforms[swapIndex] = t;
-        }
+        childTransforms.ShuffleInPlace();
+
         //Add list back into transform
         foreach (Transform child in childTransforms)
         {
@@ -113,21 +109,21 @@ public class MemoryManager : MonoBehaviour
     void TappedCard(PointerEventData data)
     {
         //Ignore these flip events
-        if(lockedSpin)
+        if (lockedSpin)
         {
             return;
         }
         GameObject go = data.pointerCurrentRaycast.gameObject;
         LargeCard lCard = go.GetComponentInParent<LargeCard>();
-        if(!lCard.CanSpin || (selectedCard != null && !selectedCard.CanSpin) || ignoreSet.Contains(lCard.transform))
+        if (!lCard.CanSpin || (selectedCard != null && !selectedCard.CanSpin) || ignoreSet.Contains(lCard.transform))
         {
             return;
         }
-        if(selectedCard == null)
+        if (selectedCard == null)
         {
             selectedCard = lCard;
         }
-        else if(selectedCard == lCard)
+        else if (selectedCard == lCard)
         {
             selectedCard = null;
         }
@@ -155,6 +151,10 @@ public class MemoryManager : MonoBehaviour
                 selectedCard.GetComponent<Image>().color = Color.cyan;
                 ForceCardsOver();
                 selectedCard = null;
+
+                cardsCompleted += 2;
+                CheckGameCompleted();
+
             }
             else
             {
@@ -192,7 +192,7 @@ public class MemoryManager : MonoBehaviour
     {
         foreach (Transform child in transform)
         {
-            if(ignoreSet.Contains(child))
+            if (ignoreSet.Contains(child))
             {
                 continue;
             }
@@ -221,6 +221,8 @@ public class MemoryManager : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
+        cardsCompleted = 0;
+        gameCompleted = false;
     }
 
     public void RestartGame()
@@ -228,5 +230,33 @@ public class MemoryManager : MonoBehaviour
         ClearLayout();
         PopulateLayout();
 
+    }
+
+    void IncrementCardProgress()
+    {
+        //If was perfect game increase card progress based on some amount
+        UserData userData = UserManager.Instance?.GetCurrentUser();
+        if (userData != null)
+        {
+            var passer = GameObject.FindObjectOfType<CardSelectPasser>();
+            CardData cardData = passer.GetSelectedCard();
+            var localCardData = userData.GetOrCreateLocalCardData(cardData.UID);
+            localCardData.Progress += 100;
+            //Save user data
+            string userPath = GameObject.FindObjectOfType<CardFolderPasser>().UserPath;
+            if (userPath != null)
+            {
+                UserManager.SaveUser(userData, userPath, true, false);
+            }
+        }
+    }
+
+    void CheckGameCompleted()
+    {
+        if (!gameCompleted && cardsCompleted >= transform.childCount)
+        {
+            gameCompleted = true;
+            IncrementCardProgress();
+        }
     }
 }

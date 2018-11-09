@@ -1,0 +1,15 @@
+{
+    "From": "早安",
+    "To": "good morning",
+    "PhoneticFrom": "zǎoān",
+    "BrokenUpTo": "good_morning",
+    "Icon": "",
+    "UID": "515db96e-ec62-4c6a-9d1c-76b1f90ae092",
+    "DateTicks": 636760818058562090,
+    "CardType": "StoryData",
+    "SectionsUID": [
+        "81480df4-78f3-44ae-aed4-daa37d7fc214",
+        "03542f8f-fbab-41c5-9581-d2ab6035211a",
+        "e8e910fc-7385-4ecd-9d8e-f1c5adc6a543"
+    ]
+}

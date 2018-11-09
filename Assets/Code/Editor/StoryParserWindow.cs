@@ -50,6 +50,7 @@ public class StoryParserWindow : EditorWindow
                 return;
             }
             //Load user cards first
+            CardManager.UnloadAll();
             CardManager.LoadFolder(userFolder);
 
             RawStoryParser parser = new RawStoryParser();
