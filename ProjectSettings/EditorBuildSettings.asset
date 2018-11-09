@@ -29,4 +29,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/BuildScenes/MemoryGame.unity
     guid: 68d19264d0434034cad8c7f17e5b2704
+  - enabled: 1
+    path: Assets/Scenes/BuildScenes/FCF1.unity
+    guid: 3f315859eed4de8409215b87d147d9ab
   m_configObjects: {}
