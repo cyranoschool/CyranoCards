@@ -44,7 +44,9 @@ public class CardData
         To = cardData.To;
         PhoneticFrom = cardData.PhoneticFrom;
         BrokenUpTo = cardData.BrokenUpTo;
-        //Icon = cardData.Icon;
+        Icon = cardData.Icon;
+        ChildCardViewIndex = cardData.ChildCardViewIndex;
+        //Must also inherit function and do transferring of children data
     }
 
     public CardData Duplicate()
@@ -151,6 +153,7 @@ public class CardData
     {
         Queue<CardData> cardSearch = new Queue<CardData>(GetChildCards());
         List<CardData> wordCards = new List<CardData>();
+        
         while (cardSearch.Count > 0)
         {
             CardData card = cardSearch.Dequeue();
