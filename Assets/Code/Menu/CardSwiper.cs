@@ -35,12 +35,12 @@ public class CardSwiper : MonoBehaviour {
             //Upwards drag
             if (data.delta.y > 0)
             {
-                Debug.Log("DragUp");
+                //Debug.Log("DragUp");
             }
             //Downwards drag
             else if (data.delta.y < 0)
             {
-                Debug.Log("DragDown");
+                //Debug.Log("DragDown");
             }
         }
     }
