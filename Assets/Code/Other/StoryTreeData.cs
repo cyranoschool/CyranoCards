@@ -8,48 +8,36 @@ using UnityEngine;
 //In order to avoid this limit a list of serialized nodes must be used: https://docs.unity3d.com/Manual/script-Serialization-Custom.html
 public class StoryTreeData : ISerializationCallbackReceiver
 {
-    // Node class that is used at runtime.
-    // This is internal to the BehaviourWithTree class and is not serialized.
-    public class Node
-    {
-        public string interestingValue = "value";
-        public List<Node> children = new List<Node>();
-    }
-    // Node class that we will use for serialization.
-    [Serializable]
-    public struct SerializableNode
-    {
-        public string interestingValue;
-        public int childCount;
-        public int indexOfFirstChild;
-    }
     // The root node used for runtime tree representation. Not serialized.
-    Node root = new Node();
+    StoryNode root = new StoryNode();
+    public StoryNode Root { get { return root; } }
     // This is the field we give Unity to serialize.
-    public List<SerializableNode> serializedNodes;
+    public List<StorySerializableNode> serializedNodes;
     public void OnBeforeSerialize()
     {
         // Unity is about to read the serializedNodes field's contents.
         // The correct data must now be written into that field "just in time".
-        if (serializedNodes == null) serializedNodes = new List<SerializableNode>();
-        if (root == null) root = new Node();
+        if (serializedNodes == null) serializedNodes = new List<StorySerializableNode>();
+        if (root == null) root = new StoryNode();
         serializedNodes.Clear();
         AddNodeToSerializedNodes(root);
         // Now Unity is free to serialize this field, and we should get back the expected 
         // data when it is deserialized later.
     }
-    void AddNodeToSerializedNodes(Node n)
+    //Recursive function
+    void AddNodeToSerializedNodes(StoryNode n)
     {
-        var serializedNode = new SerializableNode()
+        var serializedNode = new StorySerializableNode()
         {
-            interestingValue = n.interestingValue,
+            nodeData = n.nodeData,
             childCount = n.children.Count,
             indexOfFirstChild = serializedNodes.Count + 1
-        }
-        ;
+        };
         serializedNodes.Add(serializedNode);
         foreach (var child in n.children)
+        {
             AddNodeToSerializedNodes(child);
+        }
     }
     public void OnAfterDeserialize()
     {
@@ -60,22 +48,24 @@ public class StoryTreeData : ISerializationCallbackReceiver
             ReadNodeFromSerializedNodes(0, out root);
         }
         else
-            root = new Node();
+        {
+            root = new StoryNode();
+        }
     }
-    int ReadNodeFromSerializedNodes(int index, out Node node)
+    int ReadNodeFromSerializedNodes(int index, out StoryNode node)
     {
         var serializedNode = serializedNodes[index];
         // Transfer the deserialized data into the internal Node class
-        Node newNode = new Node()
+        StoryNode newNode = new StoryNode()
         {
-            interestingValue = serializedNode.interestingValue,
-            children = new List<Node>()
+            nodeData = serializedNode.nodeData,
+            children = new List<StoryNode>()
         }
         ;
         // The tree needs to be read in depth-first, since that's how we wrote it out.
-        for (int i = 0; i != serializedNode.childCount; i++)
+        for (int i = 0; i < serializedNode.childCount; i++)
         {
-            Node childNode;
+            StoryNode childNode;
             index = ReadNodeFromSerializedNodes(++index, out childNode);
             newNode.children.Add(childNode);
         }
@@ -84,8 +74,29 @@ public class StoryTreeData : ISerializationCallbackReceiver
     }
 }
 
+//The serialized and nonserialized story nodes should have the same serialized data class
+// Node class that is used at runtime.
+// This is internal to the BehaviourWithTree class and is not serialized.
+//[NonSerialized]
+public class StoryNode
+{
+    public StoryNodeData nodeData;
+    public List<StoryNode> children = new List<StoryNode>();
+}
+
+// Node class that we will use for serialization.
 [Serializable]
-public class StoryTreeDataNode
+public struct StorySerializableNode
+{
+    public StoryNodeData nodeData;
+    public int childCount;
+    public int indexOfFirstChild;
+}
+
+[Serializable]
+public class StoryNodeData
 {
     public string CardUID = "";
+    public string From = "";
+    public string To = "";
 }
