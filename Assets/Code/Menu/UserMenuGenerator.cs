@@ -67,7 +67,7 @@ public class UserMenuGenerator : MonoBehaviour
             UserButton buttonData = go.AddComponent<UserButton>();
             buttonData.userData = userData;
         }
-        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)transform);
+        LayoutRebuilder.MarkLayoutForRebuild((RectTransform)transform);
     }
 
     void PopulateLanguages(string directory)
