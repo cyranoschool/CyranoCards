@@ -173,7 +173,7 @@ public class LargeCard : MonoBehaviour
         //Update progress bar
         UpdateProgress();
 
-        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)transform);
+        LayoutRebuilder.MarkLayoutForRebuild((RectTransform)transform);
         //Canvas.ForceUpdateCanvases();
 
     }
