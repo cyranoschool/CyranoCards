@@ -46,6 +46,10 @@ public class CardData
         BrokenUpTo = cardData.BrokenUpTo;
         Icon = cardData.Icon;
         ChildCardViewIndex = cardData.ChildCardViewIndex;
+
+        //GUID is new
+        //Time created is also new
+
         //Must also inherit function and do transferring of children data
     }
 

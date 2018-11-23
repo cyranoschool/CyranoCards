@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -30,12 +31,12 @@ public class StoryTreeData : ISerializationCallbackReceiver
     {
         var serializedNode = new StorySerializableNode()
         {
-            nodeData = n.nodeData,
-            childCount = n.children.Count,
+            nodeData = n.NodeData,
+            childCount = n.Children.Count,
             indexOfFirstChild = serializedNodes.Count + 1
         };
         serializedNodes.Add(serializedNode);
-        foreach (var child in n.children)
+        foreach (var child in n.Children)
         {
             AddNodeToSerializedNodes(child);
         }
@@ -59,15 +60,15 @@ public class StoryTreeData : ISerializationCallbackReceiver
         // Transfer the deserialized data into the internal Node class
         StoryNode newNode = new StoryNode()
         {
-            nodeData = serializedNode.nodeData,
-            children = new List<StoryNode>()
+            NodeData = serializedNode.nodeData,
+            Children = new List<StoryNode>()
         };
         // The tree needs to be read in depth-first, since that's how we wrote it out.
         for (int i = 0; i < serializedNode.childCount; i++)
         {
             StoryNode childNode;
             index = ReadNodeFromSerializedNodes(++index, out childNode);
-            newNode.children.Add(childNode);
+            newNode.Children.Add(childNode);
         }
         node = newNode;
         return index;
@@ -80,8 +81,27 @@ public class StoryTreeData : ISerializationCallbackReceiver
 //[NonSerialized]
 public class StoryNode
 {
-    public StoryNodeData nodeData;
-    public List<StoryNode> children = new List<StoryNode>();
+    public StoryNodeData NodeData;
+    public List<StoryNode> Children = new List<StoryNode>();
+
+
+
+    //Put useful Get methods here
+    //
+    public IOrderedEnumerable<CardData> GetCardStack()
+    {
+        List<CardData> allCards = CardManager.GetCardsFrom(NodeData.From);
+        string ToMatch = NodeData.From;
+        string TypeMatch = NodeData.CardType;
+        var matchingStack = allCards.Where(x => x.To.Equals(ToMatch) && x.CardType.Equals(TypeMatch);
+        //If there are multiple largest phrases sort by (favorited -> owner -> dateCreated)
+        var sortedStack = matchingStack.OrderBy(x => x.UID != NodeData.CardUID)
+                                       .ThenBy(x => !x.IsFavorited())
+                                       //.ThenBy(x => x.Creator != whatever the current user is)
+                                       .ThenBy(x => x.DateTicks) //Sorts smallest to largest
+                                       ;
+        return sortedStack;
+    }
 }
 
 // Node class that we will use for serialization.
@@ -97,7 +117,7 @@ public struct StorySerializableNode
 [Serializable]
 public class StoryNodeData
 {
-    public string CardUID = "";
+    public string CardUID = ""; //Selected Card (on null or empty top card of stack should be set)
     public string From = "";
     public string To = "";
     public string CardType = ""; //Story, Section, Line, etc

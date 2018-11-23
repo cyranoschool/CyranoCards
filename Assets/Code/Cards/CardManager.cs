@@ -15,7 +15,8 @@ public class CardManager
     Dictionary<string, List<CardData>> cardsToAll = new Dictionary<string, List<CardData>>();
     Dictionary<string, CardData> cardsUID = new Dictionary<string, CardData>();
     //This has to be a Dictionary as you can't get values back out of hashset (which is important due to the custom equality check)
-    Dictionary<CardData, CardData> matchingDefinitions;
+    //Temporarily removed (should be a list of matching cards)
+    //Dictionary<CardData, CardData> matchingDefinitions;
 
     int totalCards = 0;
     int totalFromCollisions = 0;
@@ -23,7 +24,7 @@ public class CardManager
 
     public CardManager()
     {
-        matchingDefinitions = new Dictionary<CardData, CardData>(new CardData.DefinitionComparer());
+        //matchingDefinitions = new Dictionary<CardData, CardData>(new CardData.DefinitionComparer());
     }
 
     public static List<CardData> LoadFolder(string folderName, bool placeInDictionary = true, SerializationManager.SavePathType PathType = SerializationManager.SavePathType.Streaming, SearchOption searchOption = SearchOption.AllDirectories)
@@ -66,15 +67,19 @@ public class CardManager
     public static void PlaceInDictionaries(CardData card)
     {
         //If card already exists unload old card and replace with this one
-        if(Instance.matchingDefinitions.ContainsKey(card))
+        
+        /* Matching definitions commented out to allow for cards to have multiple concurrent definitions
+        if (Instance.matchingDefinitions.ContainsKey(card))
         {
             Instance.UnloadCard(Instance.matchingDefinitions[card]);
         }
+        */
         //Create both from and too collections
         Instance.SetupCard(card, Direction.From);
         Instance.SetupCard(card, Direction.To);
         Instance.cardsUID.Add(card.UID, card);
-        Instance.matchingDefinitions.Add(card, card);
+
+        //Instance.matchingDefinitions.Add(card, card);
         
     }
 
@@ -143,7 +148,7 @@ public class CardManager
         Instance.cardsFromAll.Clear();
         Instance.cardsToAll.Clear();
         Instance.cardsUID.Clear();
-        Instance.matchingDefinitions.Clear();
+        //Instance.matchingDefinitions.Clear();
         if(unloadTextures)
         {
             Resources.UnloadUnusedAssets();
@@ -214,6 +219,7 @@ public class CardManager
         return clone;
     }
 
+    /*
     public static bool ContainsMatchingDefinition(CardData card)
     {
         return Instance.matchingDefinitions.ContainsKey(card);
@@ -223,5 +229,5 @@ public class CardManager
     {
         return Instance.matchingDefinitions[card];
     }
-
+    */
 }
