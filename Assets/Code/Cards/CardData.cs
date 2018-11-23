@@ -72,11 +72,12 @@ public class CardData
     /// <summary>
     /// If children of card already exist in Dictionary, replace them with already occuring card
     /// </summary>
+    /*
     public virtual void CheckDefinitionRepair(Dictionary<string, CardData> tempCards)
     {
 
     }
-
+    */
     /// <summary>
     /// Cards with the same From and Broken up value are considerd equal for the use of checking if card has already been made 
     /// </summary>
@@ -96,10 +97,13 @@ public class CardData
     /// Used by inherited classes to fill in their children lists from their references
     /// </summary>
     /// <param name="cards"></param>
+    ///
+    /*
     public virtual void AddCardReferences(List<CardData> cards)
     {
 
     }
+    */
     /*
     public virtual List<CardData> GetChildCards()
     {

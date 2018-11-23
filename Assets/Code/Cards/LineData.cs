@@ -7,7 +7,7 @@ using UnityEngine;
 public class LineData : CardData{
 
     //Currently references child cards explicitly by CardData 
-    public List<string> CardsUID = new List<string>();
+    //public List<string> CardsUID = new List<string>();
 
     //Note: this does not guarantee that the cards are loaded
     /*
@@ -27,6 +27,7 @@ public class LineData : CardData{
     /// <summary>
     /// If dictionary already contains words matching this definition then refer to those instead
     /// </summary>
+    /*
     public override void CheckDefinitionRepair(Dictionary<string, CardData> tempCards)
     {
         List<string> newUID = new List<string>();
@@ -52,7 +53,7 @@ public class LineData : CardData{
         base.AddCardReferences(cards);
         cards.ForEach(x => CardsUID.Add(x.UID));
     }
-
+    */
     //WIP
     /*
     public override void CloneFrom(CardData cardData)

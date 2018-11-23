@@ -7,7 +7,7 @@ using UnityEngine;
 public class StoryData : CardData{
 
     //Currently references child sections explicitly by SectionData 
-    public List<string> SectionsUID = new List<string>();
+    //public List<string> SectionsUID = new List<string>();
 
     //Note: this does not guarantee that the cards are loaded
     /*
@@ -24,9 +24,11 @@ public class StoryData : CardData{
         return SectionsUID.Count;
     }
     */
+    /*
     public override void AddCardReferences(List<CardData> cards)
     {
         base.AddCardReferences(cards);
         cards.ForEach(x => SectionsUID.Add(x.UID));
     }
+    */
 }

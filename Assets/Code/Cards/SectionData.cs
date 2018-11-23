@@ -9,7 +9,7 @@ public class SectionData : CardData
 {
 
     //Currently references child lines explicitly by LineData 
-    public List<string> LinesUID = new List<string>();
+    //public List<string> LinesUID = new List<string>();
 
     //Note: this does not guarantee that the cards are loaded
     /*
@@ -25,11 +25,10 @@ public class SectionData : CardData
     {
         return LinesUID.Count;
     }
-    */
     public override void AddCardReferences(List<CardData> cards)
     {
         base.AddCardReferences(cards);
         cards.ForEach(x => LinesUID.Add(x.UID));
     }
-
+    */
 }
