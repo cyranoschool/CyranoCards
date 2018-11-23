@@ -12,6 +12,7 @@ public class SectionData : CardData
     public List<string> LinesUID = new List<string>();
 
     //Note: this does not guarantee that the cards are loaded
+    /*
     public List<LineData> GetLineCards()
     {
         return LinesUID.ConvertAll<LineData>(s => (LineData)CardManager.GetCardUID(s));
@@ -24,7 +25,7 @@ public class SectionData : CardData
     {
         return LinesUID.Count;
     }
-
+    */
     public override void AddCardReferences(List<CardData> cards)
     {
         base.AddCardReferences(cards);

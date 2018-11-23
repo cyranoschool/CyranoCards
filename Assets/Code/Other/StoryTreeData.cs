@@ -3,9 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[Serializable]
+
 //Tree needs to get around artificial serialization depth limit
 //In order to avoid this limit a list of serialized nodes must be used: https://docs.unity3d.com/Manual/script-Serialization-Custom.html
+[Serializable]
 public class StoryTreeData : ISerializationCallbackReceiver
 {
     // The root node used for runtime tree representation. Not serialized.
@@ -60,8 +61,7 @@ public class StoryTreeData : ISerializationCallbackReceiver
         {
             nodeData = serializedNode.nodeData,
             children = new List<StoryNode>()
-        }
-        ;
+        };
         // The tree needs to be read in depth-first, since that's how we wrote it out.
         for (int i = 0; i < serializedNode.childCount; i++)
         {
@@ -89,6 +89,7 @@ public class StoryNode
 public struct StorySerializableNode
 {
     public StoryNodeData nodeData;
+
     public int childCount;
     public int indexOfFirstChild;
 }
@@ -99,4 +100,5 @@ public class StoryNodeData
     public string CardUID = "";
     public string From = "";
     public string To = "";
+    public string CardType = ""; //Story, Section, Line, etc
 }

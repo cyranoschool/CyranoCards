@@ -100,7 +100,7 @@ public class CardData
     {
 
     }
-
+    /*
     public virtual List<CardData> GetChildCards()
     {
         return new List<CardData>(0);
@@ -109,9 +109,9 @@ public class CardData
     {
         return 0;
     }
-
+    */
     /// <summary>
-    /// Breaks up card into its base words and makes cards for those words
+    /// Breaks up card into its base words and makes new cards for those words
     /// Intended for use in LineData,SectionData and StoryData
     /// </summary>
     /// <returns></returns>
@@ -149,6 +149,7 @@ public class CardData
     /// Get all the lowest level word cards of a given card
     /// </summary>
     /// <returns></returns>
+    /*
     public List<CardData> GetChildCardsOfType(string cardType = "CardData")
     {
         Queue<CardData> cardSearch = new Queue<CardData>(GetChildCards());
@@ -168,7 +169,7 @@ public class CardData
         }
         return wordCards;
     }
-
+    */
     public bool IsFavorited(UserData userData = null)
     {
         if(userData == null)

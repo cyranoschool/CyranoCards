@@ -10,6 +10,7 @@ public class LineData : CardData{
     public List<string> CardsUID = new List<string>();
 
     //Note: this does not guarantee that the cards are loaded
+    /*
     public List<CardData> GetWordCards()
     {
         return CardsUID.ConvertAll<CardData>(s => (CardData)CardManager.GetCardUID(s));
@@ -22,7 +23,7 @@ public class LineData : CardData{
     {
         return CardsUID.Count;
     }
-
+    */
     /// <summary>
     /// If dictionary already contains words matching this definition then refer to those instead
     /// </summary>
@@ -52,4 +53,13 @@ public class LineData : CardData{
         cards.ForEach(x => CardsUID.Add(x.UID));
     }
 
+    //WIP
+    /*
+    public override void CloneFrom(CardData cardData)
+    {
+        base.CloneFrom(cardData);
+        LineData line = (LineData)cardData;
+        CardsUID = new List<string>(line.CardsUID);
+    }
+    */
 }
