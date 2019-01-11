@@ -1,0 +1,45 @@
+Modern UI Pack - v2.1a
+
+Import TextMeshPro if you haven't!
+
+Do you have any questions or requests? Contact me via 
+E-mail: isa.steam@outlook.com
+Discord: https://discord.gg/VXpHyUt
+YouTube: https://www.youtube.com/c/Michsky
+Patreon: https://www.patreon.com/michsky
+
+Special thanks to:
+Geno (Contributor)
+Filmos (Tester / Contributor)
+Kabbouchi (Tester)
+Raphael Monnerat (https://github.com/Shinao  / Contributor)
+Takashi Sakai (https://github.com/mob-sakai)
+
+Change Log v2.1a
+----------------------------------------
+• TextMeshPro fully integrated
+• Horizontal selector added
+• Range slider added
+----------------------------------------
+
+Change Log v2.0.1f
+----------------------------------------
+• Infinite radial slider fixed
+• Shader warnings are fixed
+• Added namespace to the scripts
+----------------------------------------
+
+Change Log v2.0f
+----------------------------------------
+• New demo scene
+• New switches
+• New buttons
+• New editor shortcuts
+• Added TextMesh Pro support
+• Added new sliders
+• Added gradient system
+• Added blur material
+• Added new icons
+• Added new animated icons
+• Dropdowns changed
+----------------------------------------
